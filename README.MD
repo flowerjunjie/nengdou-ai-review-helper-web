@@ -20,20 +20,7 @@
 
 
 
-**演示地址**: http://124.222.166.174:83/
-
-
-### 演示账户
-
-
-系统支持多角色协作（管理员、教师、学生），可以管理班级、作业发布、配置AI批改规则、数据统计等核心功能
-
-| 角色 | 账号 | 密码 | 说明 |
-|------|------|------|------|
-| 管理员 | admin | admin123 | 系统管理、用户管理、模型配置 |
-| 教师 | teacher | teacher123 | 班级管理、作业发布、批改审核 |
-| 学生 | student | student123 | 加入班级、提交作业、查看结果 |
-
+**演示地址**: http://124.222.166.174:83/login
 
 
 
@@ -58,6 +45,41 @@
 - **认证**: JWT + Redis（Token黑名单）
 - **API文档**: Swagger
 - **AI集成**: 支持多种大模型接入
+
+## 🚀 快速开始
+
+### 环境要求
+- Node.js >= 16.0
+- MongoDB >= 4.4
+- Redis >= 6.0
+- npm 或 pnpm
+
+### 本地开发
+
+#### 1. 克隆项目
+```bash
+git clone https://github.com/your-username/nengdou-ai-review-helper.git
+cd nengdou-ai-review-helper
+```
+
+#### 2. 安装依赖
+```bash
+npm install
+# 或
+pnpm install
+```
+#### 3. 启动开发服务器
+```bash
+npm run dev
+# 或
+pnpm dev
+```
+
+访问 `http://localhost:5173` 即可查看项目。
+
+
+
+
 
 ## ✨ 功能展示
 
@@ -327,46 +349,6 @@ nengdou-ai-review-helper/
 ├── vite.config.ts               # Vite配置
 └── README.MD                    # 项目说明
 ```
-
-## 🚀 快速开始
-
-### 环境要求
-- Node.js >= 16.0
-- MongoDB >= 4.4
-- Redis >= 6.0
-- npm 或 pnpm
-
-### 本地开发
-
-#### 1. 克隆项目
-```bash
-git clone https://github.com/your-username/nengdou-ai-review-helper.git
-cd nengdou-ai-review-helper
-```
-
-#### 2. 安装依赖
-```bash
-npm install
-# 或
-pnpm install
-```
-
-#### 3. 配置环境变量
-创建 `.env.local` 文件：
-```env
-VITE_API_BASE_URL=http://localhost:3000/api
-VITE_APP_TITLE=能豆AI作业批改系统
-```
-
-#### 4. 启动开发服务器
-```bash
-npm run dev
-# 或
-pnpm dev
-```
-
-访问 `http://localhost:5173` 即可查看项目。
-
 
 
 ## 🎯 核心技术亮点
