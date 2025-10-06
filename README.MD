@@ -58,8 +58,8 @@
 
 #### 1. 克隆项目
 ```bash
-git clone https://github.com/your-username/nengdou-ai-review-helper.git
-cd nengdou-ai-review-helper
+git clone https://gitee.com/wang-tians-laboratory/nengdou-ai-review-helper-web
+cd nengdou-ai-review-helper-web
 ```
 
 #### 2. 安装依赖
