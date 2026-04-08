@@ -31,7 +31,42 @@ export class UserRolesService {
     const menuIds = roles.flatMap(r => r.menuIds || []).filter(id => id);
     // Remove duplicates
     const uniqueMenuIds = [...new Set(menuIds.map(id => id.toString()))].map(id => new Types.ObjectId(id));
-    return this.menuModel.find({ _id: { $in: uniqueMenuIds }, status: 'active' }).sort({ sort: 1 });
+    const menus = await this.menuModel.find({ _id: { $in: uniqueMenuIds }, status: 'active' }).sort({ sort: 1 });
+
+    // Build menu tree from flat list
+    const menuMap = new Map<string, any>();
+    const rootMenus: any[] = [];
+
+    // First pass: create map of all menus
+    menus.forEach(menu => {
+      menuMap.set(menu._id.toString(), { ...menu.toObject(), children: [] });
+    });
+
+    // Second pass: build tree structure
+    menus.forEach(menu => {
+      const menuObj = menuMap.get(menu._id.toString());
+      if (menu.parentId) {
+        const parent = menuMap.get(menu.parentId.toString());
+        if (parent) {
+          parent.children.push(menuObj);
+        } else {
+          // Parent not found, treat as root
+          rootMenus.push(menuObj);
+        }
+      } else {
+        // No parent, it's a root menu
+        rootMenus.push(menuObj);
+      }
+    });
+
+    // Sort children by sort field
+    const sortChildren = (menus: any[]) => {
+      menus.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+      menus.forEach(m => sortChildren(m.children));
+    };
+    sortChildren(rootMenus);
+
+    return rootMenus;
   }
 
   async getUserResources(userId: string) {
