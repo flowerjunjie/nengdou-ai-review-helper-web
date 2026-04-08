@@ -123,11 +123,12 @@ server {
 ```
 
 #### 测试账号
-| 角色 | 用户名 | 密码 |
-|------|--------|------|
-| 管理员 | admin | admin123 |
-| 教师 | teacher1 | teacher123 |
-| 学生 | student1 | student123 |
+| 角色 | 登录方式 | 账号 | 密码 |
+|------|----------|------|------|
+| 管理员 | 邮箱登录 | admin@lingxi.ai | admin123 |
+| 教师 | 邮箱登录 | teacher1@lingxi.ai | teacher123 |
+| 学生 | 邮箱登录 | student1@lingxi.ai | student123 |
+| 学生 | 学号登录 | 2024001 | student123 |
 
 
 
