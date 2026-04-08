@@ -81,6 +81,54 @@ pnpm dev
 
 访问 `http://localhost:5173` 即可查看项目。
 
+### 部署说明
+
+#### 服务器部署架构
+```
+用户浏览器 → Nginx (port 8083) 
+               ├── 静态文件 /var/www/workspace/nengdou-ai-review-helper-web/dist
+               └── API代理 /api/* → NestJS (port 3000)
+```
+
+#### 启动后端
+```bash
+cd /var/www/workspace/nengdou-ai-review-helper-web/backend
+npm run build    # 编译 TypeScript
+node dist/main.js  # 启动服务
+```
+
+#### Nginx 配置示例
+```nginx
+server {
+    listen 8083;
+    server_name localhost 你的服务器IP;
+
+    root /var/www/workspace/nengdou-ai-review-helper-web/dist;
+    index index.html;
+
+    location ~ ^/api/v1/(.*)$ {
+        rewrite ^/api/v1/(.*)$ /v1/$1 break;
+        proxy_pass http://127.0.0.1:3000;
+    }
+
+    location ~ ^/api/(.*)$ {
+        rewrite ^/api/(.*)$ /v1/$1 break;
+        proxy_pass http://127.0.0.1:3000;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+#### 测试账号
+| 角色 | 用户名 | 密码 |
+|------|--------|------|
+| 管理员 | admin | admin123 |
+| 教师 | teacher1 | teacher123 |
+| 学生 | student1 | student123 |
+
 
 
 
