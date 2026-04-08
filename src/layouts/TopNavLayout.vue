@@ -19,7 +19,7 @@
 
     <!-- Footer区域 - 固定高度 -->
     <el-footer height="50px" class="layout-footer">
-      © {{ new Date().getFullYear() }} AI作业批改系统 - 版权所有
+      © {{ new Date().getFullYear() }} 灵犀AI作业批改系统 - 版权所有 | v{{ version }}
     </el-footer>
   </div>
 </template>
@@ -62,7 +62,9 @@ export default defineComponent({
       window.removeEventListener("resize", handleResize);
     });
 
-    return {};
+    return {
+      version: "1.0.0",
+    };
   },
 });
 </script>

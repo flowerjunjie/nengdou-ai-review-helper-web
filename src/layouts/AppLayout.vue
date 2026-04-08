@@ -58,7 +58,7 @@
         height="50px"
         class="bg-white text-gray-600 text-center flex items-center justify-center border-t border-gray-200 flex-shrink-0"
       >
-        © {{ new Date().getFullYear() }} AI作业批改系统 - 版权所有
+        © {{ new Date().getFullYear() }} 灵犀AI作业批改系统 - 版权所有 | v{{ version }}
       </el-footer>
     </div>
   </div>
@@ -150,6 +150,7 @@ export default defineComponent({
       sidebarWidth,
       toggleSidebar,
       sidebarOpened,
+      version: "1.0.0",
     };
   },
 });

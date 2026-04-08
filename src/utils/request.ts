@@ -23,10 +23,11 @@ let failedQueue: Array<{ resolve: Function; reject: Function }> = [];
 
 // 处理等待队列中的请求
 const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
+  failedQueue.forEach(({ resolve, reject, request }) => {
     if (error) {
       reject(error);
     } else {
+      // 重试请求时使用该请求自己的配置
       resolve(token);
     }
   });
@@ -144,20 +145,32 @@ service.interceptors.response.use(
         handleAuthError(errorMessage, errorCode);
         return Promise.reject(error);
       }
+
+      // 保存当前请求配置，每个请求使用自己的配置
+      const currentRequest = { ...originalRequest };
+
       // 如果正在刷新token，将请求加入队列
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
+          failedQueue.push({
+            resolve: (token: string | null) => {
+              resolve(token);
+            },
+            reject: (err: any) => {
+              reject(err);
+            },
+            request: currentRequest
+          });
         }).then((token) => {
           if (token) {
-            originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            return service(originalRequest);
+            currentRequest.headers["Authorization"] = `Bearer ${token}`;
+            return service(currentRequest);
           }
           return Promise.reject(error);
         });
       }
 
-      originalRequest._retry = true;
+      currentRequest._retry = true;
       isRefreshing = true;
 
       try {
@@ -170,8 +183,8 @@ service.interceptors.response.use(
           console.log("刷新token成功");
           // 刷新成功，处理队列中的请求
           processQueue(null, newToken);
-          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
-          return service(originalRequest);
+          currentRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          return service(currentRequest);
         } else {
           throw new Error("刷新后未获取到新token");
         }
