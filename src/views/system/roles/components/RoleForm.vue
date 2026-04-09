@@ -145,6 +145,7 @@ import { ref, reactive, computed, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 import { getRoleWithMenus, createRole, updateRole } from "@/api/role";
 import { getMenuList } from "@/api/menu";
+import logger from "@/utils/logger";
 
 // 组件props和emits
 const props = defineProps({
@@ -222,7 +223,7 @@ const openForm = async (type, id) => {
       if (firstInput) firstInput.focus();
     });
   } catch (error) {
-    console.error("初始化表单失败", error);
+    logger.error("初始化表单失败", error);
     ElMessage.error("表单初始化失败");
   }
 };
@@ -255,9 +256,9 @@ const loadRoleData = async (id) => {
       });
     }
 
-    console.log("加载角色数据成功:", form.name);
+    logger.log("加载角色数据成功:", form.name);
   } catch (error) {
-    console.error("加载角色数据失败", error);
+    logger.error("加载角色数据失败", error);
     ElMessage.error("加载角色数据失败");
     dialogVisible.value = false;
   } finally {
@@ -303,9 +304,9 @@ const loadMenuTreeData = async () => {
       ? processMenuData(response)
       : [];
 
-    console.log("加载菜单树数据成功:", menuTreeData.value.length, "条记录");
+    logger.log("加载菜单树数据成功:", menuTreeData.value.length, "条记录");
   } catch (error) {
-    console.error("加载菜单树数据失败", error);
+    logger.error("加载菜单树数据失败", error);
     ElMessage.error("加载菜单树数据失败");
   } finally {
     menuTreeLoading.value = false;
@@ -363,7 +364,7 @@ const handleSubmit = async () => {
     dialogVisible.value = false;
     emit("success");
   } catch (error) {
-    console.error("提交角色表单失败", error);
+    logger.error("提交角色表单失败", error);
     ElMessage.error("操作失败：" + (error.message || "未知错误"));
   } finally {
     submitLoading.value = false;

@@ -40,6 +40,7 @@ import { ref, reactive, computed, watch, defineComponent } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import { joinClass } from "../api/classes";
 import type { JoinClassParams } from "../types/classes";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "JoinClassDialog",
@@ -112,7 +113,7 @@ export default defineComponent({
         dialogVisible.value = false;
         emit("success");
       } catch (error: any) {
-        console.error("加入班级失败:", error);
+        logger.error("加入班级失败:", error);
         // 错误提示已在统一请求层处理，此处不重复弹出
       } finally {
         loading.value = false;

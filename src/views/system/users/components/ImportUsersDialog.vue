@@ -165,6 +165,7 @@ import { downloadTemplate } from "@/api/template";
 import { importUsersBatch } from "@/api/user";
 import * as XLSX from "xlsx";
 import FailureDetailDialog from "./FailureDetailDialog.vue";
+import logger from "@/utils/logger";
 
 // 定义导入结果的类型
 
@@ -350,7 +351,7 @@ const importUsers = async () => {
   try {
     // 调用后端的批量导入API
     const response = await importUsersBatch(previewData.value);
-    console.log(response, "response");
+    logger.log(response, "response");
     // 更新导入结果
     importResult.value = {
       success: response.success,
