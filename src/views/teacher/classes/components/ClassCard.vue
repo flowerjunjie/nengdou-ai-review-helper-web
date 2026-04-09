@@ -260,6 +260,7 @@
 import { computed } from "vue";
 import { ElMessage } from "element-plus";
 import moment from "moment";
+import logger from "@/utils/logger";
 import {
   MoreFilled,
   View,
@@ -344,7 +345,7 @@ const copyCode = async () => {
     await navigator.clipboard.writeText(props.classData.code);
     ElMessage.success("邀请码已复制到剪贴板");
   } catch (error) {
-    console.error("复制失败:", error);
+    logger.error("复制失败:", error);
     ElMessage.error("复制失败");
   }
 };

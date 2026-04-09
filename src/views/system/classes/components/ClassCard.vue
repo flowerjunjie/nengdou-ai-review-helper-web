@@ -195,6 +195,7 @@ import {
   CopyDocument,
 } from "@element-plus/icons-vue";
 import moment from "moment";
+import logger from "@/utils/logger";
 import type { Class } from "@/types/classes";
 
 interface Props {
@@ -256,7 +257,7 @@ const copyCode = async () => {
     await navigator.clipboard.writeText(props.classData.code);
     ElMessage.success("班级码已复制");
   } catch (error) {
-    console.error("复制失败:", error);
+    logger.error("复制失败:", error);
     ElMessage.error("复制失败");
   }
 };
