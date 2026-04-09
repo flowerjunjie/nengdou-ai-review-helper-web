@@ -187,6 +187,7 @@
 import { ref, reactive, computed, watch, nextTick, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { getMenuById, createMenu, updateMenu, getMenuList } from "@/api/menu";
+import logger from "@/utils/logger";
 
 // 定义默认表单数据常量
 const DEFAULT_FORM = {
@@ -275,7 +276,7 @@ const loadAllMenus = async () => {
     const data = await getMenuList({ tree: "true" });
     menuList.value = Array.isArray(data) ? data : [];
   } catch (error) {
-    // console.error('加载菜单列表失败', error)
+    // logger.error('加载菜单列表失败', error)
   } finally {
     menuListLoading.value = false;
   }
@@ -348,7 +349,7 @@ const initAddForm = (parentId = "") => {
 const initEditForm = (menuData) => {
   // 先重置表单
   resetForm();
-  console.log(menuData, "menuData");
+  logger.log(menuData, "menuData");
 
   // 设置当前ID
   currentId.value = menuData._id;
@@ -374,7 +375,7 @@ const loadMenuDetail = async (id) => {
     const menuDetail = await getMenuById(id);
     initEditForm(menuDetail);
   } catch (error) {
-    console.error("获取菜单详情失败", error);
+    logger.error("获取菜单详情失败", error);
     ElMessage.error("获取菜单详情失败");
   } finally {
     loading.value = false;
@@ -396,7 +397,7 @@ const openForm = async (type = "add", id = "", parentId = "") => {
       initAddForm();
     }
   } catch (error) {
-    console.error("初始化表单失败", error);
+    logger.error("初始化表单失败", error);
     ElMessage.error("初始化表单失败");
   }
 };
@@ -487,7 +488,7 @@ const handleSubmit = async () => {
     // 触发成功事件，通知父组件刷新数据
     emit("success");
   } catch (error) {
-    console.error("提交表单失败", error);
+    logger.error("提交表单失败", error);
     ElMessage.error("操作失败，请检查表单数据");
   } finally {
     submitLoading.value = false;

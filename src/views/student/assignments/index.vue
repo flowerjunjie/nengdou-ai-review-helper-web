@@ -156,6 +156,7 @@ import {
 import type { StudentAssignmentListItem } from "../../../types/assignments";
 import AdaptiveTableContainer from "@/components/AdaptiveTableContainer.vue";
 import PageHeader from "@/components/PageHeader.vue";
+import logger from "@/utils/logger";
 
 const router = useRouter();
 
@@ -205,7 +206,7 @@ const loadAssignments = async () => {
     // 触发容器高度重新计算
     recalculateTrigger.value++;
   } catch (error) {
-    console.error("加载作业列表失败:", error);
+    logger.error("加载作业列表失败:", error);
     ElMessage.error("加载作业列表失败");
   } finally {
     loading.value = false;
@@ -218,7 +219,7 @@ const loadStatistics = async () => {
     const data = await getMyAssignmentStatistics();
     statistics.value = data;
   } catch (error) {
-    console.error("加载统计数据失败:", error);
+    logger.error("加载统计数据失败:", error);
   }
 };
 
