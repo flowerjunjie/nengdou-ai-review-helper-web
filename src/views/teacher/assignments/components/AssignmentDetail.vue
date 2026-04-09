@@ -212,7 +212,7 @@
         git
         <div
           class="description-content editor-content-view"
-          v-html="assignment.description"
+          v-html="sanitizeDescription(assignment.description)"
         ></div>
       </el-card>
 
@@ -243,6 +243,7 @@
 import { Edit, Close } from "@element-plus/icons-vue";
 import { AssignmentStatus } from "@/api/assignments";
 import type { Assignment } from "@/types/assignments";
+import { sanitizeDescription } from "@/utils/sanitize";
 
 interface Props {
   assignment: Assignment;
