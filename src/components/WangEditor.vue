@@ -46,6 +46,7 @@ import type {
 } from "@wangeditor/editor";
 import { ElMessage } from "element-plus";
 import { DomEditor } from "@wangeditor/editor";
+import logger from "@/utils/logger";
 
 interface Props {
   modelValue?: string;
@@ -163,7 +164,7 @@ const handleChange = (editor: IDomEditor) => {
 };
 
 const handleDestroyed = (editor: IDomEditor) => {
-  console.log("editor destroyed", editor);
+  logger.log("editor destroyed", editor);
 };
 
 const handleFocus = (editor: IDomEditor) => {
@@ -213,7 +214,7 @@ onMounted(() => {
   nextTick(() => {
     const toolbar = DomEditor.getToolbar(editorRef.value);
     const curToolbarConfig = toolbar.getConfig();
-    console.log(curToolbarConfig.toolbarKeys); // 当前菜单排序和分组
+    logger.log(curToolbarConfig.toolbarKeys); // 当前菜单排序和分组
   });
 });
 </script>

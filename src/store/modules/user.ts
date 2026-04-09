@@ -155,7 +155,7 @@ const actions = {
     const refreshTokenValue = getters.getRefreshToken;
 
     if (!refreshTokenValue) {
-      console.warn('未找到刷新令牌，可能用户未勾选"记住我"或令牌已过期');
+      logger.warn('未找到刷新令牌，可能用户未勾选"记住我"或令牌已过期');
       // 清除用户信息并跳转到登录页
       commit("SET_USER_INFO", null);
       localStorage.removeItem("token");
@@ -217,7 +217,7 @@ const actions = {
       await logout();
     } catch (error) {
       // 即使后端登出失败，前端也要清理本地状态
-      console.warn("后端登出失败，但继续清理本地状态:", error);
+      logger.warn("后端登出失败，但继续清理本地状态:", error);
     } finally {
       // 清除用户信息
       commit("SET_USER_INFO", null);
