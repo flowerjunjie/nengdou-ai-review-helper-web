@@ -109,6 +109,7 @@ import { Search, Refresh, Plus } from "@element-plus/icons-vue";
 import AdaptiveTableContainer from "@/components/AdaptiveTableContainer.vue";
 import MenuTable from "./components/MenuTable.vue";
 import MenuForm from "./components/MenuForm.vue";
+import logger from "@/utils/logger";
 
 // Store
 const store = useStore();
@@ -184,7 +185,7 @@ const loadMenuData = async () => {
         searchForm.hidden === true || searchForm.hidden === "true"
           ? "true"
           : "false";
-      console.log(
+      logger.log(
         "发送hidden参数:",
         params.hidden,
         "原始值类型:",
@@ -192,15 +193,15 @@ const loadMenuData = async () => {
       );
     }
 
-    console.log("发送菜单搜索请求参数:", params);
+    logger.log("发送菜单搜索请求参数:", params);
     const data = await getMenuList(params);
-    console.log("接收到的菜单数据:", data?.length || 0, "条记录");
+    logger.log("接收到的菜单数据:", data?.length || 0, "条记录");
     menuList.value = Array.isArray(data) ? data : [];
 
     // 触发表格高度重新计算
     recalculateTrigger.value++;
   } catch (error) {
-    console.error("加载菜单失败", error);
+    logger.error("加载菜单失败", error);
     //ElMessage.error('加载菜单列表失败')
   } finally {
     loading.value = false;
@@ -258,7 +259,7 @@ const handleDeleteMenu = async (menu) => {
     loadMenuData();
   } catch (error) {
     if (error === "cancel") return;
-    console.error("删除菜单失败", error);
+    logger.error("删除菜单失败", error);
     ElMessage.error("删除失败");
   }
 };

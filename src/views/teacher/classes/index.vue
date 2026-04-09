@@ -180,6 +180,7 @@ import {
   regenerateClassCode,
 } from "../../../api/classes";
 import type { Class, ClassQueryParams } from "@/types/classes";
+import logger from "@/utils/logger";
 
 // 导入组件
 import PageHeader from "@/components/PageHeader.vue";
@@ -248,7 +249,7 @@ const calculateContentHeight = () => {
 
     contentHeight.value = `${finalHeight}px`;
 
-    console.log("🔍 班级管理页面高度计算:", {
+    logger.log("🔍 班级管理页面高度计算:", {
       容器总高度: containerHeight,
       搜索区域高度: searchRect.height,
       分页区域高度: paginationRef.value?.getBoundingClientRect().height || 0,
@@ -257,7 +258,7 @@ const calculateContentHeight = () => {
       最终内容高度: contentHeight.value,
     });
   } catch (error) {
-    console.error("❌ 计算内容高度失败:", error);
+    logger.error("❌ 计算内容高度失败:", error);
     contentHeight.value = "400px";
   }
 };
@@ -298,7 +299,7 @@ const loadClassList = async () => {
     });
 
     const response = await getClassList(params);
-    console.log(response, "---response");
+    logger.log(response, "---response");
 
     classList.value = response.items;
     pagination.total = response.total;
@@ -383,7 +384,7 @@ const handleDisbandClass = async (classData: Class) => {
     loadClassList();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("解散班级失败:", error);
+      logger.error("解散班级失败:", error);
       // 错误提示已在统一请求层处理，此处不重复弹出
     }
   }
@@ -406,7 +407,7 @@ const handleRegenerateCode = async (classData: Class) => {
     loadClassList();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("刷新邀请码失败:", error);
+      logger.error("刷新邀请码失败:", error);
       // 错误提示已在统一请求层处理，此处不重复弹出
     }
   }

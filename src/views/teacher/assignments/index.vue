@@ -373,6 +373,7 @@ import AssignmentCard from "./components/AssignmentCard.vue";
 import AssignmentDetail from "./components/AssignmentDetail.vue";
 import PageHeader from "../../../components/PageHeader.vue";
 import moment from "moment";
+import logger from "@/utils/logger";
 
 const router = useRouter();
 
@@ -442,7 +443,7 @@ const calculateContentHeight = () => {
 
     contentHeight.value = `${finalHeight}px`;
 
-    console.log("🔍 作业管理页面高度计算:", {
+    logger.log("🔍 作业管理页面高度计算:", {
       容器总高度: containerHeight,
       搜索区域高度: searchRect.height,
       分页区域高度: paginationRef.value?.getBoundingClientRect().height || 0,
@@ -451,7 +452,7 @@ const calculateContentHeight = () => {
       最终内容高度: contentHeight.value,
     });
   } catch (error) {
-    console.error("❌ 计算内容高度失败:", error);
+    logger.error("❌ 计算内容高度失败:", error);
     contentHeight.value = "400px";
   }
 };
@@ -504,7 +505,7 @@ const getAssignmentList = async () => {
       }, 50);
     });
   } catch (error) {
-    console.error("获取作业列表失败:", error);
+    logger.error("获取作业列表失败:", error);
     ElMessage.error("获取作业列表失败");
   } finally {
     loading.value = false;
@@ -615,7 +616,7 @@ const handlePublish = async (assignment: AssignmentListItem) => {
     getAssignmentList();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("发布失败:", error);
+      logger.error("发布失败:", error);
       ElMessage.error("发布失败");
     }
   }
@@ -646,7 +647,7 @@ const handleTerminate = async (assignment: AssignmentListItem) => {
     getAssignmentList();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("终止失败:", error);
+      logger.error("终止失败:", error);
       ElMessage.error("终止失败");
     }
   }
@@ -667,7 +668,7 @@ const handleRepublish = async (assignment: AssignmentListItem) => {
     getAssignmentList();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("重新发布失败:", error);
+      logger.error("重新发布失败:", error);
       ElMessage.error("重新发布失败");
     }
   }
@@ -709,7 +710,7 @@ const handleDelete = async (assignment: AssignmentListItem) => {
     getAssignmentList();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("删除失败:", error);
+      logger.error("删除失败:", error);
       ElMessage.error("删除失败");
     }
   }

@@ -258,6 +258,7 @@ import ReviewResults from "./components/ReviewResults.vue"; // 批改结果
 import { useSubmissionManagement, useSubmissionUtils } from "./composables";
 import { SubmissionsApi } from "../../../api/submissions";
 import { useRoute } from "vue-router";
+import logger from "@/utils/logger";
 
 const router = useRouter();
 const route = useRoute();
@@ -265,7 +266,7 @@ const route = useRoute();
 // 路由参数（兼容query和params）
 const assignmentId = computed(() => {
   const id = (route.query.assignmentId || route.params.assignmentId) as string;
-  console.log(
+  logger.log(
     "📍 获取assignmentId:",
     id,
     "from query:",
@@ -278,7 +279,7 @@ const assignmentId = computed(() => {
 
 const classId = computed(() => {
   const id = (route.query.classId || route.params.classId) as string;
-  console.log(
+  logger.log(
     "📍 获取classId:",
     id,
     "from query:",
@@ -401,7 +402,7 @@ const getSubmitButtonText = () => {
 
 // Tab切换处理
 const handleTabChange = (tabName: string) => {
-  console.log("切换到Tab:", tabName);
+  logger.log("切换到Tab:", tabName);
 
   // 如果切换到提交Tab且有草稿，自动聚焦编辑器
   if (
@@ -449,10 +450,10 @@ const startAiTimeout = () => {
   // 清除之前的计时器
   clearAiTimeout();
 
-  console.log("⏰ 启动AI超时保护 (30秒)");
+  logger.log("⏰ 启动AI超时保护 (30秒)");
   aiTimeoutTimer.value = setTimeout(() => {
     if (showAiProcessingFullscreen.value) {
-      console.log("⚠️ AI评价超时，关闭Loading");
+      logger.log("⚠️ AI评价超时，关闭Loading");
       showAiProcessingFullscreen.value = false;
       ElMessage.warning("AI评价时间较长，请稍后刷新页面查看结果");
     }
@@ -462,7 +463,7 @@ const startAiTimeout = () => {
 // 清除AI超时保护
 const clearAiTimeout = () => {
   if (aiTimeoutTimer.value) {
-    console.log("🔄 清除AI超时保护计时器");
+    logger.log("🔄 清除AI超时保护计时器");
     clearTimeout(aiTimeoutTimer.value);
     aiTimeoutTimer.value = null;
   }
@@ -484,7 +485,7 @@ const handleSubmitClick = async () => {
     // 调用提交处理，传入AI Loading控制函数
     await handleSubmitWithAiLoading(content, []);
   } catch (error) {
-    console.error("表单验证失败:", error);
+    logger.error("表单验证失败:", error);
   }
 };
 
@@ -526,7 +527,7 @@ const handleSubmitWithAiLoading = async (
     clearAiTimeout();
 
     if (error !== "cancel") {
-      console.error("提交作业失败:", error);
+      logger.error("提交作业失败:", error);
       ElMessage.error(error.message || "提交作业失败");
     }
   }
@@ -550,18 +551,18 @@ const handleSubmitDirect = async (content: string, attachments: any[]) => {
     };
 
     // 调试日志
-    console.log("🔍 提交参数检查:");
-    console.log("assignmentId:", assignmentId.value);
-    console.log("classId:", classId.value);
-    console.log("content length:", content?.length || 0);
-    console.log("route.params:", route.params);
+    logger.log("🔍 提交参数检查:");
+    logger.log("assignmentId:", assignmentId.value);
+    logger.log("classId:", classId.value);
+    logger.log("content length:", content?.length || 0);
+    logger.log("route.params:", route.params);
 
     // 只有当有附件时才添加 attachments 字段
     if (attachments && attachments.length > 0) {
       params.attachments = attachments;
     }
 
-    console.log("📤 最终提交参数:", params);
+    logger.log("📤 最终提交参数:", params);
     await SubmissionsApi.submit(params);
     ElMessage.success(isResubmit ? "作业重新提交成功！" : "作业提交成功！");
 
@@ -598,7 +599,7 @@ const handleSaveDraftClick = async () => {
     // 更新保存时间
     updateLastSaveTime();
   } catch (error) {
-    console.error("表单验证失败:", error);
+    logger.error("表单验证失败:", error);
   }
 };
 
@@ -657,7 +658,7 @@ watch(
 watch([isPolling, submissionData], ([polling, data]) => {
   // 如果正在显示AI处理Loading，且轮询停止了，说明AI评价完成
   if (showAiProcessingFullscreen.value && !polling && data?.aiReview) {
-    console.log("🎉 AI评价完成，关闭Loading");
+    logger.log("🎉 AI评价完成，关闭Loading");
     showAiProcessingFullscreen.value = false;
 
     // 清除超时计时器
@@ -687,7 +688,7 @@ onUnmounted(() => {
   // 停止轮询和清理轮询相关资源
   stopPolling();
 
-  console.log("🧹 组件卸载，已清理所有计时器和轮询资源");
+  logger.log("🧹 组件卸载，已清理所有计时器和轮询资源");
 });
 </script>
 

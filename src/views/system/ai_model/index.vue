@@ -307,6 +307,7 @@ import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Refresh as RefreshIcon } from "@element-plus/icons-vue";
 import { aiModelApi, type AiModel, type ModelBalance } from "@/api/ai-models";
+import logger from "@/utils/logger";
 // 移除date-fns依赖，使用原生日期格式化
 
 // 响应式数据
@@ -376,7 +377,7 @@ const loadModelData = async () => {
     // 加载余额信息
     await loadBalances();
   } catch (error) {
-    console.error("加载模型数据失败:", error);
+    logger.error("加载模型数据失败:", error);
     ElMessage.error("加载模型数据失败");
   } finally {
     loading.value = false;
@@ -398,7 +399,7 @@ const loadBalances = async () => {
       doubaoBalance.value = doubaoBalanceRes.value;
     }
   } catch (error) {
-    console.error("加载余额失败:", error);
+    logger.error("加载余额失败:", error);
   }
 };
 
@@ -450,7 +451,7 @@ const saveConfig = async (code: "deepseek" | "doubao") => {
     // 自动测试连接
     await testConnection(code);
   } catch (error: any) {
-    console.error("保存配置失败:", error);
+    logger.error("保存配置失败:", error);
     ElMessage.error(error.message || "保存配置失败");
   } finally {
     saving.value = false;
@@ -476,7 +477,7 @@ const refreshBalance = async (code: "deepseek" | "doubao") => {
       ElMessage.warning(balance.message || "余额查询失败");
     }
   } catch (error: any) {
-    console.error("刷新余额失败:", error);
+    logger.error("刷新余额失败:", error);
     ElMessage.error(error.message || "刷新余额失败");
   } finally {
     balanceLoading[code] = false;
@@ -498,7 +499,7 @@ const testConnection = async (code: "deepseek" | "doubao") => {
       ElMessage.error(`连接测试失败: ${result.message}`);
     }
   } catch (error: any) {
-    console.error("连接测试失败:", error);
+    logger.error("连接测试失败:", error);
     ElMessage.error(error.message || "连接测试失败");
   } finally {
     testLoading[code] = false;
@@ -510,7 +511,7 @@ const handleTabChange = (tabName: string) => {
 };
 
 const refreshData = async () => {
-  console.log("手动刷新AI模型数据...");
+  logger.log("手动刷新AI模型数据...");
   await loadModelData();
   ElMessage.success("数据刷新成功");
 };
@@ -564,14 +565,14 @@ let refreshInterval: any = null;
 onMounted(() => {
   // 设置定时刷新
   refreshInterval = setInterval(() => {
-    console.log("定时刷新AI模型数据...");
+    logger.log("定时刷新AI模型数据...");
     loadModelData();
   }, 30000);
 
   // 监听页面可见性变化
   const handleVisibilityChange = () => {
     if (!document.hidden) {
-      console.log("页面重新可见，刷新AI模型数据...");
+      logger.log("页面重新可见，刷新AI模型数据...");
       loadModelData();
     }
   };
