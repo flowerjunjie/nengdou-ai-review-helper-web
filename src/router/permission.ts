@@ -262,7 +262,7 @@ function loadComponent(componentPath: string) {
 function generateMenuRoutes(menus) {
   // 检查菜单数据
   if (!menus || menus.length === 0) {
-    console.warn("菜单数据为空，无法生成路由");
+    logger.warn("菜单数据为空，无法生成路由");
     return [];
   }
 
@@ -329,7 +329,7 @@ function generateMenuRoutes(menus) {
   };
   // 如果没有生成任何路由，返回空数组
   if (routes.length === 0) {
-    console.warn("未生成任何路由");
+    logger.warn("未生成任何路由");
     return [];
   }
 

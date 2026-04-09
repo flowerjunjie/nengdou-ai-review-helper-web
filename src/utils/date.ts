@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow, isValid, parseISO } from "date-fns";
 import { zhCN } from "date-fns/locale";
+import logger from "@/utils/logger";
 
 /**
  * 格式化日期时间
@@ -22,7 +23,7 @@ export function formatDateTime(
 
     return format(dateObj, formatStr, { locale: zhCN });
   } catch (error) {
-    console.warn("日期格式化失败:", error);
+    logger.warn("日期格式化失败:", error);
     return "--";
   }
 }
@@ -65,7 +66,7 @@ export function formatRelativeTime(date: string | Date): string {
       locale: zhCN,
     });
   } catch (error) {
-    console.warn("相对时间格式化失败:", error);
+    logger.warn("相对时间格式化失败:", error);
     return "--";
   }
 }
@@ -133,7 +134,7 @@ export function getDateRangeText(
 
     return `${startStr} 至 ${endStr}`;
   } catch (error) {
-    console.warn("日期范围格式化失败:", error);
+    logger.warn("日期范围格式化失败:", error);
     return "--";
   }
 }

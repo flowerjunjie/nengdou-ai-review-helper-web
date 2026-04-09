@@ -254,6 +254,7 @@ import StatCard from "./components/StatCard.vue";
 import DonutChart from "./components/charts/DonutChart.vue";
 import BarChart from "./components/charts/BarChart.vue";
 import { formatDateTime } from "@/utils/date";
+import logger from "@/utils/logger";
 
 const store = useStore();
 const router = useRouter();
@@ -271,12 +272,12 @@ watch(
   studentStats,
   (newStats) => {
     if (newStats?.pendingAssignmentsList) {
-      console.log(
+      logger.log(
         "Student pending assignments:",
         newStats.pendingAssignmentsList
       );
       newStats.pendingAssignmentsList.forEach((assignment, index) => {
-        console.log(`Assignment ${index}:`, assignment);
+        logger.log(`Assignment ${index}:`, assignment);
       });
     }
   },
@@ -339,8 +340,8 @@ const viewAllSubmissions = () => {
 };
 
 const goToAssignment = (assignmentId: string, classId: string) => {
-  console.log("goToAssignment called with:", { assignmentId, classId });
-  console.log("Type of classId:", typeof classId);
+  logger.log("goToAssignment called with:", { assignmentId, classId });
+  logger.log("Type of classId:", typeof classId);
   router.push(
     `/student/submissions?assignmentId=${assignmentId}&classId=${classId}`
   );

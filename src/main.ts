@@ -6,6 +6,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "@/store";
 import "./router/permission"; // 引入路由权限控制
+import logger from "@/utils/logger";
 // 引入wangEditor的css
 import "@wangeditor/editor/dist/css/style.css";
 // 引入 wangeditor 的补充样式
@@ -26,16 +27,16 @@ const app = createApp(App);
 
 // 全局错误处理 - 防止白屏
 app.config.errorHandler = (err, vm, info) => {
-  console.error("Vue全局错误:", err, info);
+  logger.error("Vue全局错误:", err, info);
   // 在开发环境显示错误
   if (import.meta.env.DEV) {
-    console.error("错误堆栈:", err);
+    logger.error("错误堆栈:", err);
   }
 };
 
 // 处理未捕获的Promise错误
 window.addEventListener("unhandledrejection", (event) => {
-  console.error("未处理的Promise拒绝:", event.reason);
+  logger.error("未处理的Promise拒绝:", event.reason);
   // 阻止浏览器的默认行为（在控制台显示错误）
   // event.preventDefault()
 });

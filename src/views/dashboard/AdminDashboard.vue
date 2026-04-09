@@ -335,6 +335,7 @@ import DonutChart from "./components/charts/DonutChart.vue";
 import BarChart from "./components/charts/BarChart.vue";
 import { formatRelativeTime } from "@/utils/date";
 import { getRecentUsers } from "@/api/dashboard";
+import logger from "@/utils/logger";
 
 const store = useStore();
 const router = useRouter();
@@ -435,9 +436,9 @@ const loadRecentUsers = async () => {
     const response = await getRecentUsers(5);
     recentUsers.value = response.users || [];
 
-    console.log("最近用户数据:", response); // 调试日志
+    logger.log("最近用户数据:", response); // 调试日志
   } catch (error) {
-    console.error("加载最新用户失败:", error);
+    logger.error("加载最新用户失败:", error);
     recentUsers.value = [];
   }
 };
