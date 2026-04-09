@@ -55,7 +55,7 @@ export class RolesService {
   }
 
   async assignMenus(roleId: string, menuIds: string[]) {
-    await this.roleModel.findByIdAndUpdate(roleId, { permissions: menuIds });
+    await this.roleModel.findByIdAndUpdate(roleId, { menuIds });
     return { message: '菜单分配成功' };
   }
 }
