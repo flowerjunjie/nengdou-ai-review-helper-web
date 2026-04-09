@@ -97,4 +97,18 @@ export class AssignmentsService {
       pending: assignment.pendingSubmissions,
     };
   }
+
+  async getStudentStatistics(studentId: string, classId?: string) {
+    const filter: any = { status: 'published', isDeleted: false };
+    if (classId) {
+      filter.classes = { $in: [new Types.ObjectId(classId)] };
+    }
+
+    const assignments = await this.assignmentModel.find(filter);
+    return {
+      totalAssignments: assignments.length,
+      pendingAssignments: assignments.filter(a => new Date(a.endDate) > new Date()).length,
+      completedAssignments: assignments.filter(a => new Date(a.endDate) <= new Date()).length,
+    };
+  }
 }

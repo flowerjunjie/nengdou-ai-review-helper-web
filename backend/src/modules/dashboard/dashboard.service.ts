@@ -167,6 +167,88 @@ export class DashboardService {
         { status: 'ai_reviewed', count: submissions.filter(s => s.status === 'ai_reviewed').length },
         { status: 'teacher_reviewed', count: submissions.filter(s => s.status === 'teacher_reviewed').length },
       ],
+      performanceAnalysis: {
+        excellentCount: 0,
+        goodCount: 0,
+        passCount: 0,
+        classRanking: 'N/A',
+        perfectScoreCount: 0,
+      },
+      pendingAssignmentsList: [],
+      recentSubmissions: [],
     };
+  }
+
+  async getTeacherPerformanceSummary(teacherId: string) {
+    const assignments = await this.assignmentModel.find({ teacherId: new Types.ObjectId(teacherId) });
+    const submissions = await this.submissionModel.find({
+      assignmentId: { $in: assignments.map(a => a._id) },
+    });
+
+    const aiReviewed = submissions.filter(s => s.aiScore !== undefined);
+    const teacherReviewed = submissions.filter(s => s.teacherScore !== undefined);
+
+    const avgAiScore = aiReviewed.length > 0
+      ? aiReviewed.reduce((sum, s) => sum + (s.aiScore || 0), 0) / aiReviewed.length
+      : 0;
+    const avgTeacherScore = teacherReviewed.length > 0
+      ? teacherReviewed.reduce((sum, s) => sum + (s.teacherScore || 0), 0) / teacherReviewed.length
+      : 0;
+
+    return {
+      totalReviews: teacherReviewed.length,
+      aiReviews: aiReviewed.length,
+      avgAiScore: avgAiScore.toFixed(1),
+      avgTeacherScore: avgTeacherScore.toFixed(1),
+      scoreDifference: (avgTeacherScore - avgAiScore).toFixed(1),
+    };
+  }
+
+  async getTeacherQuickActions(teacherId: string) {
+    const pendingCount = await this.submissionModel.countDocuments({
+      assignmentId: { $in: (await this.assignmentModel.find({ teacherId: new Types.ObjectId(teacherId) })).map(a => a._id) },
+      status: { $in: ['submitted', 'ai_reviewed'] },
+    });
+
+    return {
+      actions: [
+        { id: 'review', label: '待批改作业', count: pendingCount, icon: 'Edit' },
+        { id: 'create', label: '创建作业', count: 0, icon: 'Plus' },
+        { id: 'students', label: '学生管理', count: 0, icon: 'User' },
+      ],
+    };
+  }
+
+  async getStudentStudyRecommendations(studentId: string) {
+    const submissions = await this.submissionModel.find({
+      studentId: new Types.ObjectId(studentId),
+    }).sort({ createdAt: -1 }).limit(5);
+
+    const recommendations = [];
+    const avgScore = submissions.length > 0
+      ? submissions.reduce((sum, s) => sum + (s.teacherScore || s.aiScore || 0), 0) / submissions.length
+      : 0;
+
+    if (avgScore < 60) {
+      recommendations.push({
+        type: 'improvement',
+        title: '加强基础知识',
+        description: '您的平均成绩偏低，建议复习相关知识点',
+      });
+    } else if (avgScore > 85) {
+      recommendations.push({
+        type: 'advance',
+        title: '挑战更高难度',
+        description: '您的表现非常出色，可以尝试挑战更高难度的作业',
+      });
+    }
+
+    recommendations.push({
+      type: 'general',
+      title: '及时完成作业',
+      description: '请在截止日期前按时提交作业',
+    });
+
+    return { recommendations };
   }
 }

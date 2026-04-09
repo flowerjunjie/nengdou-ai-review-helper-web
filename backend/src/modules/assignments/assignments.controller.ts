@@ -60,6 +60,12 @@ export class AssignmentsController {
     return this.assignmentsService.findStudentAssignments(user._id, query);
   }
 
+  @Get('student/assignments/statistics')
+  @Roles('student')
+  async getStudentAssignmentStatistics(@CurrentUser() user: any, @Query('classId') classId?: string) {
+    return this.assignmentsService.getStudentStatistics(user._id, classId);
+  }
+
   @Get('student/assignments/:id')
   @Roles('student')
   async findStudentAssignment(@Param('id') id: string) {

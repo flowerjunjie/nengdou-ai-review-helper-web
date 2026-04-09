@@ -62,4 +62,22 @@ export class DashboardController {
   async getAchievements(@CurrentUser() user: any) {
     return { badges: [], totalPoints: 0 };
   }
+
+  @Get('teacher/dashboard/performance-summary')
+  @Roles('teacher', 'superadmin')
+  async getTeacherPerformanceSummary(@CurrentUser() user: any) {
+    return this.dashboardService.getTeacherPerformanceSummary(user._id);
+  }
+
+  @Get('teacher/dashboard/quick-actions')
+  @Roles('teacher', 'superadmin')
+  async getTeacherQuickActions(@CurrentUser() user: any) {
+    return this.dashboardService.getTeacherQuickActions(user._id);
+  }
+
+  @Get('student/dashboard/study-recommendations')
+  @Roles('student')
+  async getStudentStudyRecommendations(@CurrentUser() user: any) {
+    return this.dashboardService.getStudentStudyRecommendations(user._id);
+  }
 }
