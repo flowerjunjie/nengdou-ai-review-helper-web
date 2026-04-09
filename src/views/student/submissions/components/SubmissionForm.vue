@@ -83,6 +83,7 @@ import { ref, reactive, watch, computed } from "vue";
 import type { Submission } from "../../../../api/submissions";
 import { useSubmissionUtils } from "../composables";
 import { sanitizeDescription } from "@/utils/sanitize";
+import logger from "@/utils/logger";
 
 interface Props {
   submission?: Submission | null;
@@ -112,7 +113,7 @@ const validateContent = (rule: any, value: string, callback: any) => {
   // 获取富文本编辑器的实际字符长度
   const textLength = editorRef.value?.getTextLength() || 0;
 
-  console.log("🔍 校验富文本内容:", {
+  logger.log("🔍 校验富文本内容:", {
     htmlValue: value,
     htmlLength: value?.length || 0,
     textLength: textLength,

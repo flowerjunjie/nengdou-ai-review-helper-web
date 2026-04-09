@@ -40,6 +40,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import * as ElementPlusIcons from "@element-plus/icons-vue";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "TopNavItem",
@@ -52,12 +53,12 @@ export default defineComponent({
   emits: ["menu-click"],
   setup(props, { emit }) {
     // 调试信息
-    console.log("TopNavItem渲染菜单:", props.menu);
+    logger.log("TopNavItem渲染菜单:", props.menu);
 
     // 计算是否有子菜单
     const hasChildren = computed(() => {
       const hasKids = props.menu.children && props.menu.children.length > 0;
-      console.log(`菜单 ${props.menu.name} 是否有子菜单:`, hasKids);
+      logger.log(`菜单 ${props.menu.name} 是否有子菜单:`, hasKids);
       return hasKids;
     });
 
@@ -77,7 +78,7 @@ export default defineComponent({
 
     // 处理菜单点击
     const handleMenuClick = (path) => {
-      console.log("TopNavItem菜单点击:", path);
+      logger.log("TopNavItem菜单点击:", path);
       emit("menu-click", path);
     };
 

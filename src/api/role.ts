@@ -1,5 +1,6 @@
 import request from "@/utils/request";
 import type { Role } from "@/types/role";
+import logger from "@/utils/logger";
 import {
   getUserRoles,
   getUserMenus,
@@ -153,6 +154,6 @@ export interface AssignRolesDto {
 }
 
 export function assignUserRoles(userId: string, data: AssignRolesDto) {
-  console.warn("assignUserRoles 已废弃，请使用 assignRolesToUser 代替");
+  logger.warn("assignUserRoles 已废弃，请使用 assignRolesToUser 代替");
   return assignRolesToUser(userId, data.roleIds);
 }
