@@ -101,7 +101,7 @@ export class SubmissionsApi {
     console.log("📤 提交参数:", params);
 
     const result = await request<SubmitAssignmentResponse>({
-      url: "/students/submissions/submit",
+      url: "/v1/students/submissions/submit",
       method: "POST",
       data: params,
     });
@@ -122,7 +122,7 @@ export class SubmissionsApi {
     );
 
     const result = await request<MySubmissionDetail>({
-      url: `/students/submissions/my/${assignmentId}`,
+      url: `/v1/students/submissions/my/${assignmentId}`,
       method: "GET",
     });
 
@@ -137,7 +137,7 @@ export class SubmissionsApi {
    */
   static async deleteSubmission(params: DeleteSubmissionParams) {
     return request<{ success: boolean; message: string; resourceId: string }>({
-      url: "/students/submissions/delete",
+      url: "/v1/students/submissions/delete",
       method: "POST",
       data: params,
     });

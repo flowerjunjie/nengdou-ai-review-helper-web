@@ -14,7 +14,7 @@ import type {
  */
 export const login = (credentials: { email: string; password: string }) => {
   return request({
-    url: "/auth/login",
+    url: "/v1/auth/login",
     method: "post",
     data: credentials,
   });
@@ -31,7 +31,7 @@ export const register = (userData: {
   password: string;
 }) => {
   return request({
-    url: "/auth/register",
+    url: "/v1/auth/register",
     method: "post",
     data: userData,
   });
@@ -130,7 +130,7 @@ export const updateUserPassword = (
   data: { oldPassword: string; newPassword: string }
 ): Promise<{ success: boolean; message: string }> => {
   return request({
-    url: `/users/${userId}/password`,
+    url: `/v1/users/${userId}/password`,
     method: "patch",
     data,
   });
@@ -177,7 +177,7 @@ export const deleteUser = (
   id: string
 ): Promise<{ success: boolean; message: string }> => {
   return request({
-    url: `/users/${id}`,
+    url: `/v1/users/${id}`,
     method: "delete",
   });
 };
@@ -195,7 +195,7 @@ export const resetUserPassword = (
   const data = newPassword ? { newPassword } : {};
 
   return request({
-    url: `/users/${userId}/reset-password`,
+    url: `/v1/users/${userId}/reset-password`,
     method: "post",
     data,
   });

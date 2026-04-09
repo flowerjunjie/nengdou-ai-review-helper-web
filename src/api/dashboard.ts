@@ -165,7 +165,7 @@ export function getAdminOverview(
 ): Promise<AdminOverviewResponse> {
   const params = refresh ? { refresh: true } : {};
   return request({
-    url: "/admin/dashboard/overview",
+    url: "/v1/admin/dashboard/overview",
     method: "get",
     params,
   });
@@ -179,7 +179,7 @@ export function getAiModelStats(
 ): Promise<AiModelStatsResponse> {
   const params = refresh ? { refresh: true } : {};
   return request({
-    url: "/admin/dashboard/ai-models",
+    url: "/v1/admin/dashboard/ai-models",
     method: "get",
     params,
   });
@@ -190,7 +190,7 @@ export function getAiModelStats(
  */
 export function getRecentUsers(limit = 10): Promise<RecentUsersResponse> {
   return request({
-    url: "/admin/dashboard/recent-users",
+    url: "/v1/admin/dashboard/recent-users",
     method: "get",
     params: { limit },
   });
@@ -204,7 +204,7 @@ export function getTeacherStats(
 ): Promise<TeacherStatsResponse> {
   const params = refresh ? { refresh: true } : {};
   return request({
-    url: "/teacher/dashboard/stats",
+    url: "/v1/teacher/dashboard/stats",
     method: "get",
     params,
   });
@@ -215,7 +215,7 @@ export function getTeacherStats(
  */
 export function getTeacherPendingTasks(): Promise<TeacherPendingTasksResponse> {
   return request({
-    url: "/teacher/dashboard/pending-tasks",
+    url: "/v1/teacher/dashboard/pending-tasks",
     method: "get",
   });
 }
@@ -228,7 +228,7 @@ export function getStudentStats(
 ): Promise<StudentStatsResponse> {
   const params = refresh ? { refresh: true } : {};
   return request({
-    url: "/student/dashboard/stats",
+    url: "/v1/student/dashboard/stats",
     method: "get",
     params,
   });
@@ -239,7 +239,7 @@ export function getStudentStats(
  */
 export function getTeacherPerformanceSummary(): Promise<any> {
   return request({
-    url: "/teacher/dashboard/performance-summary",
+    url: "/v1/teacher/dashboard/performance-summary",
     method: "get",
   });
 }
@@ -249,7 +249,7 @@ export function getTeacherPerformanceSummary(): Promise<any> {
  */
 export function getTeacherQuickActions(): Promise<any> {
   return request({
-    url: "/teacher/dashboard/quick-actions",
+    url: "/v1/teacher/dashboard/quick-actions",
     method: "get",
   });
 }
@@ -259,7 +259,7 @@ export function getTeacherQuickActions(): Promise<any> {
  */
 export function getStudentLearningProgress(): Promise<any> {
   return request({
-    url: "/student/dashboard/learning-progress",
+    url: "/v1/student/dashboard/learning-progress",
     method: "get",
   });
 }
@@ -269,7 +269,7 @@ export function getStudentLearningProgress(): Promise<any> {
  */
 export function getStudentAchievements(): Promise<any> {
   return request({
-    url: "/student/dashboard/achievements",
+    url: "/v1/student/dashboard/achievements",
     method: "get",
   });
 }
@@ -279,7 +279,7 @@ export function getStudentAchievements(): Promise<any> {
  */
 export function getStudentStudyRecommendations(): Promise<any> {
   return request({
-    url: "/student/dashboard/study-recommendations",
+    url: "/v1/student/dashboard/study-recommendations",
     method: "get",
   });
 }
@@ -289,7 +289,7 @@ export function getStudentStudyRecommendations(): Promise<any> {
  */
 export function getSystemHealth(): Promise<any> {
   return request({
-    url: "/admin/dashboard/health",
+    url: "/v1/admin/dashboard/health",
     method: "get",
   });
 }

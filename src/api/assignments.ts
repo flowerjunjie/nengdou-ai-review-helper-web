@@ -134,7 +134,7 @@ export function getAssignmentList(
   params: AssignmentQueryParams
 ): Promise<AssignmentListResponse> {
   return request({
-    url: "/teacher/assignments",
+    url: "/v1/teacher/assignments",
     method: "get",
     params,
   });
@@ -145,7 +145,7 @@ export function getAssignmentList(
  */
 export function getAssignmentDetail(id: string): Promise<AssignmentDetail> {
   return request({
-    url: `/teacher/assignments/${id}`,
+    url: `/v1/teacher/assignments/${id}`,
     method: "get",
   });
 }
@@ -158,7 +158,7 @@ export function getAssignmentStudents(
   params?: AssignmentSubmissionsQueryParams
 ): Promise<any> {
   return request({
-    url: `/teacher/assignments/${id}/students`,
+    url: `/v1/teacher/assignments/${id}/students`,
     method: "get",
     params,
   });
@@ -171,7 +171,7 @@ export function createAssignment(
   params: CreateAssignmentParams
 ): Promise<Assignment> {
   return request({
-    url: "/teacher/assignments",
+    url: "/v1/teacher/assignments",
     method: "post",
     data: params,
   });
@@ -185,7 +185,7 @@ export function updateAssignment(
   params: UpdateAssignmentParams
 ): Promise<Assignment> {
   return request({
-    url: `/teacher/assignments/${id}/update`,
+    url: `/v1/teacher/assignments/${id}/update`,
     method: "post",
     data: params,
   });
@@ -196,7 +196,7 @@ export function updateAssignment(
  */
 export function publishAssignment(id: string): Promise<Assignment> {
   return request({
-    url: `/teacher/assignments/${id}/status`,
+    url: `/v1/teacher/assignments/${id}/status`,
     method: "post",
     data: { status: AssignmentStatus.PUBLISHED },
   });
@@ -210,7 +210,7 @@ export function terminateAssignment(
   reason?: string
 ): Promise<Assignment> {
   return request({
-    url: `/teacher/assignments/${id}/status`,
+    url: `/v1/teacher/assignments/${id}/status`,
     method: "post",
     data: {
       status: AssignmentStatus.TERMINATED,
@@ -224,7 +224,7 @@ export function terminateAssignment(
  */
 export function deleteAssignment(id: string): Promise<void> {
   return request({
-    url: `/teacher/assignments/${id}/delete`,
+    url: `/v1/teacher/assignments/${id}/delete`,
     method: "post",
   });
 }
@@ -234,7 +234,7 @@ export function deleteAssignment(id: string): Promise<void> {
  */
 export function getMyAssignments(params?: any): Promise<any> {
   return request({
-    url: "/student/assignments",
+    url: "/v1/student/assignments",
     method: "get",
     params,
   });
@@ -245,7 +245,7 @@ export function getMyAssignments(params?: any): Promise<any> {
  */
 export function getMyAssignmentStatistics(classId?: string): Promise<any> {
   return request({
-    url: "/student/assignments/statistics",
+    url: "/v1/student/assignments/statistics",
     method: "get",
     params: classId ? { classId } : undefined,
   });
@@ -259,7 +259,7 @@ export function getStudentAssignment(
   classId?: string
 ): Promise<any> {
   return request({
-    url: `/student/assignments/${assignmentId}`,
+    url: `/v1/student/assignments/${assignmentId}`,
     method: "get",
     params: classId ? { classId } : undefined,
   });

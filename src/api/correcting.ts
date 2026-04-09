@@ -51,7 +51,7 @@ export function getSubmissionList(
   params: SubmissionQueryParams
 ): Promise<SubmissionListResponse> {
   return request({
-    url: "/teachers/submissions/list",
+    url: "/v1/teachers/submissions/list",
     method: "get",
     params,
   });
@@ -64,7 +64,7 @@ export function getSubmissionDetail(
   submissionId: string
 ): Promise<SubmissionRecord> {
   return request({
-    url: `/teachers/submissions/detail/${submissionId}`,
+    url: `/v1/teachers/submissions/detail/${submissionId}`,
     method: "get",
   });
 }
@@ -78,7 +78,7 @@ export function submitTeacherReview(params: {
   teacherScore: number;
 }): Promise<any> {
   return request({
-    url: "/teachers/submissions/review",
+    url: "/v1/teachers/submissions/review",
     method: "post",
     data: params,
   });
