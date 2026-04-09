@@ -12,6 +12,7 @@ import { AiModelsModule } from './modules/ai-models/ai-models.module';
 import { AiGradingModule } from './modules/ai-grading/ai-grading.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { LogsModule } from './modules/logs/logs.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     AiGradingModule,
     PermissionsModule,
     DashboardModule,
+    LogsModule,
   ],
 })
 export class AppModule {}

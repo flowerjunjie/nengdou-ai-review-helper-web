@@ -68,4 +68,10 @@ export class ClassesController {
   async joinClass(@Body('code') code: string, @CurrentUser() user: any) {
     return this.classesService.joinClass(code, user._id);
   }
+
+  @Post(':id/leave')
+  @Roles('student')
+  async leaveClass(@Param('id') classId: string, @CurrentUser() user: any) {
+    return this.classesService.leaveClass(classId, user._id);
+  }
 }

@@ -154,4 +154,20 @@ export class ClassesService {
     );
     return { message: '状态更新成功' };
   }
+
+  async leaveClass(classId: string, studentId: string) {
+    const classStudent = await this.classStudentModel.findOne({
+      classId: new Types.ObjectId(classId),
+      studentId: new Types.ObjectId(studentId),
+    });
+
+    if (!classStudent) {
+      throw new NotFoundException('未找到该学生的班级关系');
+    }
+
+    await classStudent.deleteOne();
+    await this.classModel.findByIdAndUpdate(classId, { $inc: { studentCount: -1 } });
+
+    return { message: '退出成功' };
+  }
 }
