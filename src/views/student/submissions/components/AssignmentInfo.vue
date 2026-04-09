@@ -7,7 +7,7 @@
             ref="descriptionRef"
             class="prose max-w-none text-gray-700 transition-all duration-300"
             :class="{ 'line-clamp-3': !isExpanded && shouldShowToggle }"
-            v-html="assignment.description"
+            v-html="sanitizeDescription(assignment.description)"
           ></div>
 
           <!-- 展开/收起按钮 - 放在内容底部 -->
@@ -62,6 +62,7 @@ import {
 } from "@element-plus/icons-vue";
 import type { Assignment, Submission } from "../../../../api/submissions";
 import { useSubmissionUtils } from "../composables";
+import { sanitizeDescription } from "@/utils/sanitize";
 
 interface Props {
   assignment: Assignment;

@@ -71,7 +71,7 @@
         <h4 class="text-base font-medium text-gray-900 mb-3">当前作业内容</h4>
         <div
           class="prose max-w-none text-gray-700 p-4 bg-gray-50 rounded-lg border"
-          v-html="submission.content"
+          v-html="sanitizeDescription(submission.content)"
         ></div>
       </div>
     </div>
@@ -82,6 +82,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import type { Submission } from "../../../../api/submissions";
 import { useSubmissionUtils } from "../composables";
+import { sanitizeDescription } from "@/utils/sanitize";
 
 interface Props {
   submission?: Submission | null;

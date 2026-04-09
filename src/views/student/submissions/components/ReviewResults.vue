@@ -206,6 +206,7 @@ import {
 import type { AiReview, TeacherReview } from "../../../../api/submissions";
 import { useSubmissionUtils } from "../composables";
 import { checkAiSupport } from "../../../../config/ai-config";
+import { sanitizeAiReview } from "@/utils/sanitize";
 
 interface Props {
   aiReview?: AiReview | null;
@@ -298,10 +299,13 @@ const formatReviewContent = (content: string) => {
   if (!content) return "";
 
   // 将换行符转换为HTML换行
-  return content
+  const html = content
     .replace(/\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // 加粗
     .replace(/\*(.*?)\*/g, "<em>$1</em>"); // 斜体
+
+  // Sanitize HTML to prevent XSS attacks
+  return sanitizeAiReview(html);
 };
 
 defineOptions({

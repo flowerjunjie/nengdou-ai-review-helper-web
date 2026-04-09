@@ -15,7 +15,7 @@
         <h4 class="font-medium text-gray-900 mb-2">作业内容：</h4>
         <div
           class="prose max-w-none bg-gray-50 p-4 rounded-md"
-          v-html="submission?.content"
+          v-html="sanitizeDescription(submission?.content || '')"
         ></div>
       </div>
 
@@ -47,6 +47,7 @@
 import { Paperclip } from "@element-plus/icons-vue";
 import type { Submission } from "../../../../api/submissions";
 import { useSubmissionUtils } from "../composables";
+import { sanitizeDescription } from "@/utils/sanitize";
 
 interface Props {
   submission?: Submission | null;
