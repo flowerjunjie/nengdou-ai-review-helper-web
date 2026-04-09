@@ -83,6 +83,7 @@ import type {
   AssignmentSubmissionsQueryParams,
   AssignmentDetail,
 } from "@/api/assignments";
+import logger from "@/utils/logger";
 
 // 路由
 const route = useRoute();
@@ -120,7 +121,7 @@ const loadAssignmentDetail = async () => {
   try {
     assignmentDetail.value = await getAssignmentDetail(assignmentId.value);
   } catch (error) {
-    console.error("加载作业详情失败", error);
+    logger.error("加载作业详情失败", error);
     ElMessage.error("加载作业详情失败");
   }
 };
@@ -146,7 +147,7 @@ const loadSubmissionData = async (searchParams?: any) => {
       pagination.total = 0;
     }
   } catch (error) {
-    console.error("加载学生提交数据失败", error);
+    logger.error("加载学生提交数据失败", error);
     ElMessage.error("加载学生提交列表失败");
   } finally {
     loading.value = false;
@@ -216,7 +217,7 @@ const handlePublish = async () => {
     await loadAssignmentDetail();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("发布作业失败", error);
+      logger.error("发布作业失败", error);
       ElMessage.error("发布作业失败");
     }
   }
@@ -240,7 +241,7 @@ const handleTerminate = async () => {
     await loadAssignmentDetail();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("终止作业失败", error);
+      logger.error("终止作业失败", error);
       ElMessage.error("终止作业失败");
     }
   }

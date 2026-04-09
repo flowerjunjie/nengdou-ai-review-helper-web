@@ -100,6 +100,7 @@ import ClassInfoCard from "./components/ClassInfoCard.vue";
 import StudentList from "./components/StudentList.vue";
 import AssignmentManagement from "./components/AssignmentManagement.vue";
 import CreateClassDialog from "../components/CreateClassDialog.vue";
+import logger from "@/utils/logger";
 
 const route = useRoute();
 const router = useRouter();
@@ -139,7 +140,7 @@ const loadClassDetail = async () => {
     classDetail.value = classData;
     studentCount.value = classData.studentCount || 0;
   } catch (error) {
-    console.error("加载班级详情失败:", error);
+    logger.error("加载班级详情失败:", error);
     // ElMessage.error('加载班级详情失败')
 
     // 清除message所有弹框
@@ -181,7 +182,7 @@ const handleDisbandClass = async () => {
     router.push("/teacher/classes");
   } catch (error) {
     if (error !== "cancel") {
-      console.error("解散班级失败:", error);
+      logger.error("解散班级失败:", error);
       ElMessage.error("解散班级失败");
     }
   }
@@ -206,7 +207,7 @@ const handleRegenerateCode = async () => {
     loadClassDetail();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("刷新邀请码失败:", error);
+      logger.error("刷新邀请码失败:", error);
       ElMessage.error("刷新邀请码失败");
     }
   }
@@ -228,7 +229,7 @@ const handleStudentCountChange = (count: number) => {
 
 // 处理作业数量变化
 const handleAssignmentCountChange = (count: number) => {
-  console.log("作业数量变化:", count);
+  logger.log("作业数量变化:", count);
 
   assignmentCount.value = count;
 };
