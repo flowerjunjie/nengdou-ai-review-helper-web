@@ -247,6 +247,7 @@ import {
 import type { Assignment, AssignmentQueryParams } from "@/types/assignments";
 import moment from "moment";
 import { sanitizeDescription } from "@/utils/sanitize";
+import logger from "@/utils/logger";
 
 interface Props {
   classId: string;
@@ -310,7 +311,7 @@ const loadAssignments = async () => {
     pagination.total = filteredAssignments.length;
     emit("assignmentCountChange", filteredAssignments.length);
   } catch (error) {
-    console.error("加载作业列表失败:", error);
+    logger.error("加载作业列表失败:", error);
     ElMessage.error("加载作业列表失败");
   } finally {
     loading.value = false;
@@ -430,7 +431,7 @@ const handlePublishAssignment = async (assignment: Assignment) => {
     loadAssignments();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("发布作业失败:", error);
+      logger.error("发布作业失败:", error);
       ElMessage.error("发布作业失败");
     }
   }
@@ -458,7 +459,7 @@ const handleTerminateAssignment = async (assignment: Assignment) => {
     loadAssignments();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("终止作业失败:", error);
+      logger.error("终止作业失败:", error);
       ElMessage.error("终止作业失败");
     }
   }
@@ -482,7 +483,7 @@ const handleDeleteAssignment = async (assignment: Assignment) => {
     loadAssignments();
   } catch (error: any) {
     if (error !== "cancel") {
-      console.error("删除作业失败:", error);
+      logger.error("删除作业失败:", error);
       ElMessage.error("删除作业失败");
     }
   }

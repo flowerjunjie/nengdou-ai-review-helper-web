@@ -251,6 +251,7 @@ import type {
   UpdateStudentStatusParams,
 } from "@/types/classes";
 import AddStudentDialog from "./AddStudentDialog.vue";
+import logger from "@/utils/logger";
 
 interface Props {
   classId: string;
@@ -312,7 +313,7 @@ const loadStudentList = async () => {
     // 通知父组件学生数量变化
     emit("student-count-change", response.total);
   } catch (error) {
-    console.error("加载学生列表失败:", error);
+    logger.error("加载学生列表失败:", error);
     ElMessage.error("加载学生列表失败");
   } finally {
     loading.value = false;
@@ -373,7 +374,7 @@ const handleUpdateStatus = async (
     ElMessage.success("学生状态更新成功");
     loadStudentList();
   } catch (error) {
-    console.error("更新学生状态失败:", error);
+    logger.error("更新学生状态失败:", error);
     ElMessage.error("更新学生状态失败");
   }
 };
@@ -401,7 +402,7 @@ const handleRemove = async (studentIds: string[]) => {
     loadStudentList();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("移除学生失败:", error);
+      logger.error("移除学生失败:", error);
       ElMessage.error("移除学生失败");
     }
   }
