@@ -10,6 +10,7 @@ import type {
   StudentStatsResponse,
   AiModelStatsResponse,
 } from "@/api/dashboard";
+import logger from "@/utils/logger";
 
 // Dashboard Vuex 模块
 const dashboardModule = {
@@ -139,7 +140,7 @@ const dashboardModule = {
           error.message ||
           "获取管理员看板数据失败";
         commit("SET_ADMIN_ERROR", errorMessage);
-        console.error("获取管理员看板数据失败:", error);
+        logger.error("获取管理员看板数据失败:", error);
         throw error;
       } finally {
         commit("SET_ADMIN_LOADING", false);
@@ -158,7 +159,7 @@ const dashboardModule = {
           error.message ||
           "获取AI模型统计失败";
         commit("SET_AI_MODEL_ERROR", errorMessage);
-        console.error("获取AI模型统计失败:", error);
+        logger.error("获取AI模型统计失败:", error);
         throw error;
       } finally {
         commit("SET_AI_MODEL_LOADING", false);
@@ -177,7 +178,7 @@ const dashboardModule = {
           error.message ||
           "获取教师看板数据失败";
         commit("SET_TEACHER_ERROR", errorMessage);
-        console.error("获取教师看板数据失败:", error);
+        logger.error("获取教师看板数据失败:", error);
         throw error;
       } finally {
         commit("SET_TEACHER_LOADING", false);
@@ -196,7 +197,7 @@ const dashboardModule = {
           error.message ||
           "获取学生看板数据失败";
         commit("SET_STUDENT_ERROR", errorMessage);
-        console.error("获取学生看板数据失败:", error);
+        logger.error("获取学生看板数据失败:", error);
         throw error;
       } finally {
         commit("SET_STUDENT_LOADING", false);

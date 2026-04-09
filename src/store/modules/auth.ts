@@ -1,5 +1,6 @@
 import { getUserResources } from "../../api/user-role";
 import store from "../../store";
+import logger from "@/utils/logger";
 
 /**
  * Auth模块 - 负责菜单、路由和权限管理
@@ -88,7 +89,7 @@ export const auth = {
 
         return true;
       } catch (error) {
-        console.error("初始化数据失败:", error);
+        logger.error("初始化数据失败:", error);
         throw error;
       }
     },
@@ -105,7 +106,7 @@ export const auth = {
 
         return { roles, permissions, menus };
       } catch (error) {
-        console.error("获取用户资源失败:", error);
+        logger.error("获取用户资源失败:", error);
         throw error;
       }
     },
@@ -115,7 +116,7 @@ export const auth = {
      * 用于登出或切换用户时清理状态
      */
     clearPermissions({ commit }) {
-      console.log("clearPermissions");
+      logger.log("clearPermissions");
       commit("CLEAR_AUTH_STATE");
     },
   },

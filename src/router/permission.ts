@@ -9,6 +9,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import type { UserMenu } from "@/types/role";
 import AppLayout from "@/layouts/index.vue";
+import logger from "@/utils/logger";
 
 // NProgress配置 - 不显示加载圈
 NProgress.configure({ showSpinner: false });
@@ -109,7 +110,7 @@ async function loadDynamicRoutes(
     // 重新导航到目标页面（替换浏览器历史记录）
     next({ ...to, replace: true });
   } catch (error) {
-    console.error("生成动态路由失败:", error);
+    logger.error("生成动态路由失败:", error);
     // 出错时清除token
     localStorage.removeItem("token");
   } finally {
@@ -213,7 +214,7 @@ function loadComponent(componentPath: string) {
         const module = await componentModules[modulePath]();
         return module;
       } else {
-        console.error(`组件不存在: ${componentPath} -> ${cleanComponentPath}`);
+        logger.error(`组件不存在: ${componentPath} -> ${cleanComponentPath}`);
 
         // 如果组件不存在，尝试加载NotFound页面
         if (componentModules["../views/NotFound.vue"]) {
@@ -236,7 +237,7 @@ function loadComponent(componentPath: string) {
         }
       }
     } catch (error) {
-      console.error(`组件加载失败: ${componentPath} -> ${cleanComponentPath}`, error);
+      logger.error(`组件加载失败: ${componentPath} -> ${cleanComponentPath}`, error);
 
       // 加载失败时的备用方案
       return {

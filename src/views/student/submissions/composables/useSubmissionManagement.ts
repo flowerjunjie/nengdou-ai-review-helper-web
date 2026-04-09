@@ -200,7 +200,7 @@ export function useSubmissionManagement() {
       logger.log("📥 查询到的作业数据:", data);
       submissionData.value = data;
     } catch (error) {
-      console.error("❌ 加载作业数据失败:", error);
+      logger.error("❌ 加载作业数据失败:", error);
       ElMessage.error("加载作业数据失败");
     } finally {
       loading.value = false;
@@ -308,7 +308,7 @@ export function useSubmissionManagement() {
       checkAndStartPolling();
     } catch (error: any) {
       if (error !== "cancel") {
-        console.error("提交作业失败:", error);
+        logger.error("提交作业失败:", error);
         ElMessage.error(error.message || "提交作业失败");
       }
     } finally {
@@ -358,7 +358,7 @@ export function useSubmissionManagement() {
       logger.log("🔄 开始重新加载数据...");
       await loadData();
     } catch (error: any) {
-      console.error("❌ 保存草稿失败:", error);
+      logger.error("❌ 保存草稿失败:", error);
       ElMessage.error(error.message || "保存草稿失败");
     } finally {
       saving.value = false;
@@ -392,7 +392,7 @@ export function useSubmissionManagement() {
       await loadData();
     } catch (error: any) {
       if (error !== "cancel") {
-        console.error("删除草稿失败:", error);
+        logger.error("删除草稿失败:", error);
         ElMessage.error(error.message || "删除草稿失败");
       }
     } finally {

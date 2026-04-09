@@ -146,7 +146,7 @@ export function useAiReviewPolling() {
         const interval = getPollingInterval(pollingCount.value);
         pollingTimer = setTimeout(poll, interval);
       } catch (error) {
-        console.error("❌ 轮询过程中发生错误:", error);
+        logger.error("❌ 轮询过程中发生错误:", error);
         // 出错时也要继续轮询，但延长间隔
         const interval = Math.max(
           getPollingInterval(pollingCount.value) * 2,
