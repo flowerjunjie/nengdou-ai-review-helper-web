@@ -86,11 +86,7 @@
           <div v-else class="no-review-content">
             <div class="ai-empty-state">
               <div class="ai-loading-container large">
-                <img
-                  src="@/assets/image/ai_loading.gif"
-                  alt="AI正在批改"
-                  class="ai-loading-gif large"
-                />
+                <div class="ai-loading-spinner large"></div>
               </div>
               <div class="empty-description">
                 <h4 class="text-gray-700 mb-2 text-lg">🤖 AI智能评价中</h4>
@@ -515,11 +511,17 @@ defineOptions({
   background: rgba(59, 130, 246, 0.1);
 }
 
-.ai-loading-gif.large {
+.ai-loading-spinner.large {
   width: 64px;
   height: 64px;
-  border-radius: 12px;
-  object-fit: cover;
+  border: 5px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #409EFF;
+  border-radius: 50%;
+  animation: ai-spin 1s linear infinite;
+}
+
+@keyframes ai-spin {
+  to { transform: rotate(360deg); }
 }
 
 .ai-empty-state {

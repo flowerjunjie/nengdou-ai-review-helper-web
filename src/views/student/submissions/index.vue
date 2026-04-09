@@ -164,11 +164,7 @@
               <div class="ai-processing-content">
                 <div class="processing-animation">
                   <div class="ai-loading-main">
-                    <img
-                      src="@/assets/image/ai_loading.gif"
-                      alt="AI正在批改"
-                      class="ai-loading-gif-large"
-                    />
+                    <div class="ai-loading-spinner"></div>
                   </div>
                 </div>
                 <h3 class="processing-title">🤖 AI智能批改中</h3>
@@ -848,23 +844,17 @@ onUnmounted(() => {
   box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
 }
 
-.ai-loading-gif-large {
-  width: 230px;
-  height: 230px;
+.ai-loading-spinner {
+  width: 120px;
+  height: 120px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
   border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  animation: aiGifPulse 2s ease-in-out infinite;
+  animation: ai-spin 1s linear infinite;
 }
 
-@keyframes aiGifPulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+@keyframes ai-spin {
+  to { transform: rotate(360deg); }
 }
 
 .processing-icon {
