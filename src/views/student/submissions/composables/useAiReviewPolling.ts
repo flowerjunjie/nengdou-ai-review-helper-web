@@ -1,6 +1,7 @@
 import { ref, onUnmounted } from "vue";
 import { ElNotification } from "element-plus";
 import { checkAiSupport } from "@/config/ai-config";
+import logger from "@/utils/logger";
 
 /**
  * AI评价轮询组合式函数
@@ -42,13 +43,13 @@ export function useAiReviewPolling() {
   ): boolean => {
     // 如果已经有AI评价结果，停止轮询
     if (hasAiReview) {
-      console.log("🛑 停止轮询：AI评价已完成");
+      logger.log("🛑 停止轮询：AI评价已完成");
       return false;
     }
 
     // 如果状态不是submitted，停止轮询
     if (submissionStatus !== "submitted") {
-      console.log("🛑 停止轮询：提交状态变更为", submissionStatus);
+      logger.log("🛑 停止轮询：提交状态变更为", submissionStatus);
       return false;
     }
 
@@ -58,7 +59,7 @@ export function useAiReviewPolling() {
         const aiSupport = checkAiSupport(assignment);
 
         if (!aiSupport.supported) {
-          console.log("🛑 停止轮询：", aiSupport.reason);
+          logger.log("🛑 停止轮询：", aiSupport.reason);
           return false;
         }
       } catch (error) {
@@ -68,7 +69,7 @@ export function useAiReviewPolling() {
 
     // 如果轮询次数超过最大值，停止轮询
     if (pollingCount.value >= maxCount) {
-      console.log("🛑 停止轮询：达到最大轮询次数", maxCount);
+      logger.log("🛑 停止轮询：达到最大轮询次数", maxCount);
       return false;
     }
 
@@ -94,7 +95,7 @@ export function useAiReviewPolling() {
       stopPolling();
     }
 
-    console.log("🔄 开始AI评价轮询...");
+    logger.log("🔄 开始AI评价轮询...");
     isPolling.value = true;
     pollingCount.value = 0;
 
@@ -108,7 +109,7 @@ export function useAiReviewPolling() {
           getCurrentStatus();
 
         pollingCount.value++;
-        console.log(
+        logger.log(
           `🔄 轮询第${pollingCount.value}次，状态: ${status}, AI评价: ${
             hasAiReview ? "已完成" : "进行中"
           }, AI错误: ${hasAiError ? "有错误" : "无错误"}`
@@ -116,7 +117,7 @@ export function useAiReviewPolling() {
 
         // 🔥 优先检查AI错误状态
         if (hasAiError) {
-          console.log("❌ 检测到AI评价失败，停止轮询");
+          logger.log("❌ 检测到AI评价失败，停止轮询");
           stopPolling();
           return;
         }
@@ -132,9 +133,9 @@ export function useAiReviewPolling() {
               duration: 5000,
               position: "top-right",
             });
-            console.log("✅ AI评价完成，停止轮询");
+            logger.log("✅ AI评价完成，停止轮询");
           } else {
-            console.log("⏹️ 轮询条件不满足，停止轮询");
+            logger.log("⏹️ 轮询条件不满足，停止轮询");
           }
 
           stopPolling();
@@ -169,7 +170,7 @@ export function useAiReviewPolling() {
     }
     isPolling.value = false;
     pollingCount.value = 0;
-    console.log("⏹️ AI评价轮询已停止");
+    logger.log("⏹️ AI评价轮询已停止");
   };
 
   /**
@@ -184,14 +185,14 @@ export function useAiReviewPolling() {
       if (document.hidden) {
         // 页面不可见，暂停轮询
         if (isPolling.value) {
-          console.log("👁️ 页面不可见，暂停轮询");
+          logger.log("👁️ 页面不可见，暂停轮询");
           stopPolling();
         }
       } else {
         // 页面可见，检查是否需要恢复轮询
         const { status, hasAiReview } = getCurrentStatus();
         if (shouldContinuePolling(status, hasAiReview)) {
-          console.log("👁️ 页面可见，恢复轮询");
+          logger.log("👁️ 页面可见，恢复轮询");
           startPolling(loadDataFn, getCurrentStatus);
         }
       }

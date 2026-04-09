@@ -4,6 +4,7 @@ import { ElMessage, ElMessageBox, ElLoading } from "element-plus";
 import router from "@/router";
 import store from "@/store";
 import { getAuthConfig } from "./auth-codes";
+import logger from "./logger";
 
 // 创建axios实例
 const service = axios.create({
@@ -76,12 +77,12 @@ service.interceptors.request.use(
           config.headers["Authorization"] = `Bearer ${token}`;
         } else {
           // token包含非法字符，移除它并触发重新登录
-          console.error("Invalid token format detected, removing token");
+          logger.error("Invalid token format detected, removing token");
           store.dispatch("auth/clearPermissions", null, { root: true });
           // 注意：这里不直接跳转，避免中断当前请求
         }
       } catch (e) {
-        console.error("Error processing token:", e);
+        logger.error("Error processing token:", e);
         // 出错时清除token
         store.dispatch("auth/clearPermissions", null, { root: true });
       }
@@ -113,7 +114,7 @@ service.interceptors.response.use(
     ) {
       // 处理401错误和认证相关错误码（移除10001登录失败、10005账户禁用、10014用户未激活，它们现在通过HTTP状态码处理）
 
-      console.log("处理401错误和认证相关错误码", res);
+      logger.log("处理401错误和认证相关错误码", res);
       const errorMsg = res.message || "未授权，请重新登录";
       const errorCode = res.code || res.errorCode;
       handleAuthError(errorMsg, errorCode);
@@ -129,7 +130,7 @@ service.interceptors.response.use(
   // 错误响应处理
   async (error: AxiosError) => {
     const originalRequest = error.config as any;
-    console.log("处理HTTP状态码", error.response?.status, originalRequest?.url);
+    logger.log("处理HTTP状态码", error.response?.status, originalRequest?.url);
     
     // 处理HTTP 403状态码（用户被禁用等权限问题）
     if (error.response?.status === 403) {
@@ -150,7 +151,7 @@ service.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       // 如果是刷新token接口本身返回401，直接处理认证错误，不要重试
       if (originalRequest.url?.includes("/auth/refresh-token")) {
-        console.log("刷新token接口返回401，停止重试");
+        logger.log("刷新token接口返回401，停止重试");
         // 提取错误信息
         let errorMessage = "登录会话已过期，请重新登录";
         let errorCode = 10012;
@@ -186,13 +187,13 @@ service.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        console.log("尝试刷新token");
+        logger.log("尝试刷新token");
         // 尝试刷新token
         await store.dispatch("user/refreshToken");
         const newToken = localStorage.getItem("token");
 
         if (newToken) {
-          console.log("刷新token成功");
+          logger.log("刷新token成功");
           // 刷新成功，处理队列中的请求
           processQueue(null, newToken);
           currentRequest.headers["Authorization"] = `Bearer ${newToken}`;
@@ -201,7 +202,7 @@ service.interceptors.response.use(
           throw new Error("刷新后未获取到新token");
         }
       } catch (refreshError: any) {
-        console.log("刷新token失败", refreshError);
+        logger.log("刷新token失败", refreshError);
         // 刷新失败，处理队列并跳转登录
         processQueue(refreshError, null);
 
@@ -245,11 +246,11 @@ service.interceptors.response.use(
  * @param code 错误码
  */
 function handleAuthError(message: string, code?: string | number) {
-  console.log("handleAuthError 被调用:", { message, code, isHandling401 });
+  logger.log("handleAuthError 被调用:", { message, code, isHandling401 });
 
   // 如果已经在处理401错误，不再重复处理
   if (isHandling401) {
-    console.log("已在处理401错误，跳过");
+    logger.log("已在处理401错误，跳过");
     return;
   }
 
@@ -257,21 +258,21 @@ function handleAuthError(message: string, code?: string | number) {
 
   // 获取对应的认证配置
   const config = getAuthConfig(code);
-  console.log("认证错误配置:", config);
+  logger.log("认证错误配置:", config);
 
   ElMessageBox.confirm(config.message, config.title, {
     confirmButtonText: config.confirmButtonText,
     showCancelButton: config.showCancelButton,
     type: config.type,
   }).finally(() => {
-    console.log("弹框关闭，开始清理状态");
+    logger.log("弹框关闭，开始清理状态");
 
     // 清除登录状态
     try {
       store.dispatch("auth/clearPermissions", null, { root: true });
-      console.log("权限清理完成");
+      logger.log("权限清理完成");
     } catch (error) {
-      console.error("清理权限时出错:", error);
+      logger.error("清理权限时出错:", error);
     }
 
     // 如果需要重定向到登录页
@@ -295,7 +296,7 @@ function handleAuthError(message: string, code?: string | number) {
       const redirectUrl = `/login?redirect=${encodeURIComponent(
         getRedirectPath()
       )}`;
-      console.log("准备跳转到登录页:", redirectUrl);
+      logger.log("准备跳转到登录页:", redirectUrl);
 
       // 使用router跳转而不是window.location，避免白屏
       try {
@@ -304,7 +305,7 @@ function handleAuthError(message: string, code?: string | number) {
           router.push(redirectUrl);
         });
       } catch (routerError) {
-        console.error("使用router跳转失败，使用window.location:", routerError);
+        logger.error("使用router跳转失败，使用window.location:", routerError);
         window.location.href = redirectUrl;
       }
     }
@@ -312,7 +313,7 @@ function handleAuthError(message: string, code?: string | number) {
     // 延迟重置处理状态
     setTimeout(() => {
       isHandling401 = false;
-      console.log("401处理状态已重置");
+      logger.log("401处理状态已重置");
     }, 800);
   });
 }
@@ -384,7 +385,7 @@ export const downloadFile = async (
       }
     }
   } catch (error: any) {
-    console.error("文件下载错误:", error);
+    logger.error("文件下载错误:", error);
     ElMessage.error(error.message || "下载文件出现错误，请联系管理员");
   } finally {
     // 关闭loading

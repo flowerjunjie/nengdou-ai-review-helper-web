@@ -8,6 +8,7 @@ import SubmissionsApi, {
 } from "@/api/submissions";
 import { useAiReviewPolling } from "./useAiReviewPolling";
 import { checkAiSupport } from "@/config/ai-config";
+import logger from "@/utils/logger";
 
 export function useSubmissionManagement() {
   const route = useRoute();
@@ -33,7 +34,7 @@ export function useSubmissionManagement() {
   const assignmentId = computed(() => {
     const id = (route.query.assignmentId ||
       route.params.assignmentId) as string;
-    console.log("📍 当前路由信息:", {
+    logger.log("📍 当前路由信息:", {
       query: route.query,
       params: route.params,
       assignmentId: id,
@@ -43,7 +44,7 @@ export function useSubmissionManagement() {
 
   const classId = computed(() => {
     const id = (route.query.classId || route.params.classId) as string;
-    console.log("📍 当前班级ID:", id);
+    logger.log("📍 当前班级ID:", id);
     return id;
   });
 
@@ -189,14 +190,14 @@ export function useSubmissionManagement() {
 
     try {
       loading.value = true;
-      console.log(
+      logger.log(
         "🔍 开始查询作业数据，assignmentId:",
         assignmentId.value,
         "classId:",
         classId.value
       );
       const data = await SubmissionsApi.getMySubmission(assignmentId.value);
-      console.log("📥 查询到的作业数据:", data);
+      logger.log("📥 查询到的作业数据:", data);
       submissionData.value = data;
     } catch (error) {
       console.error("❌ 加载作业数据失败:", error);
@@ -211,17 +212,17 @@ export function useSubmissionManagement() {
     const { status, hasAiReview, hasAiError } = getCurrentStatus();
     const assignment = submissionData.value?.assignment;
 
-    console.log("🔍 检查轮询启动条件:");
-    console.log("  - 提交状态:", status);
-    console.log("  - AI评价状态:", hasAiReview ? "已完成" : "未完成");
-    console.log("  - AI错误状态:", hasAiError ? "有错误" : "无错误"); // 🔥 新增
-    console.log("  - 作业状态:", assignment?.status);
-    console.log("  - 作业截止时间:", assignment?.dueDate);
-    console.log("  - 当前时间:", new Date().toISOString());
+    logger.log("🔍 检查轮询启动条件:");
+    logger.log("  - 提交状态:", status);
+    logger.log("  - AI评价状态:", hasAiReview ? "已完成" : "未完成");
+    logger.log("  - AI错误状态:", hasAiError ? "有错误" : "无错误"); // 🔥 新增
+    logger.log("  - 作业状态:", assignment?.status);
+    logger.log("  - 作业截止时间:", assignment?.dueDate);
+    logger.log("  - 当前时间:", new Date().toISOString());
 
     // 🔥 如果有AI错误，立即停止轮询并显示错误信息
     if (hasAiError) {
-      console.log("❌ AI评价失败，停止轮询");
+      logger.log("❌ AI评价失败，停止轮询");
       const errorMessage =
         submissionData.value?.aiReview?.aiReviewMetadata?.error || "AI评价失败";
       ElMessage.error(`AI评价失败: ${errorMessage}`);
@@ -232,10 +233,10 @@ export function useSubmissionManagement() {
     const canAiReview = checkCanAiReview(assignment, status, hasAiReview);
 
     if (canAiReview.canReview) {
-      console.log("✅ 满足轮询条件，启动AI评价轮询...");
+      logger.log("✅ 满足轮询条件，启动AI评价轮询...");
       startPolling(loadData, getCurrentStatus);
     } else {
-      console.log("❌ 不满足轮询条件，原因:", canAiReview.reason);
+      logger.log("❌ 不满足轮询条件，原因:", canAiReview.reason);
     }
   };
 
@@ -346,15 +347,15 @@ export function useSubmissionManagement() {
         params.attachments = attachments;
       }
 
-      console.log("💾 开始保存草稿，参数:", params);
+      logger.log("💾 开始保存草稿，参数:", params);
       const result = await SubmissionsApi.submit(params);
-      console.log("✅ 草稿保存成功，响应:", result);
+      logger.log("✅ 草稿保存成功，响应:", result);
       ElMessage.success("草稿保存成功！");
 
       // 延迟一下再查询，确保数据已同步
-      console.log("🔄 延迟500ms后重新加载数据...");
+      logger.log("🔄 延迟500ms后重新加载数据...");
       await new Promise((resolve) => setTimeout(resolve, 500));
-      console.log("🔄 开始重新加载数据...");
+      logger.log("🔄 开始重新加载数据...");
       await loadData();
     } catch (error: any) {
       console.error("❌ 保存草稿失败:", error);

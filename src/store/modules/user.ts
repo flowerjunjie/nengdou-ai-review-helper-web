@@ -8,6 +8,7 @@ import {
 } from "../../api/auth";
 import router from "../../router";
 import { ElMessage } from "element-plus";
+import logger from "@/utils/logger";
 
 /**
  * 用户模块 - 负责用户信息和认证管理
@@ -164,7 +165,7 @@ const actions = {
     // 创建刷新Promise
     const refreshPromise = (async () => {
       try {
-        console.log(
+        logger.log(
           "开始刷新token，refreshToken:",
           refreshTokenValue.substring(0, 10) + "..."
         );
@@ -185,10 +186,10 @@ const actions = {
         commit("SET_USER_INFO", userInfo);
         localStorage.setItem("token", response.token);
 
-        console.log("token刷新成功");
+        logger.log("token刷新成功");
         return response;
       } catch (error) {
-        console.error("刷新token失败:", error);
+        logger.error("刷新token失败:", error);
 
         // 刷新失败时清除所有认证信息
         commit("SET_USER_INFO", null);

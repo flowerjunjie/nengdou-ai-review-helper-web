@@ -1,4 +1,5 @@
 import request from "@/utils/request";
+import logger from "@/utils/logger";
 
 // 附件接口
 export interface Attachment {
@@ -97,8 +98,8 @@ export class SubmissionsApi {
    * @returns 提交结果
    */
   static async submit(params: SubmitAssignmentParams) {
-    console.log("💾 发起提交请求，URL:", "/students/submissions/submit");
-    console.log("📤 提交参数:", params);
+    logger.log("💾 发起提交请求，URL:", "/students/submissions/submit");
+    logger.log("📤 提交参数:", params);
 
     const result = await request<SubmitAssignmentResponse>({
       url: "/v1/students/submissions/submit",
@@ -106,7 +107,7 @@ export class SubmissionsApi {
       data: params,
     });
 
-    console.log("✅ 提交响应结果:", result);
+    logger.log("✅ 提交响应结果:", result);
     return result;
   }
 
@@ -116,7 +117,7 @@ export class SubmissionsApi {
    * @returns 作业提交详情
    */
   static async getMySubmission(assignmentId: string) {
-    console.log(
+    logger.log(
       "🔍 发起查询请求，URL:",
       `/students/submissions/my/${assignmentId}`
     );
@@ -126,7 +127,7 @@ export class SubmissionsApi {
       method: "GET",
     });
 
-    console.log("📥 查询响应结果:", result);
+    logger.log("📥 查询响应结果:", result);
     return result;
   }
 
