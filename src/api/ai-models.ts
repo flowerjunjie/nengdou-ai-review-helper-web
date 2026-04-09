@@ -94,7 +94,7 @@ export const aiModelApi = {
    */
   getList(): Promise<AiModelListResponse> {
     return request({
-      url: "/admin/ai-models",
+      url: "/v1/admin/ai-models",
       method: "GET",
     });
   },
@@ -104,7 +104,7 @@ export const aiModelApi = {
    */
   getDetail(code: string): Promise<AiModel> {
     return request({
-      url: `/admin/ai-models/${code}`,
+      url: `/v1/admin/ai-models/${code}`,
       method: "GET",
     });
   },
@@ -114,7 +114,7 @@ export const aiModelApi = {
    */
   updateConfig(code: string, data: UpdateAiModelData): Promise<AiModel> {
     return request({
-      url: `/admin/ai-models/${code}`,
+      url: `/v1/admin/ai-models/${code}`,
       method: "PUT",
       data,
     });
@@ -125,7 +125,7 @@ export const aiModelApi = {
    */
   setDefault(code: string): Promise<SetDefaultResult> {
     return request({
-      url: `/admin/ai-models/${code}/default`,
+      url: `/v1/admin/ai-models/${code}/default`,
       method: "POST",
     });
   },
@@ -135,7 +135,7 @@ export const aiModelApi = {
    */
   getBalance(code: string): Promise<ModelBalance> {
     return request({
-      url: `/admin/ai-models/${code}/balance`,
+      url: `/v1/admin/ai-models/${code}/balance`,
       method: "GET",
     });
   },
@@ -145,7 +145,7 @@ export const aiModelApi = {
    */
   testConnection(code: string): Promise<ConnectionTestResult> {
     return request({
-      url: `/admin/ai-models/${code}/test`,
+      url: `/v1/admin/ai-models/${code}/test`,
       method: "POST",
     });
   },
@@ -155,7 +155,7 @@ export const aiModelApi = {
    */
   getStats(code: string): Promise<ModelStats> {
     return request({
-      url: `/admin/ai-models/${code}/stats`,
+      url: `/v1/admin/ai-models/${code}/stats`,
       method: "GET",
     });
   },
@@ -165,7 +165,7 @@ export const aiModelApi = {
    */
   getActiveModels(): Promise<AiModel[]> {
     return request({
-      url: "/admin/ai-models/active",
+      url: "/v1/admin/ai-models/active",
       method: "GET",
     });
   },
@@ -175,7 +175,7 @@ export const aiModelApi = {
    */
   initializeModels(): Promise<{ success: boolean; message: string }> {
     return request({
-      url: "/admin/ai-models/initialize",
+      url: "/v1/admin/ai-models/initialize",
       method: "POST",
     });
   },

@@ -8,7 +8,7 @@ import type { Role, UserMenu } from "@/types/role";
  */
 export function getUserRoles(userId: string = "current") {
   return request<Role[]>({
-    url: `/permissions/user-roles/users/${userId}/roles`,
+    url: `/v1/permissions/user-roles/users/${userId}/roles`,
     method: "get",
   });
 }
@@ -21,7 +21,7 @@ export function getRoleList(params?: any) {
     roles: Role[];
     total: number;
   }>({
-    url: "/permissions/roles",
+    url: "/v1/permissions/roles",
     method: "get",
     params,
   });
@@ -34,7 +34,7 @@ export function getRoleList(params?: any) {
  */
 export function getUserPermissions(userId: string = "current") {
   return request<string[]>({
-    url: `/permissions/user-roles/users/${userId}/permissions`,
+    url: `/v1/permissions/user-roles/users/${userId}/permissions`,
     method: "get",
   });
 }
@@ -46,7 +46,7 @@ export function getUserPermissions(userId: string = "current") {
  */
 export function getUserMenus(userId: string = "current") {
   return request<UserMenu[]>({
-    url: `/permissions/user-roles/users/${userId}/menus`,
+    url: `/v1/permissions/user-roles/users/${userId}/menus`,
     method: "get",
   });
 }
@@ -62,7 +62,7 @@ export function getUserResources(userId: string = "current") {
     permissions: string[];
     menus: UserMenu[];
   }>({
-    url: `/permissions/user-roles/users/${userId}/resources`,
+    url: `/v1/permissions/user-roles/users/${userId}/resources`,
     method: "get",
   });
 }
@@ -75,7 +75,7 @@ export function getUserResources(userId: string = "current") {
  */
 export function assignRolesToUser(userId: string, roleIds: string[]) {
   return request<boolean>({
-    url: `/permissions/user-roles/users/${userId}/roles`,
+    url: `/v1/permissions/user-roles/users/${userId}/roles`,
     method: "put",
     data: { roleIds },
   });

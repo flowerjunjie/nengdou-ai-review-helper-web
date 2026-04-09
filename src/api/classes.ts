@@ -23,7 +23,7 @@ export function getClassList(
   params: ClassQueryParams
 ): Promise<ClassListResponse> {
   return request({
-    url: "/classes/list",
+    url: "/v1/classes/list",
     method: "get",
     params,
   });
@@ -35,7 +35,7 @@ export function getClassList(
  */
 export function getClassDetail(id: string): Promise<Class> {
   return request({
-    url: `/classes/${id}`,
+    url: `/v1/classes/${id}`,
     method: "get",
   });
 }
@@ -48,7 +48,7 @@ export function createClass(
   data: CreateClassParams
 ): Promise<CreateClassApiResponse> {
   return request({
-    url: "/classes/create",
+    url: "/v1/classes/create",
     method: "post",
     data,
   });
@@ -64,7 +64,7 @@ export function updateClass(
   data: UpdateClassParams
 ): Promise<{ message: string }> {
   return request({
-    url: `/classes/${id}/edit`,
+    url: `/v1/classes/${id}/edit`,
     method: "post",
     data,
   });
@@ -76,7 +76,7 @@ export function updateClass(
  */
 export function disbandClass(id: string): Promise<{ message: string }> {
   return request({
-    url: `/classes/${id}/close`,
+    url: `/v1/classes/${id}/close`,
     method: "post",
   });
 }
@@ -89,7 +89,7 @@ export function regenerateClassCode(
   id: string
 ): Promise<RegenerateCodeApiResponse> {
   return request({
-    url: `/classes/${id}/regenerate-code`,
+    url: `/v1/classes/${id}/regenerate-code`,
     method: "post",
   });
 }
@@ -104,7 +104,7 @@ export function getClassStudents(
   params: ClassStudentQueryParams
 ): Promise<ClassStudentListResponse> {
   return request({
-    url: `/classes/${id}/students`,
+    url: `/v1/classes/${id}/students`,
     method: "get",
     params,
   });
@@ -120,7 +120,7 @@ export function addStudentsToClass(
   data: AddStudentsParams
 ): Promise<AddStudentsApiResponse> {
   return request({
-    url: `/classes/${id}/students`,
+    url: `/v1/classes/${id}/students`,
     method: "post",
     data,
   });
@@ -132,7 +132,7 @@ export function addStudentsToClass(
  */
 export function joinClass(data: JoinClassParams): Promise<any> {
   return request({
-    url: "/classes/join",
+    url: "/v1/classes/join",
     method: "post",
     data,
   });
@@ -148,7 +148,7 @@ export function updateStudentStatus(
   data: UpdateStudentStatusParams
 ): Promise<any> {
   return request({
-    url: `/classes/${id}/students/status`,
+    url: `/v1/classes/${id}/students/status`,
     method: "post",
     data,
   });
@@ -160,7 +160,7 @@ export function updateStudentStatus(
  */
 export function leaveClass(id: string): Promise<any> {
   return request({
-    url: `/classes/${id}/leave`,
+    url: `/v1/classes/${id}/leave`,
     method: "post",
   });
 }

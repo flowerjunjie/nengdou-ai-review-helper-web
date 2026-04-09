@@ -37,7 +37,7 @@ export function getRoleList(params?: {
     page: number;
     limit: number;
   }>({
-    url: "/permissions/roles",
+    url: "/v1/permissions/roles",
     method: "get",
     params,
   });
@@ -50,7 +50,7 @@ export function getRoleList(params?: {
  */
 export function getRoleById(id: string) {
   return request<Role>({
-    url: `/permissions/roles/${id}`,
+    url: `/v1/permissions/roles/${id}`,
     method: "get",
   });
 }
@@ -62,7 +62,7 @@ export function getRoleById(id: string) {
  */
 export function getRoleWithMenus(id: string) {
   return request<Role & { menus: any[] }>({
-    url: `/permissions/roles/${id}/with-menus`,
+    url: `/v1/permissions/roles/${id}/with-menus`,
     method: "get",
   });
 }
@@ -83,7 +83,7 @@ export interface CreateRoleDto {
 
 export function createRole(data: CreateRoleDto) {
   return request<Role>({
-    url: "/permissions/roles",
+    url: "/v1/permissions/roles",
     method: "post",
     data,
   });
@@ -105,7 +105,7 @@ export interface UpdateRoleDto {
 
 export function updateRole(id: string, data: UpdateRoleDto) {
   return request<Role>({
-    url: `/permissions/roles/${id}`,
+    url: `/v1/permissions/roles/${id}`,
     method: "put",
     data,
   });
@@ -118,7 +118,7 @@ export function updateRole(id: string, data: UpdateRoleDto) {
  */
 export function deleteRole(id: string) {
   return request<{ success: boolean }>({
-    url: `/permissions/roles/${id}`,
+    url: `/v1/permissions/roles/${id}`,
     method: "delete",
   });
 }
@@ -135,7 +135,7 @@ export interface AssignMenusDto {
 
 export function assignMenusToRole(id: string, menuIds: string[]) {
   return request<Role>({
-    url: `/permissions/roles/${id}/menus`,
+    url: `/v1/permissions/roles/${id}/menus`,
     method: "put",
     data: { menuIds },
   });

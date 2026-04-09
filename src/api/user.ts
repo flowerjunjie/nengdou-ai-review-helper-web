@@ -44,7 +44,7 @@ export const register = (userData: {
  */
 export const getUser = (userId: string): Promise<User> => {
   return request({
-    url: `/users/${userId}`,
+    url: `/v1/users/${userId}`,
     method: "get",
   });
 };
@@ -55,7 +55,7 @@ export const getUser = (userId: string): Promise<User> => {
  */
 export const getUserProfile = (): Promise<User> => {
   return request({
-    url: "/users/profile",
+    url: "/v1/users/profile",
     method: "get",
   });
 };
@@ -67,7 +67,7 @@ export const getUserProfile = (): Promise<User> => {
  */
 export const updateUserProfile = (userData: any) => {
   return request({
-    url: "/users/profile",
+    url: "/v1/users/profile",
     method: "put",
     data: userData,
   });
@@ -97,7 +97,7 @@ export const updateUser = (
   delete updateData.updatedAt;
 
   return request({
-    url: `/users/${userId}`,
+    url: `/v1/users/${userId}`,
     method: "patch",
     data: updateData,
   });
@@ -113,7 +113,7 @@ export const changePassword = (passwordData: {
   newPassword: string;
 }) => {
   return request({
-    url: "/users/password",
+    url: "/v1/users/password",
     method: "put",
     data: passwordData,
   });
@@ -153,7 +153,7 @@ export const getUsers = (
   params?: GetUsersParams
 ): Promise<UserListResponse> => {
   return request({
-    url: "/users",
+    url: "/v1/users",
     method: "get",
     params,
   });
@@ -164,7 +164,7 @@ export const getUsers = (
  */
 export const createUser = (data: CreateUserDto): Promise<User> => {
   return request({
-    url: "/users",
+    url: "/v1/users",
     method: "post",
     data,
   });
@@ -208,7 +208,7 @@ export const resetUserPassword = (
  */
 export const importUsersBatch = (users: any[]): Promise<any> => {
   return request({
-    url: "/users/batch-import",
+    url: "/v1/users/batch-import",
     method: "post",
     data: users,
   });
@@ -232,7 +232,7 @@ export const deleteUsersBatch = (
   }>;
 }> => {
   return request({
-    url: "/users/batch-delete",
+    url: "/v1/users/batch-delete",
     method: "post",
     data: { userIds },
   });

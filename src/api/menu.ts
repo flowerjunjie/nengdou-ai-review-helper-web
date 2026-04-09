@@ -15,7 +15,7 @@ export function getMenuList(params?: {
   type?: string;
 }) {
   return request<Menu[]>({
-    url: "/permissions/menus",
+    url: "/v1/permissions/menus",
     method: "get",
     params,
   });
@@ -28,7 +28,7 @@ export function getMenuList(params?: {
  */
 export function getMenuById(id: string) {
   return request<Menu>({
-    url: `/permissions/menus/${id}`,
+    url: `/v1/permissions/menus/${id}`,
     method: "get",
   });
 }
@@ -40,7 +40,7 @@ export function getMenuById(id: string) {
  */
 export function createMenu(data: Partial<Menu>) {
   return request<Menu>({
-    url: "/permissions/menus",
+    url: "/v1/permissions/menus",
     method: "post",
     data,
   });
@@ -54,7 +54,7 @@ export function createMenu(data: Partial<Menu>) {
  */
 export function updateMenu(id: string, data: Partial<Menu>) {
   return request<Menu>({
-    url: `/permissions/menus/${id}`,
+    url: `/v1/permissions/menus/${id}`,
     method: "put",
     data,
   });
@@ -67,7 +67,7 @@ export function updateMenu(id: string, data: Partial<Menu>) {
  */
 export function deleteMenu(id: string) {
   return request<{ success: boolean }>({
-    url: `/permissions/menus/${id}`,
+    url: `/v1/permissions/menus/${id}`,
     method: "delete",
   });
 }

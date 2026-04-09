@@ -7,7 +7,7 @@ import type { LogQueryParams, LogsResponse } from "@/types/logs";
  */
 export function getLogs(params: LogQueryParams): Promise<LogsResponse> {
   return request({
-    url: "/logs",
+    url: "/v1/logs",
     method: "get",
     params,
   });
