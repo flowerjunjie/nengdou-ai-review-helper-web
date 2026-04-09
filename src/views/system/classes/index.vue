@@ -145,6 +145,7 @@ import { getClassList, leaveClass } from "../../../api/classes";
 import type { Class, ClassQueryParams } from "../../../types/classes";
 import ClassCard from "./components/ClassCard.vue";
 import JoinClassDialog from "../../../components/JoinClassDialog.vue";
+import logger from "@/utils/logger";
 
 const router = useRouter();
 
@@ -194,7 +195,7 @@ const loadClassList = async () => {
     classList.value = response.items;
     pagination.total = response.total;
   } catch (error) {
-    console.error("加载班级列表失败:", error);
+    logger.error("加载班级列表失败:", error);
     // 错误提示已在统一请求层处理，此处不重复弹出
   } finally {
     loading.value = false;
@@ -253,7 +254,7 @@ const handleLeaveClass = async (classItem: Class) => {
     loadClassList();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("退出班级失败:", error);
+      logger.error("退出班级失败:", error);
       // 错误提示已在统一请求层处理，此处不重复弹出
     }
   }

@@ -332,6 +332,7 @@ import {
 } from "../../../../api/assignments";
 import { useClassManagement } from "../composables/useClassManagement";
 import { useAssignmentManagement } from "../composables/useAssignmentManagement";
+import logger from "@/utils/logger";
 
 const router = useRouter();
 
@@ -380,7 +381,7 @@ const loadClassStatistics = async (classId: string) => {
     const data = await getMyAssignmentStatistics(classId);
     classStatistics.value = data;
   } catch (error) {
-    console.error("加载班级统计失败:", error);
+    logger.error("加载班级统计失败:", error);
     // 不显示错误消息，避免干扰用户体验
   }
 };
@@ -418,7 +419,7 @@ const loadAssignments = async (
     // 同时加载统计数据
     await loadClassStatistics(classId);
   } catch (error) {
-    console.error("加载作业列表失败:", error);
+    logger.error("加载作业列表失败:", error);
     ElMessage.error("加载作业列表失败");
   } finally {
     assignmentLoading.value = false;
@@ -518,13 +519,13 @@ const handleAssignmentClick = (assignment) => {
 
 // 查看作业详情
 const viewAssignment = (assignmentId) => {
-  console.log(
+  logger.log(
     "🔍 查看作业详情 - assignmentId:",
     assignmentId,
     "classId:",
     selectedClass.value._id
   );
-  console.log("📏 classId长度:", selectedClass.value._id?.length);
+  logger.log("📏 classId长度:", selectedClass.value._id?.length);
 
   router.push({
     path: "/student/submissions",
