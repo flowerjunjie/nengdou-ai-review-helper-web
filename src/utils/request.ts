@@ -20,7 +20,7 @@ let isHandling401 = false;
 // 标记是否正在刷新token，防止多次刷新
 let isRefreshing = false;
 // 等待刷新完成的请求队列
-let failedQueue: Array<{ resolve: Function; reject: Function }> = [];
+let failedQueue: Array<{ resolve: Function; reject: Function; request?: any }> = [];
 
 // 处理等待队列中的请求
 const processQueue = (error: any, token: string | null = null) => {

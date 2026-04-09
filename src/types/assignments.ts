@@ -26,23 +26,26 @@ export interface Assignment {
     id: string;
     name: string;
   }>;
-  aiRule: AiRuleSnapshot;
+  aiRule?: AiRuleSnapshot;
+  aiRuleName?: string;
   startDate: string;
   endDate: string;
-  allowAttachments: boolean;
+  allowAttachments?: boolean;
   status: AssignmentStatus;
   terminatedReason?: string;
-  isDeleted: boolean;
+  isDeleted?: boolean;
   deletedAt?: string;
   createdAt: string;
   updatedAt: string;
   isExpired?: boolean;
   // 统计信息
-  submissionStats: {
+  submissionStats?: {
     total: number;
     submitted: number;
     graded: number;
     pending: number;
+    aiReviewed?: number;
+    teacherReviewed?: number;
   };
   totalSubmissions?: number;
   gradedSubmissions?: number;
@@ -60,13 +63,13 @@ export interface AssignmentListItem {
     id: string;
     name: string;
   }>;
-  aiRule: AiRuleSnapshot;
+  aiRule?: AiRuleSnapshot;
   startDate: string;
   endDate: string;
-  allowAttachments: boolean;
+  allowAttachments?: boolean;
   status: AssignmentStatus;
   terminatedReason?: string;
-  isDeleted: boolean;
+  isDeleted?: boolean;
   deletedAt?: string;
   createdAt: string;
   updatedAt: string;

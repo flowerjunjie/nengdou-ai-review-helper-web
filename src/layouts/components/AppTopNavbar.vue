@@ -100,10 +100,10 @@ export default defineComponent({
     const showChangePasswordDialog = ref(false);
 
     // 计算当前激活菜单
-    const activeMenu = computed(() => {
+    const activeMenu = computed((): string => {
       const { meta, path } = route;
       if (meta.activeMenu) {
-        return meta.activeMenu;
+        return meta.activeMenu as string;
       }
       return path;
     });

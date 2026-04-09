@@ -179,27 +179,7 @@ import {
   disbandClass,
   regenerateClassCode,
 } from "../../../api/classes";
-
-// 本地定义类型，避免导入问题
-interface Class {
-  _id: string;
-  name: string;
-  code: string;
-  teacherId: string;
-  teacherName?: string;
-  status: "active" | "inactive" | "disbanded";
-  studentCount: number;
-  description?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ClassQueryParams {
-  page?: number;
-  limit?: number;
-  status?: "active" | "inactive" | "disbanded";
-  search?: string;
-}
+import type { Class, ClassQueryParams } from "@/types/classes";
 
 // 导入组件
 import PageHeader from "@/components/PageHeader.vue";
@@ -283,7 +263,7 @@ const calculateContentHeight = () => {
 };
 
 const debounce = (func: Function, wait: number) => {
-  let timeout: NodeJS.Timeout | null = null;
+  let timeout: ReturnType<typeof setTimeout> | null = null;
   return (...args: any[]) => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(null, args), wait);

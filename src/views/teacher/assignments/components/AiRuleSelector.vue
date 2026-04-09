@@ -177,10 +177,12 @@ interface AiRuleItem {
 
 // 简化的AI规则快照（用于作业存储）
 interface AiRuleSnapshot {
-  id: string;
+  id?: string;
   name: string;
   modelType: string;
   prompt: string;
+  originalRuleId?: string;
+  snapshotAt?: string;
 }
 
 interface Props {

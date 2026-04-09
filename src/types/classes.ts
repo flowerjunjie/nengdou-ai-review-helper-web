@@ -1,6 +1,12 @@
 // 班级状态枚举
 export type ClassStatus = "active" | "inactive" | "disbanded";
 
+// 兼容类型 - 用于解决TypeScript类型字面量匹配问题
+export type ClassStatusLiteral = "active" | "inactive" | "disbanded";
+
+// 班级状态 - 兼容字符串类型
+export type ClassStatusLike = ClassStatus | string;
+
 // 学生在班级中的状态
 export type StudentStatus = "active" | "inactive" | "left";
 
@@ -14,9 +20,9 @@ export interface Class {
   code: string;
   teacherId: string;
   teacherName?: string;
-  status: ClassStatus;
+  status: ClassStatus | string;
   studentCount: number;
-  maxStudents: number; // 班级最大学生数量
+  maxStudents?: number; // 班级最大学生数量
   description?: string;
   createdAt: string;
   updatedAt: string;

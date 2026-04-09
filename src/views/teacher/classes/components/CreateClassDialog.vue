@@ -115,7 +115,7 @@ interface Class {
   teacherName?: string;
   status: "active" | "inactive" | "disbanded";
   studentCount: number;
-  maxStudents: number;
+  maxStudents?: number;
   description?: string;
   createdAt: string;
   updatedAt: string;

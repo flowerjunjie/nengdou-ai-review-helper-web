@@ -7,6 +7,16 @@ export enum AssignmentStatus {
   TERMINATED = "terminated",
 }
 
+// AI规则快照接口
+export interface AiRuleSnapshot {
+  id?: string;
+  name: string;
+  modelType: string;
+  prompt: string;
+  originalRuleId: string;
+  snapshotAt: string;
+}
+
 // 作业基础信息
 export interface Assignment {
   id: string;
@@ -18,11 +28,15 @@ export interface Assignment {
     id: string;
     name: string;
   }>;
+  aiRule?: AiRuleSnapshot;
+  allowAttachments?: boolean;
   startDate: string;
   endDate: string;
   status: AssignmentStatus;
   terminatedReason?: string;
   isExpired: boolean;
+  isDeleted?: boolean;
+  deletedAt?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -38,9 +52,16 @@ export interface AssignmentListItem extends Assignment {
 
 // 作业详情（教师端）
 export interface AssignmentDetail extends Assignment {
-  aiRule?: any;
+  aiRule?: AiRuleSnapshot;
+  aiRuleName?: string;
   totalStudents?: number;
   submissionStats: {
+    total: number;
+    submitted: number;
+    graded: number;
+    pending: number;
+    aiReviewed?: number;
+    teacherReviewed?: number;
     totalSubmissions: number;
     reviewedSubmissions: number;
     pendingSubmissions: number;
@@ -83,6 +104,7 @@ export interface AssignmentQueryParams {
   pageSize?: number;
   title?: string;
   status?: AssignmentStatus;
+  classId?: string;
   teacherName?: string;
   className?: string;
   startDate?: string;
@@ -117,7 +139,8 @@ export interface CreateAssignmentParams {
   classes: string[];
   startDate: string;
   endDate: string;
-  aiRule?: any;
+  aiRule?: AiRuleSnapshot | null;
+  allowAttachments?: boolean;
 }
 
 // 更新作业参数

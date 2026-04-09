@@ -29,7 +29,6 @@ export function sanitizeHtml(content: string): string {
   return DOMPurify.sanitize(content, {
     ALLOWED_TAGS,
     ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "style", "target"],
-    ALLOWED_URL_PROTOCOLS,
     ALLOW_DATA_ATTR: false,
     // 强制所有链接为绝对URL或相对路径
     FORBID_TAGS: ["script", "style", "iframe", "form", "input", "object", "embed"],
