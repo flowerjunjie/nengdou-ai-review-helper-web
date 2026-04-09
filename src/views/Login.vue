@@ -179,6 +179,16 @@ import { ElMessage } from "element-plus";
 import { QuestionFilled } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
 
+// 验证重定向URL安全性 - 防止Open Redirect攻击
+const validateRedirectUrl = (url: string | undefined): string => {
+  if (!url) return "/dashboard";
+  // 只允许相对路径（以/开头但不是//开头）
+  if (url.startsWith("/") && !url.startsWith("//")) {
+    return url;
+  }
+  return "/dashboard";
+};
+
 // 路由实例
 const router = useRouter();
 const route = useRoute();
@@ -290,8 +300,7 @@ const submitForm = async () => {
           // 检查是否需要强制修改密码
           if (loginResponse.mustChangePassword) {
             // 跳转到强制修改密码页面，并保存原始跳转地址
-            const redirectUrl =
-              (route.query.redirect as string) || "/dashboard";
+            const redirectUrl = validateRedirectUrl(route.query.redirect as string);
             router.push(
               `/force-change-password?redirect=${encodeURIComponent(
                 redirectUrl
@@ -299,7 +308,7 @@ const submitForm = async () => {
             );
           } else {
             // 登录成功后跳转到dashboard，由权限控制逻辑根据角色自动分配
-            router.push((route.query.redirect as string) || "/dashboard");
+            router.push(validateRedirectUrl(route.query.redirect as string));
           }
         }
       } catch (err: any) {

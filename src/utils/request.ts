@@ -50,6 +50,18 @@ const isTokenExpiringSoon = (): boolean => {
   return timeUntilExpiry <= 30000 && tokenAge > 60000;
 };
 
+// 验证重定向URL安全性 - 防止Open Redirect攻击
+const isValidRedirectUrl = (url: string): boolean => {
+  if (!url) return false;
+  // 只允许相对路径（以/开头但不是//开头）
+  if (!url.startsWith("/") || url.startsWith("//")) return false;
+  // 阻止javascript:协议
+  if (url.toLowerCase().includes("javascript:")) return false;
+  // 阻止data:协议
+  if (url.toLowerCase().includes("data:")) return false;
+  return true;
+};
+
 // 请求拦截器
 service.interceptors.request.use(
   async (config) => {
@@ -273,7 +285,8 @@ function handleAuthError(message: string, code?: string | number) {
 
         // 在登录页面，提取有效的redirect参数
         const redirect = new URLSearchParams(search).get("redirect");
-        return redirect && !redirect.includes("/login")
+        // 使用安全的URL验证
+        return isValidRedirectUrl(redirect)
           ? decodeURIComponent(redirect)
           : "/";
       };

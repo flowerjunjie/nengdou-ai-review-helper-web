@@ -160,7 +160,7 @@
           <div
             v-if="assignment.description"
             class="text-[14px] text-gray-600 mb-3 line-clamp-2"
-            v-html="assignment.description"
+            v-html="sanitizeDescription(assignment.description)"
           ></div>
 
           <!-- 时间信息 -->
@@ -246,6 +246,7 @@ import {
 } from "@/api/assignments";
 import type { Assignment, AssignmentQueryParams } from "@/types/assignments";
 import moment from "moment";
+import { sanitizeDescription } from "@/utils/sanitize";
 
 interface Props {
   classId: string;

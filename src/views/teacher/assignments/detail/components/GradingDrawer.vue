@@ -61,7 +61,7 @@
           <div class="collapse-content">
             <div
               class="assignment-content"
-              v-html="assignmentData?.content || '暂无作业要求'"
+              v-html="sanitizeDescription(assignmentData?.content) || '暂无作业要求'"
             ></div>
             <div class="assignment-meta">
               <span class="deadline"
@@ -96,7 +96,7 @@
           </template>
           <div class="collapse-content">
             <div v-if="submissionData?.content" class="submission-content">
-              <div v-html="submissionData.content"></div>
+              <div v-html="sanitizeDescription(submissionData.content)"></div>
             </div>
             <div v-else class="no-content">
               <el-empty description="学生尚未提交作业内容" :image-size="80" />
@@ -288,6 +288,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { getSubmissionDetail, submitTeacherReview } from "@/api/correcting";
 import { getAssignmentDetail } from "@/api/assignments";
 import { marked } from "marked";
+import { sanitizeAiReview, sanitizeDescription } from "@/utils/sanitize";
 // Props
 interface Props {
   visible: boolean;
@@ -401,10 +402,13 @@ const formatReviewContent = (content: string) => {
   if (!content) return "";
 
   // 将换行符转换为HTML换行
-  return content
+  const html = content
     .replace(/\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // 加粗
     .replace(/\*(.*?)\*/g, "<em>$1</em>"); // 斜体
+
+  // Sanitize HTML to prevent XSS attacks
+  return sanitizeAiReview(html);
 };
 
 // 加载数据
