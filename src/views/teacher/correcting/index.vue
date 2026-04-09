@@ -123,6 +123,7 @@ import { getClassList } from "@/api/classes";
 import { getAssignmentList } from "@/api/assignments";
 import { getSubmissionList } from "@/api/correcting";
 import type { SubmissionQueryParams, SubmissionRecord } from "@/api/correcting";
+import logger from "@/utils/logger";
 
 // Store
 const store = useStore();
@@ -201,7 +202,7 @@ const loadClassList = async () => {
     const response = await getClassList({});
     classList.value = response.items || [];
   } catch (error) {
-    console.error("加载班级列表失败", error);
+    logger.error("加载班级列表失败", error);
     ElMessage.error("加载班级列表失败");
   }
 };
@@ -216,7 +217,7 @@ const loadAssignmentList = async (classId: string) => {
     });
     assignmentList.value = response.items || [];
   } catch (error) {
-    console.error("加载作业列表失败", error);
+    logger.error("加载作业列表失败", error);
     ElMessage.error("加载作业列表失败");
   }
 };
@@ -252,12 +253,12 @@ const loadSubmissionData = async () => {
       submissionList.value = response.items || [];
       pagination.total = response.total || 0;
     } else {
-      console.error("响应数据结构不正确:", response);
+      logger.error("响应数据结构不正确:", response);
       submissionList.value = [];
       pagination.total = 0;
     }
   } catch (error) {
-    console.error("加载提交数据失败", error);
+    logger.error("加载提交数据失败", error);
     ElMessage.error("加载提交列表失败");
   } finally {
     loading.value = false;

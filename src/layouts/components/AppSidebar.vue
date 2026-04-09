@@ -45,6 +45,7 @@ import { ref, computed, onMounted, defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import SideMenuItem from "./menu/SideMenuItem.vue";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "AppSidebar",
@@ -77,7 +78,7 @@ export default defineComponent({
 
     // 处理菜单点击事件
     const handleMenuClick = (path) => {
-      console.log("菜单点击:", path);
+      logger.log("菜单点击:", path);
 
       // 移动端关闭侧边栏
       if (store.getters["app/isMobile"]) {

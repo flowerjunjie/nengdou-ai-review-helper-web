@@ -178,6 +178,7 @@ import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 import { QuestionFilled } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
+import logger from "@/utils/logger";
 
 // 验证重定向URL安全性 - 防止Open Redirect攻击
 const validateRedirectUrl = (url: string | undefined): string => {
@@ -312,7 +313,7 @@ const submitForm = async () => {
           }
         }
       } catch (err: any) {
-        console.error("登录/注册失败:", err);
+        logger.error("登录/注册失败:", err);
         error.value =
           err.message || (isRegister.value ? "注册失败" : "登录失败");
       } finally {

@@ -136,6 +136,7 @@ import UserTable from "./components/UserTable.vue";
 import UserForm from "./components/UserForm.vue";
 import ImportUsersDialog from "./components/ImportUsersDialog.vue";
 import BatchDeleteResultDialog from "./components/BatchDeleteResultDialog.vue";
+import logger from "@/utils/logger";
 
 // Store
 const store = useStore();
@@ -221,7 +222,7 @@ const loadUserData = async () => {
     // 触发表格高度重新计算
     recalculateTrigger.value++;
   } catch (error) {
-    console.error("加载用户数据失败", error);
+    logger.error("加载用户数据失败", error);
     ElMessage.error("加载用户列表失败");
   } finally {
     loading.value = false;
@@ -268,7 +269,7 @@ const handleDeleteUser = async (user: User) => {
     loadUserData();
   } catch (error) {
     if (error === "cancel") return;
-    console.error("删除用户失败", error);
+    logger.error("删除用户失败", error);
     ElMessage.error("删除失败：" + (error.message || "未知错误"));
   }
 };
@@ -286,7 +287,7 @@ const handleChangeStatus = async (user: User, status: UserStatus) => {
     // 刷新数据
     loadUserData();
   } catch (error) {
-    console.error("修改用户状态失败", error);
+    logger.error("修改用户状态失败", error);
     ElMessage.error("状态修改失败：" + (error.message || "未知错误"));
   }
 };
@@ -318,7 +319,7 @@ const handleResetPassword = async (user: User) => {
     // ElMessage.success('密码重置成功')
   } catch (error) {
     if (error === "cancel") return;
-    console.error("重置密码失败", error);
+    logger.error("重置密码失败", error);
     ElMessage.error("重置密码失败：" + (error.message || "未知错误"));
   }
 };
@@ -365,7 +366,7 @@ const handleBatchDelete = async () => {
     loadUserData();
   } catch (error) {
     if (error === "cancel") return;
-    console.error("批量删除失败", error);
+    logger.error("批量删除失败", error);
     ElMessage.error("批量删除失败：" + (error.message || "未知错误"));
   }
 };

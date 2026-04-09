@@ -83,6 +83,7 @@ import { ElMessage } from "element-plus";
 import Breadcrumb from "./Breadcrumb.vue";
 import TopNavItem from "./menu/TopNavItem.vue";
 import ChangePasswordDialog from "./ChangePasswordDialog.vue";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "AppTopNavbar",
@@ -129,7 +130,7 @@ export default defineComponent({
 
     // 处理菜单点击事件
     const handleMenuClick = (path: string) => {
-      console.log("顶部菜单点击:", path);
+      logger.log("顶部菜单点击:", path);
 
       // 空路径不处理
       if (!path) return;
