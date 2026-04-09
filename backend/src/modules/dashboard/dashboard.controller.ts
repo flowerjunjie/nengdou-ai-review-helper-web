@@ -54,13 +54,13 @@ export class DashboardController {
   @Get('student/dashboard/learning-progress')
   @Roles('student')
   async getLearningProgress(@CurrentUser() user: any) {
-    return { progress: 65, trend: 'up' };
+    return this.dashboardService.getLearningProgress(user._id);
   }
 
   @Get('student/dashboard/achievements')
   @Roles('student')
   async getAchievements(@CurrentUser() user: any) {
-    return { badges: [], totalPoints: 0 };
+    return this.dashboardService.getAchievements(user._id);
   }
 
   @Get('teacher/dashboard/performance-summary')

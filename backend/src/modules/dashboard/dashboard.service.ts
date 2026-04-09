@@ -251,4 +251,89 @@ export class DashboardService {
 
     return { recommendations };
   }
+
+  async getLearningProgress(studentId: string) {
+    const submissions = await this.submissionModel.find({
+      studentId: new Types.ObjectId(studentId),
+    });
+
+    if (submissions.length === 0) {
+      return { progress: 0, trend: 'stable', totalSubmissions: 0, avgScore: 0 };
+    }
+
+    const completedSubmissions = submissions.filter(s => s.status === 'teacher_reviewed').length;
+    const totalSubmissions = submissions.length;
+    const progress = Math.round((completedSubmissions / totalSubmissions) * 100);
+
+    const scoredSubmissions = submissions.filter(s => s.teacherScore !== undefined || s.aiScore !== undefined);
+    const avgScore = scoredSubmissions.length > 0
+      ? scoredSubmissions.reduce((sum, s) => sum + (s.teacherScore || s.aiScore || 0), 0) / scoredSubmissions.length
+      : 0;
+
+    const recentSubmissions = await this.submissionModel.find({
+      studentId: new Types.ObjectId(studentId),
+    }).sort({ submittedAt: -1 }).limit(5);
+
+    const recentScores = recentSubmissions
+      .filter(s => s.teacherScore !== undefined || s.aiScore !== undefined)
+      .map(s => s.teacherScore || s.aiScore || 0);
+
+    let trend = 'stable';
+    if (recentScores.length >= 2) {
+      const recentAvg = recentScores.slice(0, Math.ceil(recentScores.length / 2)).reduce((a, b) => a + b, 0) / Math.ceil(recentScores.length / 2);
+      const olderAvg = recentScores.slice(Math.ceil(recentScores.length / 2)).reduce((a, b) => a + b, 0) / Math.ceil(recentScores.length / 2);
+      if (recentAvg > olderAvg) trend = 'up';
+      else if (recentAvg < olderAvg) trend = 'down';
+    }
+
+    return {
+      progress,
+      trend,
+      totalSubmissions,
+      completedSubmissions,
+      avgScore: Number(avgScore.toFixed(1)),
+    };
+  }
+
+  async getAchievements(studentId: string) {
+    const submissions = await this.submissionModel.find({
+      studentId: new Types.ObjectId(studentId),
+      status: 'teacher_reviewed',
+    });
+
+    const badges = [];
+    let totalPoints = 0;
+
+    const perfectScores = submissions.filter(s => s.teacherScore === 100);
+    if (perfectScores.length >= 1) {
+      badges.push({ id: 'perfect_1', name: '满分作业', description: '获得一次满分作业', icon: 'Star' });
+      totalPoints += 10;
+    }
+    if (perfectScores.length >= 5) {
+      badges.push({ id: 'perfect_5', name: '五次满分', description: '获得五次满分作业', icon: 'StarFilled' });
+      totalPoints += 50;
+    }
+
+    const highScores = submissions.filter(s => (s.teacherScore || 0) >= 90);
+    if (highScores.length >= 10) {
+      badges.push({ id: 'excellence_10', name: '优秀学员', description: '获得十次优秀作业', icon: 'Trophy' });
+      totalPoints += 100;
+    }
+
+    const submissionCount = submissions.length;
+    if (submissionCount >= 1) {
+      badges.push({ id: 'first_submit', name: '初次提交', description: '完成第一次作业提交', icon: 'Medal' });
+      totalPoints += 5;
+    }
+    if (submissionCount >= 10) {
+      badges.push({ id: 'active_10', name: '积极分子', description: '完成十次作业提交', icon: 'Medal' });
+      totalPoints += 30;
+    }
+    if (submissionCount >= 50) {
+      badges.push({ id: 'active_50', name: '作业达人', description: '完成五十次作业提交', icon: 'GoldMedal' });
+      totalPoints += 100;
+    }
+
+    return { badges, totalPoints };
+  }
 }
