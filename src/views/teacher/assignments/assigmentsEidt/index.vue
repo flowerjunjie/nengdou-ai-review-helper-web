@@ -180,6 +180,7 @@ import WangEditor from "@/components/WangEditor.vue";
 import ClassSelector from "../components/ClassSelector.vue";
 import AiRuleSelector from "../components/AiRuleSelector.vue";
 import moment from "moment";
+import logger from "@/utils/logger";
 
 const route = useRoute();
 const router = useRouter();
@@ -339,7 +340,7 @@ const loadAssignmentData = async () => {
       allowAttachments: assignment.allowAttachments,
     });
   } catch (error) {
-    console.error("加载作业数据失败:", error);
+    logger.error("加载作业数据失败:", error);
     ElMessage.error("加载作业数据失败");
   } finally {
     loading.value = false;
@@ -389,7 +390,7 @@ const handleSaveDraft = async () => {
   } catch (error) {
     // 只有API请求失败才显示错误提示，表单校验失败不显示
     if (saving.value) {
-      console.error("保存失败:", error);
+      logger.error("保存失败:", error);
       ElMessage.error("保存失败");
     }
   } finally {
@@ -440,7 +441,7 @@ const handlePublish = async () => {
     if (error !== "cancel") {
       // 只有API请求失败才显示错误提示，表单校验失败不显示
       if (saving.value) {
-        console.error("发布失败:", error);
+        logger.error("发布失败:", error);
         ElMessage.error("发布失败");
       }
     }

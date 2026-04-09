@@ -126,6 +126,7 @@ import { createUser, getUser, updateUser } from "@/api/user";
 import { assignRolesToUser } from "@/api/user-role";
 import { getRoleList } from "@/api/role";
 import type { CreateUserDto, UpdateUserDto, User } from "@/types/user";
+import logger from "@/utils/logger";
 
 // 组件属性
 const props = defineProps({
@@ -248,7 +249,7 @@ const loadRoleMapping = async () => {
     });
     roleMapping.value = mapping;
   } catch (error) {
-    console.error("加载角色映射失败", error);
+    logger.error("加载角色映射失败", error);
   }
 };
 
@@ -305,7 +306,7 @@ const loadUserData = async (id: string) => {
       status: userData.status || "active",
     });
   } catch (error) {
-    console.error("加载用户数据失败", error);
+    logger.error("加载用户数据失败", error);
     ElMessage.error("加载用户数据失败");
     dialogVisible.value = false;
   }
@@ -353,7 +354,7 @@ const submitForm = () => {
             const roleId = roleMapping.value[form.role];
             if (roleId) {
               await assignRolesToUser(userId.value, [roleId]);
-              console.log(
+              logger.log(
                 `用户角色已从 ${originalUserData.value.role} 更新为 ${form.role}`
               );
             }
@@ -365,7 +366,7 @@ const submitForm = () => {
         dialogVisible.value = false;
         emit("success");
       } catch (error) {
-        console.error(
+        logger.error(
           `${formMode.value === "add" ? "创建" : "更新"}用户失败`,
           error
         );
