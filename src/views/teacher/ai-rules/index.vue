@@ -127,6 +127,7 @@ import AdaptiveTableContainer from "@/components/AdaptiveTableContainer.vue";
 import AiRuleTable from "./components/AiRuleTable.vue";
 import AiRuleForm from "./components/AiRuleForm.vue";
 import AiRuleDetail from "./components/AiRuleDetail.vue";
+import logger from "@/utils/logger";
 
 // Store
 const store = useStore();
@@ -217,7 +218,7 @@ const loadRuleData = async () => {
     // 触发表格高度重新计算
     recalculateTrigger.value++;
   } catch (error) {
-    console.error("加载AI规则数据失败", error);
+    logger.error("加载AI规则数据失败", error);
     ElMessage.error("加载AI规则列表失败");
   } finally {
     loading.value = false;
@@ -274,7 +275,7 @@ const handleDeleteRule = async (rule) => {
     loadRuleData();
   } catch (error) {
     if (error === "cancel") return;
-    console.error("删除规则失败", error);
+    logger.error("删除规则失败", error);
     ElMessage.error("删除失败：" + (error.message || "未知错误"));
   }
 };
@@ -308,7 +309,7 @@ const handleCopyRule = async (rule) => {
     });
   } catch (error) {
     if (error === "cancel") return;
-    console.error("复制规则失败", error);
+    logger.error("复制规则失败", error);
     ElMessage.error("复制失败：" + (error.message || "未知错误"));
   }
 };

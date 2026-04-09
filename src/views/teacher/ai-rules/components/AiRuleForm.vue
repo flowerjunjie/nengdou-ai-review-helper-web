@@ -145,6 +145,7 @@ import { ElMessage } from "element-plus";
 import { createAiRule, updateAiRule, getAiRuleById } from "@/api/ai-rule";
 import { aiModelApi } from "@/api/ai-models";
 import { useStore } from "vuex";
+import logger from "@/utils/logger";
 
 const props = defineProps({
   isMobile: {
@@ -229,7 +230,7 @@ const loadAvailableModels = async () => {
       formData.modelType = models[0].code;
     }
   } catch (error) {
-    console.error("获取可用模型失败:", error);
+    logger.error("获取可用模型失败:", error);
     ElMessage.error("获取可用模型失败");
     availableModels.value = [];
   } finally {
@@ -311,7 +312,7 @@ const loadRuleData = async (ruleId) => {
     formData.visibility = response.visibility;
     formData.tags = response.tags || [];
   } catch (error) {
-    console.error("加载规则数据失败", error);
+    logger.error("加载规则数据失败", error);
     ElMessage.error("加载规则数据失败");
   } finally {
     loading.value = false;
@@ -352,7 +353,7 @@ const handleSubmit = async () => {
     handleClose();
     emit("success");
   } catch (error) {
-    console.error("提交失败", error);
+    logger.error("提交失败", error);
     ElMessage.error("操作失败：" + (error.message || "未知错误"));
   } finally {
     loading.value = false;
