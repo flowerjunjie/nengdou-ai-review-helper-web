@@ -1,0 +1,145 @@
+{
+  "updatedAt": "2026-04-10T08:51:42.268Z",
+  "missions": [
+    {
+      "id": "session:237252a5-0e4d-407c-a485-e2620dc94cbe:none",
+      "source": "session",
+      "name": "none",
+      "objective": "Session mission",
+      "createdAt": "2026-04-10T08:49:54.145Z",
+      "updatedAt": "2026-04-10T08:51:42.268Z",
+      "status": "running",
+      "workerCount": 7,
+      "taskCounts": {
+        "total": 7,
+        "pending": 0,
+        "blocked": 0,
+        "inProgress": 2,
+        "completed": 5,
+        "failed": 0
+      },
+      "agents": [
+        {
+          "name": "type-checker:a4c29f9",
+          "role": "type-checker",
+          "ownership": "a4c29f982dcaf9312",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:49:54.145Z"
+        },
+        {
+          "name": "backend-populate-checker:a86f3ed",
+          "role": "backend-populate-checker",
+          "ownership": "a86f3eda3471a8b87",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:51:22.896Z"
+        },
+        {
+          "name": "api-endpoint-checker:a55103a",
+          "role": "api-endpoint-checker",
+          "ownership": "a55103a476f677b0f",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:51:42.268Z"
+        },
+        {
+          "name": "schema-design-checker:a618d79",
+          "role": "schema-design-checker",
+          "ownership": "a618d79c670eea032",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:51:25.061Z"
+        },
+        {
+          "name": "vue-component-checker:a6997ed",
+          "role": "vue-component-checker",
+          "ownership": "a6997ed08c22da78b",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:49:54.788Z"
+        },
+        {
+          "name": "Explore:a08bbfb",
+          "role": "Explore",
+          "ownership": "a08bbfb3656634e3f",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:51:16.287Z"
+        },
+        {
+          "name": "backend-populate-checker:a235e6d",
+          "role": "backend-populate-checker",
+          "ownership": "a235e6df32e76b283",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-10T08:51:34.048Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "session-stop:a08bbfb3656634e3f:2026-04-10T08:51:16.287Z",
+          "at": "2026-04-10T08:51:16.287Z",
+          "kind": "completion",
+          "agent": "Explore:a08bbfb",
+          "detail": "completed",
+          "sourceKey": "session-stop:a08bbfb3656634e3f"
+        },
+        {
+          "id": "session-stop:a86f3eda3471a8b87:2026-04-10T08:51:22.896Z",
+          "at": "2026-04-10T08:51:22.896Z",
+          "kind": "completion",
+          "agent": "backend-populate-checker:a86f3ed",
+          "detail": "completed",
+          "sourceKey": "session-stop:a86f3eda3471a8b87"
+        },
+        {
+          "id": "session-start:a235e6df32e76b283:2026-04-10T08:51:23.456Z",
+          "at": "2026-04-10T08:51:23.456Z",
+          "kind": "update",
+          "agent": "backend-populate-checker:a235e6d",
+          "detail": "started backend-populate-checker:a235e6d",
+          "sourceKey": "session-start:a235e6df32e76b283"
+        },
+        {
+          "id": "session-stop:a618d79c670eea032:2026-04-10T08:51:25.061Z",
+          "at": "2026-04-10T08:51:25.061Z",
+          "kind": "completion",
+          "agent": "schema-design-checker:a618d79",
+          "detail": "completed",
+          "sourceKey": "session-stop:a618d79c670eea032"
+        },
+        {
+          "id": "session-stop:a235e6df32e76b283:2026-04-10T08:51:34.048Z",
+          "at": "2026-04-10T08:51:34.048Z",
+          "kind": "completion",
+          "agent": "backend-populate-checker:a235e6d",
+          "detail": "completed",
+          "sourceKey": "session-stop:a235e6df32e76b283"
+        },
+        {
+          "id": "session-stop:a55103a476f677b0f:2026-04-10T08:51:42.268Z",
+          "at": "2026-04-10T08:51:42.268Z",
+          "kind": "completion",
+          "agent": "api-endpoint-checker:a55103a",
+          "detail": "completed",
+          "sourceKey": "session-stop:a55103a476f677b0f"
+        }
+      ]
+    }
+  ]
+}

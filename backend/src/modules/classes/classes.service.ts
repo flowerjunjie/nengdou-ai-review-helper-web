@@ -84,11 +84,30 @@ export class ClassesService {
     const total = await this.classStudentModel.countDocuments(filter);
     const items = await this.classStudentModel
       .find(filter)
+      .populate('studentId', 'name studentId')
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ joinedAt: -1 });
 
-    return { items, total, page, limit };
+    // 转换数据结构以匹配前端期望
+    const transformedItems = items.map(item => {
+      const obj = item.toObject() as any;
+      return {
+        _id: obj._id,
+        studentId: obj.studentId?._id?.toString() || obj.studentId?.toString() || '',
+        studentName: obj.studentName || obj.studentId?.name || '',
+        studentNumber: obj.studentId?.studentId || '',
+        classId: obj.classId,
+        avatar: obj.avatar,
+        status: obj.status,
+        joinMethod: obj.joinMethod,
+        joinedAt: obj.joinedAt,
+        createdAt: obj.createdAt,
+        updatedAt: obj.updatedAt,
+      };
+    });
+
+    return { items: transformedItems, total, page, limit };
   }
 
   async addStudents(classId: string, studentIds: string[]) {

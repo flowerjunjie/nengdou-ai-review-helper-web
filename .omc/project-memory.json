@@ -1,0 +1,512 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775810867769,
+  "projectRoot": "/var/www/workspace/nengdou-ai-review-helper-web",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "vue",
+        "version": "3.2.41",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "3.1.8",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "run-p type-check build-only",
+      "preview": "vite preview",
+      "build-only": "vite build",
+      "type-check": "vue-tsc --noEmit",
+      "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+      "format": "prettier --write src/"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "master",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "backend": {
+      "path": "backend",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1775810867747,
+      "keyFiles": [
+        "backend.log",
+        "package-lock.json",
+        "package.json",
+        "tsconfig.json",
+        "tsconfig.tsbuildinfo"
+      ]
+    },
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 2,
+      "lastAccessed": 1775810867748,
+      "keyFiles": [
+        "favicon.ico",
+        "index.html"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 1,
+      "lastAccessed": 1775810867757,
+      "keyFiles": [
+        "favicon.ico"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 3,
+      "lastAccessed": 1775810867762,
+      "keyFiles": [
+        "App.vue",
+        "env.d.ts",
+        "main.ts"
+      ]
+    },
+    "backend/dist": {
+      "path": "backend/dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 7,
+      "lastAccessed": 1775810867763,
+      "keyFiles": [
+        "app.module.d.ts",
+        "app.module.js",
+        "app.module.js.map"
+      ]
+    },
+    "backend/node_modules": {
+      "path": "backend/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1775810867764,
+      "keyFiles": []
+    },
+    "backend/src": {
+      "path": "backend/src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1775810867764,
+      "keyFiles": [
+        "app.module.ts",
+        "main.ts"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 185,
+      "lastAccessed": 1775810867766,
+      "keyFiles": [
+        "AdaptiveTableContainer.vue_vue_type_script_setup_true_lang.0073a265.js",
+        "AddStudentDialog.51369797.js",
+        "AddStudentDialog.e3b0c442.css"
+      ]
+    },
+    "src/api": {
+      "path": "src/api",
+      "purpose": "API routes",
+      "fileCount": 14,
+      "lastAccessed": 1775810867766,
+      "keyFiles": [
+        "ai-models.ts",
+        "ai-rule.ts",
+        "assignments.ts"
+      ]
+    },
+    "src/assets": {
+      "path": "src/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1775810867767,
+      "keyFiles": [
+        "main.css",
+        "wangEidtAdd.css"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 8,
+      "lastAccessed": 1775810867767,
+      "keyFiles": [
+        "AdaptiveTableContainer.vue",
+        "AdaptiveTableExample.vue",
+        "FlexboxDemo.vue"
+      ]
+    },
+    "src/config": {
+      "path": "src/config",
+      "purpose": "Configuration files",
+      "fileCount": 1,
+      "lastAccessed": 1775810867767,
+      "keyFiles": [
+        "ai-config.ts"
+      ]
+    },
+    "src/docs": {
+      "path": "src/docs",
+      "purpose": "Documentation",
+      "fileCount": 10,
+      "lastAccessed": 1775810867768,
+      "keyFiles": [
+        "ADAPTIVE_TABLE_GUIDE.md",
+        "ADAPTIVE_TABLE_OPTIMIZATION_SUMMARY.md",
+        "PAGE_HEADER_COMPLETION_SUMMARY.md"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "backend/src/schemas/user.schema.ts",
+      "accessCount": 4,
+      "lastAccessed": 1775811027761,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/submission.schema.ts",
+      "accessCount": 4,
+      "lastAccessed": 1775811027791,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/class-student.schema.ts",
+      "accessCount": 4,
+      "lastAccessed": 1775811027894,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/class.schema.ts",
+      "accessCount": 4,
+      "lastAccessed": 1775811027940,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/assignment.schema.ts",
+      "accessCount": 4,
+      "lastAccessed": 1775811037189,
+      "type": "file"
+    },
+    {
+      "path": "backend/src",
+      "accessCount": 4,
+      "lastAccessed": 1775811109953,
+      "type": "directory"
+    },
+    {
+      "path": "backend/src/modules/users/users.service.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775811083995,
+      "type": "file"
+    },
+    {
+      "path": "src/types/user.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811020643,
+      "type": "file"
+    },
+    {
+      "path": "src/types/classes.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811020663,
+      "type": "file"
+    },
+    {
+      "path": "src/types/assignments.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811020777,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/assignments/assignments.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811027535,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/classes/classes.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811027584,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/submissions/submissions.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811027652,
+      "type": "file"
+    },
+    {
+      "path": "src/api/assignments.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811034753,
+      "type": "file"
+    },
+    {
+      "path": "src/api/submissions.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811034783,
+      "type": "file"
+    },
+    {
+      "path": "src/api/user.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811034889,
+      "type": "file"
+    },
+    {
+      "path": "src/api/correcting.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775811034945,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/menu.schema.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811007336,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/ai-rule.schema.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811007381,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/role.schema.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811007652,
+      "type": "file"
+    },
+    {
+      "path": "src/types/auth.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811009893,
+      "type": "file"
+    },
+    {
+      "path": "src/api/auth.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811021704,
+      "type": "file"
+    },
+    {
+      "path": "src/api/classes.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811021863,
+      "type": "file"
+    },
+    {
+      "path": "src/api/role.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811021986,
+      "type": "file"
+    },
+    {
+      "path": "src/api/ai-models.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811022040,
+      "type": "file"
+    },
+    {
+      "path": "src/api/menu.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811022091,
+      "type": "file"
+    },
+    {
+      "path": "src/api/ai-rule.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811022286,
+      "type": "file"
+    },
+    {
+      "path": "src/api/logs.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811023184,
+      "type": "file"
+    },
+    {
+      "path": "src/api/user-role.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811023257,
+      "type": "file"
+    },
+    {
+      "path": "src/api/dashboard.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811023329,
+      "type": "file"
+    },
+    {
+      "path": "src/api/template.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811023381,
+      "type": "file"
+    },
+    {
+      "path": "src/api",
+      "accessCount": 1,
+      "lastAccessed": 1775811027261,
+      "type": "directory"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1775811027404,
+      "type": "directory"
+    },
+    {
+      "path": "backend/src/modules/classes/classes.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811043980,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/users/users.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044043,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/auth/auth.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044173,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/submissions/submissions.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044235,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/assignments/assignments.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044280,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/permissions/menus.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044399,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/ai-models/ai-models.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044490,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/ai-rules/ai-rules.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044553,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/permissions/roles.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044624,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/permissions/user-roles.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811044685,
+      "type": "file"
+    },
+    {
+      "path": "src/store/modules/user.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811045251,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/logs/logs.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811045269,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/dashboard/dashboard.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811045391,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/ai-grading/ai-grading.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811045494,
+      "type": "file"
+    },
+    {
+      "path": "src/views/student/submissions/composables/useAiReviewPolling.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775811046696,
+      "type": "file"
+    },
+    {
+      "path": "src/views/system/ai_model/index.vue",
+      "accessCount": 1,
+      "lastAccessed": 1775811046829,
+      "type": "file"
+    },
+    {
+      "path": "src/views/Redirect.vue",
+      "accessCount": 1,
+      "lastAccessed": 1775811046892,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

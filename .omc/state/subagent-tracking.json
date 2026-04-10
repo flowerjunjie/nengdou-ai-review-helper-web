@@ -1,0 +1,67 @@
+{
+  "agents": [
+    {
+      "agent_id": "a4c29f982dcaf9312",
+      "agent_type": "type-checker",
+      "started_at": "2026-04-10T08:49:54.145Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a86f3eda3471a8b87",
+      "agent_type": "backend-populate-checker",
+      "started_at": "2026-04-10T08:49:54.581Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-10T08:51:22.896Z",
+      "duration_ms": 88315
+    },
+    {
+      "agent_id": "a55103a476f677b0f",
+      "agent_type": "api-endpoint-checker",
+      "started_at": "2026-04-10T08:49:54.638Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-10T08:51:42.268Z",
+      "duration_ms": 107630
+    },
+    {
+      "agent_id": "a618d79c670eea032",
+      "agent_type": "schema-design-checker",
+      "started_at": "2026-04-10T08:49:54.701Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-10T08:51:25.061Z",
+      "duration_ms": 90360
+    },
+    {
+      "agent_id": "a6997ed08c22da78b",
+      "agent_type": "vue-component-checker",
+      "started_at": "2026-04-10T08:49:54.788Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a08bbfb3656634e3f",
+      "agent_type": "Explore",
+      "started_at": "2026-04-10T08:50:14.083Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-10T08:51:16.287Z",
+      "duration_ms": 62204
+    },
+    {
+      "agent_id": "a235e6df32e76b283",
+      "agent_type": "backend-populate-checker",
+      "started_at": "2026-04-10T08:51:23.456Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-10T08:51:34.048Z",
+      "duration_ms": 10592
+    }
+  ],
+  "total_spawned": 5,
+  "total_completed": 5,
+  "total_failed": 0,
+  "last_updated": "2026-04-10T08:51:42.373Z"
+}
