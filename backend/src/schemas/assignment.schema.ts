@@ -61,3 +61,12 @@ export class Assignment {
 }
 
 export const AssignmentSchema = SchemaFactory.createForClass(Assignment);
+
+// 单字段索引：教师查询自己的作业
+AssignmentSchema.index({ teacherId: 1 });
+// 单字段索引：班级作业查询
+AssignmentSchema.index({ classes: 1 });
+// 复合索引：活跃作业查询（按状态和结束时间）
+AssignmentSchema.index({ status: 1, endDate: 1 });
+// 单字段索引：软删除过滤
+AssignmentSchema.index({ isDeleted: 1 });

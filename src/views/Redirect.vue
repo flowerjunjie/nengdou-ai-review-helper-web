@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { Loading } from "@element-plus/icons-vue";
 import logger from "@/utils/logger";
@@ -24,13 +24,15 @@ const redirectText = ref("页面重定向中...");
  * - replace: 是否使用replace方式导航 (默认true)
  * - delay: 延迟时间(毫秒) (默认0)
  */
+let countDownInterval: ReturnType<typeof setInterval> | null = null;
+
 onMounted(() => {
   // 获取重定向参数
   const { params, query } = route;
   const path = (params.path as string) || "/";
   const replace = query.replace !== "false";
-  // 使用ref创建可变的延迟时间
-  const redirectDelay = ref(parseInt(query.delay as string) || 0);
+  // 使用let创建可变的延迟时间
+  let redirectDelay = parseInt(query.delay as string) || 0;
 
   // 构建完整路径
   const redirectPath = path.startsWith("/") ? path : `/${path}`;
@@ -39,17 +41,17 @@ onMounted(() => {
   const { replace: _, delay: __, ...otherQuery } = query;
 
   // 如果配置了延迟，显示提示信息和倒计时
-  if (redirectDelay.value > 0) {
-    redirectText.value = `${redirectDelay.value / 1000}秒后跳转到新页面...`;
+  if (redirectDelay > 0) {
+    redirectText.value = `${redirectDelay / 1000}秒后跳转到新页面...`;
 
     // 显示倒计时
-    const countDown = setInterval(() => {
-      redirectDelay.value -= 1000;
-      const remainingSeconds = Math.max(0, redirectDelay.value / 1000);
+    countDownInterval = setInterval(() => {
+      redirectDelay -= 1000;
+      const remainingSeconds = Math.max(0, redirectDelay / 1000);
       redirectText.value = `${remainingSeconds}秒后跳转到新页面...`;
 
-      if (redirectDelay.value <= 0) {
-        clearInterval(countDown);
+      if (redirectDelay <= 0) {
+        if (countDownInterval) clearInterval(countDownInterval);
         performRedirect();
       }
     }, 1000);
@@ -70,6 +72,13 @@ onMounted(() => {
       logger.error("重定向失败:", error);
       redirectText.value = "重定向失败，请返回首页";
     }
+  }
+});
+
+onUnmounted(() => {
+  if (countDownInterval) {
+    clearInterval(countDownInterval);
+    countDownInterval = null;
   }
 });
 </script>

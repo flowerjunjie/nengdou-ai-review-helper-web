@@ -58,3 +58,16 @@ export class Submission {
 }
 
 export const SubmissionSchema = SchemaFactory.createForClass(Submission);
+
+// 复合唯一索引：防止同一学生对同一作业多次提交
+SubmissionSchema.index({ assignmentId: 1, studentId: 1 }, { unique: true });
+// 复合索引：按作业和状态查询（用于统计）
+SubmissionSchema.index({ assignmentId: 1, status: 1 });
+// 单字段索引：学生查询自己的提交
+SubmissionSchema.index({ studentId: 1 });
+// 单字段索引：班级提交查询
+SubmissionSchema.index({ classId: 1 });
+// 单字段索引：按状态查询
+SubmissionSchema.index({ status: 1 });
+// 单字段索引：提交时间查询（用于排序）
+SubmissionSchema.index({ submittedAt: 1 });

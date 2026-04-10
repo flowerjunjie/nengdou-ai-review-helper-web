@@ -6,11 +6,12 @@
 export type UserRole = "superadmin" | "teacher" | "student";
 
 // 用户状态类型
-export type UserStatus = "active" | "inactive";
+export type UserStatus = "active" | "inactive" | "locked";
 
 // 用户基本信息
 export interface User {
   _id: string;
+  id?: string; // 后端返回的id字段（与_id相同）
   username: string;
   email: string;
   name: string;
@@ -21,9 +22,9 @@ export interface User {
   avatar?: string;
   meta?: Record<string, any>;
   permissions?: string[];
-  lastLogin?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
+  lastLogin?: string;
+  createdAt?: string;
+  updatedAt?: string;
   // 认证信息 - 仅在前端状态中使用
   token?: string;
   refreshToken?: string;

@@ -34,3 +34,10 @@ export class ClassStudent {
 }
 
 export const ClassStudentSchema = SchemaFactory.createForClass(ClassStudent);
+
+// 复合唯一索引：防止同一学生重复加入同一班级
+ClassStudentSchema.index({ classId: 1, studentId: 1 }, { unique: true });
+// 单字段索引：学生查询自己的班级列表
+ClassStudentSchema.index({ studentId: 1 });
+// 单字段索引：班级学生列表查询
+ClassStudentSchema.index({ classId: 1 });
