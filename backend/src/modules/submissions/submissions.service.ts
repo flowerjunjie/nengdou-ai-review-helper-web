@@ -102,6 +102,7 @@ export class SubmissionsService {
         content: submission.aiReviewContent,
         score: submission.aiScore,
         reviewedAt: submission.aiReviewedAt,
+        aiReviewMetadata: submission.aiReviewMetadata,
       } : null,
       teacherReview: submission.teacherScore !== undefined ? {
         content: submission.teacherReviewContent,
