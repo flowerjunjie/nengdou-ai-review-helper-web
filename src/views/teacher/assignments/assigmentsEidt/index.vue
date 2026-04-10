@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed, defineAsyncComponent } from "vue";
+import { ref, reactive, onMounted, onUnmounted, computed, defineAsyncComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { ArrowLeft } from "@element-plus/icons-vue";
@@ -195,8 +195,6 @@ const isMobile = ref(false);
 const checkMobile = () => {
   isMobile.value = window.innerWidth < 768;
 };
-// 检测window的size事件
-window.addEventListener("resize", checkMobile);
 // 是否编辑模式
 const isEdit = computed(() => !!route.query.id);
 const assignmentId = computed(() => route.query.id as string);
@@ -462,9 +460,14 @@ const handleDescriptionExceed = (length: number) => {
 
 // 初始化
 onMounted(() => {
+  window.addEventListener("resize", checkMobile);
   initFormData();
   loadAssignmentData();
   checkMobile();
+});
+// 清理事件监听
+onUnmounted(() => {
+  window.removeEventListener("resize", checkMobile);
 });
 </script>
 

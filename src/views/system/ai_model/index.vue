@@ -554,15 +554,21 @@ const formatDate = (date: Date | string | undefined) => {
   }
 };
 
+// 定时刷新数据（每30秒）
+let refreshInterval: ReturnType<typeof setInterval> | null = null;
+
+// 页面可见性变化处理函数
+const handleVisibilityChange = () => {
+  if (!document.hidden) {
+    logger.log("页面重新可见，刷新AI模型数据...");
+    loadModelData();
+  }
+};
+
 // 生命周期
 onMounted(() => {
   loadModelData();
-});
 
-// 定时刷新数据（每30秒）
-let refreshInterval: any = null;
-
-onMounted(() => {
   // 设置定时刷新
   refreshInterval = setInterval(() => {
     logger.log("定时刷新AI模型数据...");
@@ -570,21 +576,16 @@ onMounted(() => {
   }, 30000);
 
   // 监听页面可见性变化
-  const handleVisibilityChange = () => {
-    if (!document.hidden) {
-      logger.log("页面重新可见，刷新AI模型数据...");
-      loadModelData();
-    }
-  };
-
   document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 
-// 清理定时器
+// 清理定时器和事件监听
 onUnmounted(() => {
   if (refreshInterval) {
     clearInterval(refreshInterval);
+    refreshInterval = null;
   }
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 </script>
 
