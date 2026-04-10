@@ -193,9 +193,6 @@ const loadRoleData = async () => {
 
     // 触发表格高度重新计算
     recalculateTrigger.value++;
-
-    // 触发表格高度重新计算
-    recalculateTrigger.value++;
   } catch (error) {
     logger.error("加载角色数据失败", error);
     ElMessage.error("加载角色列表失败");
