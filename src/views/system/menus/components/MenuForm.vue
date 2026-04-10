@@ -183,7 +183,7 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, nextTick, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { getMenuById, createMenu, updateMenu, getMenuList } from "@/api/menu";
@@ -296,10 +296,10 @@ const menuCascaderOptions = computed(() => {
   const currentMenuId = currentId.value;
 
   // 递归处理菜单项，标记按钮和当前编辑菜单为禁用状态
-  const processMenuItems = (items) => {
-    return items.map((item) => {
+  const processMenuItems = (items: any[]): any[] => {
+    return items.map((item: any) => {
       // 创建新的菜单项对象，只包含必要属性
-      const newItem = {
+      const newItem: any = {
         _id: item._id,
         name: item.name,
         type: item.type,

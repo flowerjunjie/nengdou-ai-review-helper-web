@@ -123,7 +123,7 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed } from "vue";
 import { ElMessage } from "element-plus";
 import { getAiRuleById } from "@/api/ai-rule";

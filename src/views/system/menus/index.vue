@@ -98,7 +98,7 @@
   </adaptive-table-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, computed, nextTick } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { getMenuList, deleteMenu } from "@/api/menu";
@@ -169,7 +169,7 @@ const loadMenuData = async () => {
   loading.value = true;
   try {
     // 构建查询参数
-    const params = {
+    const params: Record<string, any> = {
       tree: "true", // 请求树形结构数据
     };
 
@@ -181,8 +181,9 @@ const loadMenuData = async () => {
     // 特殊处理隐藏状态
     if (searchForm.hidden !== "") {
       // 确保布尔值被正确传递为字符串
+      const hiddenValue = searchForm.hidden as string | boolean;
       params.hidden =
-        searchForm.hidden === true || searchForm.hidden === "true"
+        hiddenValue === true || hiddenValue === "true"
           ? "true"
           : "false";
       logger.log(

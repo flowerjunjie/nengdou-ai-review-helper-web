@@ -140,7 +140,7 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, nextTick } from "vue";
 import { ElMessage } from "element-plus";
 import { getRoleWithMenus, createRole, updateRole } from "@/api/role";
@@ -184,7 +184,7 @@ const getFormTitle = computed(() =>
 );
 
 // 表单校验规则
-const rules = reactive({
+const rules = reactive<Record<string, any[]>>({
   name: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
   code: [
     { required: true, message: "请输入角色编码", trigger: "blur" },

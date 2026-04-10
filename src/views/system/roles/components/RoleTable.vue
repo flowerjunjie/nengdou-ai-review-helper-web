@@ -124,8 +124,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ArrowDown, Edit, Delete } from "@element-plus/icons-vue";
+import { formatDateTime } from "@/utils/format";
 
 const props = defineProps({
   roleData: {

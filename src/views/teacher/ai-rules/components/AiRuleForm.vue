@@ -139,7 +139,7 @@
   </el-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, nextTick, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { createAiRule, updateAiRule, getAiRuleById } from "@/api/ai-rule";
@@ -328,9 +328,9 @@ const handleSubmit = async () => {
 
     loading.value = true;
 
-    const submitData = {
+    const submitData: any = {
       name: formData.name.trim(),
-      modelType: formData.modelType,
+      modelType: formData.modelType as "deepseek" | "doubao",
       prompt: formData.prompt.trim(),
       status: formData.status,
       visibility: formData.visibility,
