@@ -131,7 +131,7 @@
         v-if="!isMobile"
       >
         <template #default="{ row }">
-          {{ row.createdAt ? new Date(row.createdAt).toLocaleString() : "-" }}
+          {{ formatDateTime(row.createdAt) }}
         </template>
       </el-table-column>
 
@@ -221,6 +221,7 @@ import {
   CopyDocument,
 } from "@element-plus/icons-vue";
 import logger from "@/utils/logger";
+import { formatDateTime } from "@/utils/format";
 
 const props = defineProps({
   ruleData: {

@@ -90,7 +90,7 @@
         v-if="!isMobile"
       >
         <template #default="{ row }">
-          {{ row.createdAt ? new Date(row.createdAt).toLocaleString() : "-" }}
+          {{ formatDateTime(row.createdAt) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -157,6 +157,7 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from "vue";
+import { formatDateTime } from "@/utils/format";
 import type { Menu } from "@/types/menu";
 
 const props = defineProps({

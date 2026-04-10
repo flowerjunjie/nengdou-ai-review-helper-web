@@ -49,7 +49,7 @@
         <el-descriptions-item label="创建时间">
           {{
             ruleData.createdAt
-              ? new Date(ruleData.createdAt).toLocaleString()
+              ? formatDateTime(ruleData.createdAt)
               : "-"
           }}
         </el-descriptions-item>
@@ -57,7 +57,7 @@
         <el-descriptions-item label="更新时间">
           {{
             ruleData.updatedAt
-              ? new Date(ruleData.updatedAt).toLocaleString()
+              ? formatDateTime(ruleData.updatedAt)
               : "-"
           }}
         </el-descriptions-item>
@@ -130,6 +130,7 @@ import { getAiRuleById } from "@/api/ai-rule";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import logger from "@/utils/logger";
+import { formatDateTime } from "@/utils/format";
 
 const props = defineProps({
   isMobile: {

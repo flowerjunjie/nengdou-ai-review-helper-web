@@ -69,7 +69,7 @@
         v-if="!isMobile"
       >
         <template #default="{ row }">
-          {{ row.createdAt ? new Date(row.createdAt).toLocaleString() : "-" }}
+          {{ formatDateTime(row.createdAt) }}
         </template>
       </el-table-column>
 

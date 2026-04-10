@@ -209,7 +209,7 @@
             <span class="card-title">作业描述</span>
           </div>
         </template>
-        git
+
         <div
           class="description-content editor-content-view"
           v-html="sanitizeDescription(assignment.description)"
@@ -244,6 +244,7 @@ import { Edit, Close } from "@element-plus/icons-vue";
 import { AssignmentStatus } from "@/api/assignments";
 import type { Assignment } from "@/types/assignments";
 import { sanitizeDescription } from "@/utils/sanitize";
+import { formatDateTime as formatDt } from "@/utils/format";
 
 interface Props {
   assignment: Assignment;
@@ -287,15 +288,7 @@ const getStatusText = (status: AssignmentStatus) => {
 
 // 格式化日期时间
 const formatDateTime = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  return formatDt(dateString);
 };
 
 // 计算提交百分比
