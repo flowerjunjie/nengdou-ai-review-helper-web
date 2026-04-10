@@ -130,6 +130,8 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import type { SubmissionRecord } from "@/api/correcting";
 import GradingDrawer from "@/views/teacher/assignments/detail/components/GradingDrawer.vue";
 
@@ -221,13 +223,7 @@ const getGradingStatusText = (status: string) => {
 const formatDateTime = (dateStr: string) => {
   if (!dateStr) return "-";
   const date = new Date(dateStr);
-  return date.toLocaleString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return format(date, "yyyy-MM-dd HH:mm", { locale: zhCN });
 };
 </script>
 

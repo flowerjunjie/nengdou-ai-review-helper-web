@@ -157,6 +157,7 @@ import type { StudentAssignmentListItem } from "../../../types/assignments";
 import AdaptiveTableContainer from "@/components/AdaptiveTableContainer.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import logger from "@/utils/logger";
+import { formatDateTime } from "@/utils/format";
 
 const router = useRouter();
 
@@ -229,16 +230,7 @@ const loadData = async () => {
 };
 
 // 格式化日期
-const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr);
-  return date.toLocaleString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+const formatDate = (dateStr: string) => formatDateTime(dateStr);
 
 // 获取提交状态类型
 const getSubmissionStatusType = (row: StudentAssignmentListItem) => {
