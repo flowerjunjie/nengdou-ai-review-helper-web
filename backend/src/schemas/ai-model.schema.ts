@@ -55,3 +55,8 @@ export class AiModel {
 }
 
 export const AiModelSchema = SchemaFactory.createForClass(AiModel);
+
+// 单字段索引：状态查询（用于获取活跃模型）
+AiModelSchema.index({ status: 1 });
+// 单字段索引：是否默认查询
+AiModelSchema.index({ isDefault: 1 });

@@ -209,8 +209,8 @@
   "hotPaths": [
     {
       "path": "src",
-      "accessCount": 15,
-      "lastAccessed": 1775857032471,
+      "accessCount": 16,
+      "lastAccessed": 1775858445196,
       "type": "directory"
     },
     {
@@ -238,22 +238,22 @@
       "type": "file"
     },
     {
-      "path": "backend/src",
-      "accessCount": 5,
-      "lastAccessed": 1775856916067,
-      "type": "directory"
-    },
-    {
       "path": "backend/src/schemas/user.schema.ts",
-      "accessCount": 4,
-      "lastAccessed": 1775811027761,
+      "accessCount": 6,
+      "lastAccessed": 1775858531753,
       "type": "file"
     },
     {
       "path": "backend/src/schemas/class.schema.ts",
-      "accessCount": 4,
-      "lastAccessed": 1775811027940,
+      "accessCount": 6,
+      "lastAccessed": 1775858546158,
       "type": "file"
+    },
+    {
+      "path": "backend/src",
+      "accessCount": 5,
+      "lastAccessed": 1775856916067,
+      "type": "directory"
     },
     {
       "path": "backend/src/modules/users/users.service.ts",
@@ -271,6 +271,24 @@
       "path": "src/api/auth.ts",
       "accessCount": 3,
       "lastAccessed": 1775856937693,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/ai-rule.schema.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775858562970,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/role.schema.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775858581252,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/schemas/menu.schema.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775858581883,
       "type": "file"
     },
     {
@@ -343,24 +361,6 @@
       "path": "backend/src/modules/submissions/submissions.controller.ts",
       "accessCount": 2,
       "lastAccessed": 1775834066852,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/schemas/menu.schema.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811007336,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/schemas/ai-rule.schema.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811007381,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/schemas/role.schema.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811007652,
       "type": "file"
     },
     {

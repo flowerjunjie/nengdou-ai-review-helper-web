@@ -51,3 +51,16 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+// 单字段索引：邮箱查询（用于登录）
+UserSchema.index({ email: 1 });
+// 单字段索引：用户名查询（用于登录）
+UserSchema.index({ username: 1 });
+// 单字段索引：角色查询
+UserSchema.index({ role: 1 });
+// 单字段索引：状态查询
+UserSchema.index({ status: 1 });
+// 单字段索引：学号查询（用于学生）
+UserSchema.index({ studentId: 1 });
+// 复合索引：角色+状态查询（用于列表筛选）
+UserSchema.index({ role: 1, status: 1 });

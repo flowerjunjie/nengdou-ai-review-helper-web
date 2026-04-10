@@ -28,3 +28,12 @@ export class Class {
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);
+
+// 单字段索引：教师查询班级
+ClassSchema.index({ teacherId: 1 });
+// 单字段索引：班级状态查询
+ClassSchema.index({ status: 1 });
+// 单字段索引：邀请码查询（唯一）
+ClassSchema.index({ code: 1 });
+// 复合索引：状态+教师（用于教师筛选班级）
+ClassSchema.index({ status: 1, teacherId: 1 });

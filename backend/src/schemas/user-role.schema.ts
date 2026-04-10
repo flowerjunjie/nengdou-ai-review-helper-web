@@ -13,3 +13,10 @@ export class UserRole {
 }
 
 export const UserRoleSchema = SchemaFactory.createForClass(UserRole);
+
+// 复合唯一索引：防止重复分配
+UserRoleSchema.index({ userId: 1, roleId: 1 }, { unique: true });
+// 单字段索引：用户查询
+UserRoleSchema.index({ userId: 1 });
+// 单字段索引：角色查询
+UserRoleSchema.index({ roleId: 1 });

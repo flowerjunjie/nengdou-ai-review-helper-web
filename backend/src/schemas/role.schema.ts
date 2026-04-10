@@ -34,3 +34,10 @@ export class Role {
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);
+
+// 单字段索引：角色编码（唯一）
+RoleSchema.index({ code: 1 });
+// 单字段索引：状态查询
+RoleSchema.index({ status: 1 });
+// 单字段索引：系统角色查询
+RoleSchema.index({ isSystem: 1 });

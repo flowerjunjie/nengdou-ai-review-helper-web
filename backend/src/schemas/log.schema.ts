@@ -37,3 +37,12 @@ export class Log {
 }
 
 export const LogSchema = SchemaFactory.createForClass(Log);
+
+// 单字段索引：用户查询
+LogSchema.index({ userId: 1 });
+// 单字段索引：级别查询（用于筛选）
+LogSchema.index({ level: 1 });
+// 单字段索引：创建时间（用于排序和范围查询）
+LogSchema.index({ createdAt: -1 });
+// 复合索引：用户+时间（用于用户日志历史）
+LogSchema.index({ userId: 1, createdAt: -1 });

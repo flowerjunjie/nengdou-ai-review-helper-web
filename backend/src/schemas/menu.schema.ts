@@ -46,3 +46,14 @@ export class Menu {
 }
 
 export const MenuSchema = SchemaFactory.createForClass(Menu);
+
+// 单字段索引：父菜单查询（用于树形结构）
+MenuSchema.index({ parentId: 1 });
+// 单字段索引：类型查询
+MenuSchema.index({ type: 1 });
+// 单字段索引：状态查询
+MenuSchema.index({ status: 1 });
+// 单字段索引：权限编码查询
+MenuSchema.index({ code: 1 });
+// 复合索引：类型+状态（用于菜单树查询）
+MenuSchema.index({ type: 1, status: 1 });

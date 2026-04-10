@@ -34,3 +34,14 @@ export class AiRule {
 }
 
 export const AiRuleSchema = SchemaFactory.createForClass(AiRule);
+
+// 单字段索引：模型类型查询
+AiRuleSchema.index({ modelType: 1 });
+// 单字段索引：状态查询
+AiRuleSchema.index({ status: 1 });
+// 单字段索引：可见性查询
+AiRuleSchema.index({ visibility: 1 });
+// 单字段索引：创建者查询
+AiRuleSchema.index({ createdBy: 1 });
+// 复合索引：状态+可见性（用于列表查询）
+AiRuleSchema.index({ status: 1, visibility: 1 });
