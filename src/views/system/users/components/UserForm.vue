@@ -337,10 +337,19 @@ const submitForm = () => {
         };
 
         if (formMode.value === "add") {
-          await createUser({
+          const newUser = await createUser({
             ...userData,
             password: form.password,
           } as CreateUserDto);
+
+          // 为新用户分配角色
+          const roleId = roleMapping.value[form.role];
+          const newUserId = newUser._id;
+          if (roleId && newUserId) {
+            await assignRolesToUser(newUserId, [roleId]);
+            logger.log(`为新用户 ${newUser.username} 分配角色: ${form.role}`);
+          }
+
           ElMessage.success("创建用户成功");
         } else {
           // 更新用户基本信息
