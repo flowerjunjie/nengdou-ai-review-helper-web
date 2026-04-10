@@ -92,12 +92,12 @@ export const forgotPassword = (
  */
 export const resetPassword = (
   token: string,
-  password: string
+  newPassword: string
 ): Promise<{ success: boolean }> => {
   return request({
     url: "/v1/auth/reset-password",
     method: "post",
-    data: { token, password },
+    data: { token, newPassword },
   });
 };
 

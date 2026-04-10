@@ -232,6 +232,12 @@
       "type": "file"
     },
     {
+      "path": "backend/src",
+      "accessCount": 5,
+      "lastAccessed": 1775856916067,
+      "type": "directory"
+    },
+    {
       "path": "backend/src/schemas/user.schema.ts",
       "accessCount": 4,
       "lastAccessed": 1775811027761,
@@ -244,12 +250,6 @@
       "type": "file"
     },
     {
-      "path": "backend/src",
-      "accessCount": 4,
-      "lastAccessed": 1775811109953,
-      "type": "directory"
-    },
-    {
       "path": "backend/src/modules/users/users.service.ts",
       "accessCount": 3,
       "lastAccessed": 1775811083995,
@@ -259,6 +259,12 @@
       "path": "backend/src/modules/ai-grading/ai-grading.controller.ts",
       "accessCount": 3,
       "lastAccessed": 1775834080951,
+      "type": "file"
+    },
+    {
+      "path": "src/api/auth.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775856937693,
       "type": "file"
     },
     {
@@ -355,12 +361,6 @@
       "path": "src/types/auth.ts",
       "accessCount": 1,
       "lastAccessed": 1775811009893,
-      "type": "file"
-    },
-    {
-      "path": "src/api/auth.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811021704,
       "type": "file"
     },
     {
