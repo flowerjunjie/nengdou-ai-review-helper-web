@@ -7,6 +7,9 @@ import { User, UserDocument } from '../../schemas/user.schema';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 
+// 简单的内存存储，生产环境建议使用Redis
+const passwordResetTokens = new Map<string, { userId: string; expires: Date }>();
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -150,5 +153,71 @@ export class AuthService {
       throw new BadRequestException('用户不存在');
     }
     return user;
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      // 不暴露用户是否存在，返回相同的成功消息
+      return {
+        message: '如果该邮箱存在，我们将发送密码重置链接',
+      };
+    }
+
+    // 生成重置token
+    const token = this.jwtService.sign(
+      { sub: user._id, type: 'password-reset' },
+      { expiresIn: '1h' },
+    );
+
+    // 存储token（生产环境应该使用Redis并设置过期时间）
+    passwordResetTokens.set(token, {
+      userId: user._id.toString(),
+      expires: new Date(Date.now() + 60 * 60 * 1000), // 1小时过期
+    });
+
+    // TODO: 发送邮件（实际生产环境需要集成邮件服务）
+    // 这里仅返回token用于演示
+    return {
+      message: '密码重置链接已发送到您的邮箱',
+      // 注意：实际生产环境不应该返回token，这里仅用于测试
+      token,
+    };
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    // 验证token
+    const tokenData = passwordResetTokens.get(token);
+    if (!tokenData || tokenData.expires < new Date()) {
+      throw new BadRequestException('重置链接已过期或无效');
+    }
+
+    try {
+      // 验证JWT token
+      const payload = this.jwtService.verify(token);
+      if (payload.type !== 'password-reset') {
+        throw new BadRequestException('无效的重置链接');
+      }
+
+      // 检查token是否匹配
+      if (payload.sub !== tokenData.userId) {
+        throw new BadRequestException('无效的重置链接');
+      }
+
+      // 更新密码
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      await this.userModel.findByIdAndUpdate(tokenData.userId, {
+        password: hashedPassword,
+      });
+
+      // 删除已使用的token
+      passwordResetTokens.delete(token);
+
+      return {
+        message: '密码重置成功，请使用新密码登录',
+      };
+    } catch (error) {
+      throw new BadRequestException('重置链接已过期或无效');
+    }
   }
 }

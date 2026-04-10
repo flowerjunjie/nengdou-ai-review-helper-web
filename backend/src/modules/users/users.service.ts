@@ -93,4 +93,48 @@ export class UsersService {
     }
     return results;
   }
+
+  async batchDelete(userIds: string[]) {
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+      throw new BadRequestException('请选择要删除的用户');
+    }
+
+    const results = {
+      success: [] as string[],
+      failed: [] as { userId: string; reason: string }[],
+    };
+
+    for (const userId of userIds) {
+      try {
+        await this.userModel.findByIdAndDelete(userId);
+        results.success.push(userId);
+      } catch (error: any) {
+        results.failed.push({ userId, reason: error?.message || '删除失败' });
+      }
+    }
+
+    return {
+      message: `成功删除${results.success.length}个用户，失败${results.failed.length}个`,
+      successCount: results.success.length,
+      failureCount: results.failed.length,
+      failures: results.failed,
+    };
+  }
+
+  async updatePassword(userId: string, oldPassword: string, newPassword: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException('用户不存在');
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      throw new BadRequestException('当前密码错误');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await this.userModel.findByIdAndUpdate(userId, { password: hashedPassword });
+
+    return { message: '密码修改成功' };
+  }
 }

@@ -208,6 +208,12 @@
   },
   "hotPaths": [
     {
+      "path": "src",
+      "accessCount": 9,
+      "lastAccessed": 1775833412894,
+      "type": "directory"
+    },
+    {
       "path": "backend/src/schemas/class-student.schema.ts",
       "accessCount": 6,
       "lastAccessed": 1775812640986,
@@ -397,12 +403,6 @@
       "path": "src/api",
       "accessCount": 1,
       "lastAccessed": 1775811027261,
-      "type": "directory"
-    },
-    {
-      "path": "src",
-      "accessCount": 1,
-      "lastAccessed": 1775811027404,
       "type": "directory"
     },
     {
