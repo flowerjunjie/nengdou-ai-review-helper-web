@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AiGradingService } from './ai-grading.service';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -10,7 +10,7 @@ export class AiGradingController {
 
   @Post('ai-grading/submissions/:id')
   @Roles('teacher', 'student', 'superadmin')
-  async gradeSubmission(@Body('submissionId') submissionId: string) {
-    return this.aiGradingService.gradeSubmission(submissionId);
+  async gradeSubmission(@Param('id') id: string) {
+    return this.aiGradingService.gradeSubmission(id);
   }
 }

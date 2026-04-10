@@ -209,8 +209,8 @@
   "hotPaths": [
     {
       "path": "src",
-      "accessCount": 9,
-      "lastAccessed": 1775833412894,
+      "accessCount": 13,
+      "lastAccessed": 1775834009183,
       "type": "directory"
     },
     {
@@ -253,6 +253,12 @@
       "path": "backend/src/modules/users/users.service.ts",
       "accessCount": 3,
       "lastAccessed": 1775811083995,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/ai-grading/ai-grading.controller.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775834080951,
       "type": "file"
     },
     {
@@ -313,6 +319,18 @@
       "path": "src/api/correcting.ts",
       "accessCount": 2,
       "lastAccessed": 1775811034945,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/assignments/assignments.controller.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775834058410,
+      "type": "file"
+    },
+    {
+      "path": "backend/src/modules/submissions/submissions.controller.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775834066852,
       "type": "file"
     },
     {
@@ -424,18 +442,6 @@
       "type": "file"
     },
     {
-      "path": "backend/src/modules/submissions/submissions.controller.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811044235,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/modules/assignments/assignments.controller.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811044280,
-      "type": "file"
-    },
-    {
       "path": "backend/src/modules/permissions/menus.controller.ts",
       "accessCount": 1,
       "lastAccessed": 1775811044399,
@@ -481,12 +487,6 @@
       "path": "backend/src/modules/dashboard/dashboard.controller.ts",
       "accessCount": 1,
       "lastAccessed": 1775811045391,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/modules/ai-grading/ai-grading.controller.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775811045494,
       "type": "file"
     },
     {
