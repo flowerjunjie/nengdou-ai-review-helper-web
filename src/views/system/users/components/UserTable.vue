@@ -160,6 +160,7 @@
 import { ref } from "vue";
 import { ArrowDown, Edit, Delete, Key } from "@element-plus/icons-vue";
 import type { User, UserStatus } from "../../../../types/user";
+import { formatDateTime } from "@/utils/format";
 
 const props = defineProps({
   userData: {
@@ -212,12 +213,7 @@ const getRoleTagType = (role: string) => {
 
 // 格式化日期
 const formatDate = (date: string | Date | undefined): string => {
-  if (!date) return "-";
-  try {
-    return new Date(date).toLocaleString();
-  } catch (e) {
-    return "-";
-  }
+  return formatDateTime(date);
 };
 
 // 修改用户状态

@@ -127,6 +127,7 @@ import { ElMessage } from "element-plus";
 import logger from "@/utils/logger";
 import { Document } from "@element-plus/icons-vue";
 import { getStudentAssignment } from "../../../api/assignments";
+import { formatDateTime } from "@/utils/format";
 
 const route = useRoute();
 const router = useRouter();
@@ -150,10 +151,7 @@ const loadAssignment = async () => {
 };
 
 // 格式化日期
-const formatDate = (date) => {
-  if (!date) return "-";
-  return new Date(date).toLocaleString("zh-CN");
-};
+const formatDate = (date) => formatDateTime(date);
 
 // 获取状态类型
 const getStatusType = (status) => {

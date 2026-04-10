@@ -1,11 +1,14 @@
 import { ElMessage } from "element-plus";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import type { Attachment } from "@/api/submissions";
 
 export function useSubmissionUtils() {
   // 格式化日期
   const formatDate = (dateStr?: string | null) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleString("zh-CN");
+    const date = new Date(dateStr);
+    return format(date, "yyyy-MM-dd HH:mm", { locale: zhCN });
   };
 
   // 格式化文件大小
