@@ -314,16 +314,10 @@ const formRules: FormRules = {
 // 初始化表单数据
 const initFormData = () => {
   if (!isEdit.value) {
-    // 新建模式，设置默认时间
+    // 新建模式，设置默认时间（使用date-fns避免时区问题）
     const now = new Date();
-    formData.startDate = new Date(now.getTime() + 60 * 60 * 1000)
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
-    formData.endDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
+    formData.startDate = format(now.getTime() + 60 * 60 * 1000, 'yyyy-MM-dd HH:mm:ss');
+    formData.endDate = format(now.getTime() + 7 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd HH:mm:ss');
   }
 };
 

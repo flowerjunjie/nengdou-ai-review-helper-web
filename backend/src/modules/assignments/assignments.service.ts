@@ -5,6 +5,7 @@ import { Assignment, AssignmentDocument } from '../../schemas/assignment.schema'
 import { Class, ClassDocument } from '../../schemas/class.schema';
 import { ClassStudent, ClassStudentDocument } from '../../schemas/class-student.schema';
 import { Submission, SubmissionDocument } from '../../schemas/submission.schema';
+import { User, UserDocument } from '../../schemas/user.schema';
 
 @Injectable()
 export class AssignmentsService {
@@ -13,6 +14,7 @@ export class AssignmentsService {
     @InjectModel(Class.name) private classModel: Model<ClassDocument>,
     @InjectModel(ClassStudent.name) private classStudentModel: Model<ClassStudentDocument>,
     @InjectModel(Submission.name) private submissionModel: Model<SubmissionDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
   async findTeacherAssignments(teacherId: string, query: any) {
@@ -92,19 +94,25 @@ export class AssignmentsService {
         const assignmentClassId = classObj?._id ? classObj._id.toString() : (classIds[0] as any).toString();
         const className = classObj?.name || '';
 
+        const itemObj = item.toObject() as any;
         return {
+          id: item._id.toString(),  // 添加 id 字段（前端期望）
           _id: item._id,
           title: item.title,
           description: item.description,
-          teacherId: item.teacherId,
+          teacherId: item.teacherId?.toString(),
           teacherName: item.teacherName,
+          startDate: item.startDate,
           endDate: item.endDate,
           status: item.status,
+          allowAttachments: item.allowAttachments ?? true,
           hasDraft,
           hasSubmitted,
           isExpired,
           submissionStatus: submission?.status,
-          submissionId: submission?._id,
+          submissionId: submission?._id?.toString(),
+          canSubmit: !hasSubmitted && !isExpired,
+          createdAt: itemObj.createdAt,
           classId: assignmentClassId,
           className,
           passFilter,
@@ -127,7 +135,25 @@ export class AssignmentsService {
   async findById(id: string) {
     const assignment = await this.assignmentModel.findById(id).populate('classes', 'name');
     if (!assignment) throw new NotFoundException('作业不存在');
-    return assignment;
+
+    const obj = assignment.toObject() as any;
+    return {
+      id: obj._id.toString(),
+      _id: obj._id,
+      title: obj.title,
+      description: obj.description,
+      teacherId: obj.teacherId?.toString(),
+      teacherName: obj.teacherName,
+      startDate: obj.startDate,
+      endDate: obj.endDate,
+      status: obj.status,
+      allowAttachments: obj.allowAttachments ?? true,
+      aiRuleSnapshot: obj.aiRuleSnapshot,
+      terminatedReason: obj.terminatedReason,
+      createdAt: obj.createdAt,
+      updatedAt: obj.updatedAt,
+      classes: obj.classes,
+    };
   }
 
   async create(createDto: any, teacherId: string, teacherName: string) {
@@ -160,15 +186,56 @@ export class AssignmentsService {
   }
 
   async getAssignmentStudents(id: string, query: any) {
+    const { page = 1, limit = 50 } = query;
     const assignment = await this.assignmentModel.findById(id);
     if (!assignment) throw new NotFoundException('作业不存在');
 
-    return {
-      total: assignment.totalSubmissions,
-      submitted: assignment.submittedSubmissions,
-      graded: assignment.gradedSubmissions,
-      pending: assignment.pendingSubmissions,
-    };
+    // 获取班级中的所有学生
+    const classStudents = await this.classStudentModel.find({
+      classId: { $in: assignment.classes },
+      status: 'active',
+    });
+
+    const studentIds = classStudents.map(cs => cs.studentId);
+
+    // 获取这些学生的提交记录
+    const submissions = await this.submissionModel.find({
+      assignmentId: new Types.ObjectId(id),
+      studentId: { $in: studentIds },
+    });
+
+    const submissionMap = new Map(
+      submissions.map(s => [s.studentId.toString(), s])
+    );
+
+    // 获取学生信息
+    const students = await Promise.all(
+      classStudents.map(async (cs) => {
+        const studentId = cs.studentId.toString();
+        const submission = submissionMap.get(studentId);
+        const isExpired = new Date(assignment.endDate) < new Date();
+
+        return {
+          studentId,
+          studentName: '', // 需要从user表获取
+          studentNumber: '', // 需要从user表获取
+          classId: cs.classId.toString(),
+          status: submission?.status || 'not_submitted',
+          submittedAt: submission?.submittedAt,
+          content: submission?.content,
+          aiScore: submission?.aiScore,
+          teacherScore: submission?.teacherScore,
+          isExpired,
+        };
+      })
+    );
+
+    // 分页
+    const total = students.length;
+    const start = (page - 1) * limit;
+    const items = students.slice(start, start + limit);
+
+    return { items, total, page, limit };
   }
 
   async getStudentStatistics(studentId: string, classId?: string) {
