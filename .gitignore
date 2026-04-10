@@ -1,3 +1,10 @@
+# Backend (separate NestJS project)
+backend/
+
+# Auto-generated type files
+auto-imports.d.ts
+components.d.ts
+
 # Logs
 logs
 *.log

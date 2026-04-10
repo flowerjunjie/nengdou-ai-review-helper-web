@@ -328,14 +328,14 @@ const parseFile = async (file) => {
       } catch (error) {
         validationMessage.value = "";
         ElMessage.error("文件解析失败，请确保文件格式正确");
-        console.error("文件解析错误:", error);
+        logger.error("文件解析错误:", error);
       }
     };
     reader.readAsArrayBuffer(file);
   } catch (error) {
     validationMessage.value = "";
     ElMessage.error("文件处理失败");
-    console.error("文件处理错误:", error);
+    logger.error("文件处理错误:", error);
   }
 };
 
@@ -371,7 +371,7 @@ const importUsers = async () => {
       emit("success");
     }
   } catch (error) {
-    console.error("导入失败", error);
+    logger.error("导入失败", error);
 
     importResult.value = {
       success: false,

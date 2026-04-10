@@ -107,7 +107,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ElMessage } from "element-plus";
-import moment from "moment";
+import logger from "@/utils/logger";
+import { formatDateTime } from "@/utils/date";
 import {
   Edit,
   MoreFilled,
@@ -123,7 +124,7 @@ interface Class {
   code: string;
   teacherId: string;
   teacherName?: string;
-  status: "active" | "inactive" | "disbanded";
+  status: string;
   studentCount: number;
   maxStudents?: number;
   description?: string;
@@ -172,9 +173,9 @@ const statusText = computed(() => {
   }
 });
 
-// 格式化日期 - 使用moment库
+// 格式化日期 - 使用date-fns
 const formatDate = (dateStr: string) => {
-  return moment(dateStr).format("YYYY-MM-DD HH:mm:ss");
+  return formatDateTime(dateStr, "yyyy-MM-dd HH:mm:ss");
 };
 
 // 复制邀请码
@@ -183,7 +184,7 @@ const copyCode = async () => {
     await navigator.clipboard.writeText(props.classData.code);
     ElMessage.success("邀请码已复制到剪贴板");
   } catch (error) {
-    console.error("复制失败:", error);
+    logger.error("复制失败:", error);
     ElMessage.error("复制失败");
   }
 };

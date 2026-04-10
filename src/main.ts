@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
-import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "@/store";
@@ -14,10 +13,6 @@ import "@wangeditor/editor/dist/css/style.css";
 import "@/assets/wangEidtAdd.css";
 // 引入自适应表格样式
 import "@/assets/styles/adaptive-table.css";
-// 配置moment中文语言包
-import moment from "moment";
-import "moment/locale/zh-cn";
-moment.locale("zh-cn");
 
 // 引入路由守卫
 import "./router/permission";
@@ -40,11 +35,6 @@ window.addEventListener("unhandledrejection", (event) => {
   // 阻止浏览器的默认行为（在控制台显示错误）
   // event.preventDefault()
 });
-
-// 注册Element Plus图标
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
-}
 
 // 挂载Vuex
 app.use(store);

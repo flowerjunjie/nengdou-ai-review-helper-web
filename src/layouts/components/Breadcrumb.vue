@@ -28,6 +28,7 @@
 import { ref, computed, watch, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import type { RouteLocationMatched } from "vue-router";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "Breadcrumb",
@@ -47,8 +48,8 @@ export default defineComponent({
         return item.meta && item.meta.title;
       });
 
-      console.log("当前路由matched:", route.matched);
-      console.log("面包屑项目:", items);
+      logger.log("当前路由matched:", route.matched);
+      logger.log("面包屑项目:", items);
 
       return items;
     });

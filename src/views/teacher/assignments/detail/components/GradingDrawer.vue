@@ -283,6 +283,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, nextTick, computed } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+import logger from "@/utils/logger";
 import { Document, EditPen, Cpu, User, Warning } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { getSubmissionDetail, submitTeacherReview } from "@/api/correcting";
@@ -434,7 +435,7 @@ const loadData = async () => {
       gradingForm.reviewContent = submissionData.value.teacherReviewContent;
     }
   } catch (error) {
-    console.error("加载数据失败", error);
+    logger.error("加载数据失败", error);
     ElMessage.error("加载数据失败");
   } finally {
     loading.value = false;
@@ -473,7 +474,7 @@ const handleSubmitGrading = async () => {
     handleClose();
   } catch (error) {
     if (error !== "cancel") {
-      console.error("提交批改失败", error);
+      logger.error("提交批改失败", error);
       ElMessage.error("提交批改失败");
     }
   } finally {

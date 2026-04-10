@@ -103,6 +103,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage } from "element-plus";
 import { CircleCheckFilled } from "@element-plus/icons-vue";
 import { changePassword } from "../../api/auth";
+import logger from "@/utils/logger";
 
 export default defineComponent({
   name: "ChangePasswordDialog",
@@ -254,7 +255,7 @@ export default defineComponent({
         // 触发成功事件
         emit("success");
       } catch (error: any) {
-        console.error("修改密码失败:", error);
+        logger.error("修改密码失败:", error);
         ElMessage.error(error.message || "修改密码失败，请重试");
       } finally {
         loading.value = false;

@@ -63,7 +63,7 @@ export function useAiReviewPolling() {
           return false;
         }
       } catch (error) {
-        console.warn("⚠️ 无法检查AI支持状态，继续轮询");
+        logger.warn("⚠️ 无法检查AI支持状态，继续轮询");
       }
     }
 

@@ -124,6 +124,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
+import logger from "@/utils/logger";
 import { Document } from "@element-plus/icons-vue";
 import { getStudentAssignment } from "../../../api/assignments";
 
@@ -141,7 +142,7 @@ const loadAssignment = async () => {
     const classId = route.query.classId as string;
     assignment.value = await getStudentAssignment(assignmentId, classId);
   } catch (error) {
-    console.error("加载作业详情失败:", error);
+    logger.error("加载作业详情失败:", error);
     ElMessage.error("加载作业详情失败");
   } finally {
     loading.value = false;

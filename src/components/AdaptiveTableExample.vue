@@ -55,6 +55,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import AdaptiveTableContainer from "./AdaptiveTableContainer.vue";
+import logger from "@/utils/logger";
 
 // 搜索关键词
 const searchKeyword = ref("");
@@ -104,7 +105,7 @@ const tableData = ref([
 
 // 搜索处理
 const handleSearch = () => {
-  console.log("搜索:", searchKeyword.value);
+  logger.log("搜索:", searchKeyword.value);
 };
 
 // 重置处理
@@ -114,12 +115,12 @@ const handleReset = () => {
 
 // 编辑处理
 const handleEdit = (row: any) => {
-  console.log("编辑:", row);
+  logger.log("编辑:", row);
 };
 
 // 删除处理
 const handleDelete = (row: any) => {
-  console.log("删除:", row);
+  logger.log("删除:", row);
 };
 
 // 分页大小变化

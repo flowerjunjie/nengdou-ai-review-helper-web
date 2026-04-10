@@ -101,19 +101,9 @@
       <el-table-column label="操作" width="150" fixed="right">
         <template #default="{ row }">
           <div class="flex gap-2">
-            <!-- 查看作业 -->
-            <el-button
-              link
-              type="primary"
-              size="small"
-              @click="handleViewSubmission(row)"
-            >
-              查看详情
-            </el-button>
-
             <!-- 批改作业 -->
             <el-button
-              v-if="row.status === 'submitted' || row.status === 'ai_reviewed'"
+              v-if="canGrade(row.status)"
               link
               type="success"
               size="small"
@@ -121,16 +111,27 @@
             >
               {{ row.status === "teacher_reviewed" ? "重新批改" : "批改" }}
             </el-button>
+            <span v-else class="text-gray-400 text-xs">-</span>
           </div>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 批改抽屉 -->
+    <grading-drawer
+      v-model:visible="gradingDrawerVisible"
+      :submission-id="currentSubmissionId"
+      :assignment-id="currentAssignmentId"
+      @graded="handleGraded"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { ElMessage } from "element-plus";
 import type { SubmissionRecord } from "@/api/correcting";
+import GradingDrawer from "@/views/teacher/assignments/detail/components/GradingDrawer.vue";
 
 // Props
 interface Props {
@@ -140,30 +141,36 @@ interface Props {
 
 defineProps<Props>();
 
-// Router
-const router = useRouter();
+// 批改抽屉状态
+const gradingDrawerVisible = ref(false);
+const currentSubmissionId = ref<string | null>(null);
+const currentAssignmentId = ref<string | null>(null);
 
-// 查看作业提交
-const handleViewSubmission = (row: SubmissionRecord) => {
-  router.push({
-    path: "/teacher/submissions/detail",
-    query: {
-      submissionId: row._id,
-      studentId: row.studentId,
-      assignmentId: row.assignmentId,
-    },
-  });
+// 判断是否可以批改
+const canGrade = (status: string) => {
+  return ["submitted", "ai_reviewed", "teacher_reviewed"].includes(status);
 };
 
 // 批改作业
 const handleGradeSubmission = (row: SubmissionRecord) => {
-  router.push({
-    path: "/teacher/correcting/grading",
-    query: {
-      submissionId: row._id,
-      assignmentId: row.assignmentId,
-    },
-  });
+  if (!canGrade(row.status)) {
+    ElMessage.warning("当前状态无法批改");
+    return;
+  }
+
+  if (!row._id) {
+    ElMessage.error("提交记录ID无效");
+    return;
+  }
+
+  currentSubmissionId.value = row._id;
+  currentAssignmentId.value = row.assignmentId;
+  gradingDrawerVisible.value = true;
+};
+
+// 批改完成后刷新
+const handleGraded = () => {
+  // 触发父组件刷新
 };
 
 // 获取提交状态类型

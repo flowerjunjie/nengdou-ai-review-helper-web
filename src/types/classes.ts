@@ -20,7 +20,7 @@ export interface Class {
   code: string;
   teacherId: string;
   teacherName?: string;
-  status: ClassStatus | string;
+  status: string;
   studentCount: number;
   maxStudents?: number; // 班级最大学生数量
   description?: string;

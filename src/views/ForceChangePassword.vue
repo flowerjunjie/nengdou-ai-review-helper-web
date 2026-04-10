@@ -85,6 +85,7 @@
 import { ref, reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import logger from "@/utils/logger";
 import type { FormInstance, FormRules } from "element-plus";
 import { changePassword } from "../api/auth";
 import { ElMessage } from "element-plus";
@@ -216,7 +217,7 @@ const submitForm = async () => {
         const redirect = router.currentRoute.value.query.redirect as string;
         router.push(redirect || "/dashboard");
       } catch (err: any) {
-        console.error("修改密码失败:", err);
+        logger.error("修改密码失败:", err);
         error.value = err.message || "修改密码失败，请重试";
       } finally {
         loading.value = false;

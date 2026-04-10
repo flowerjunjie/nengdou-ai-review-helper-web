@@ -1,33 +1,30 @@
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import moment from "moment";
-import "moment/locale/zh-cn";
+import { format, isValid, formatDistanceToNow } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import { leaveClass } from "../../../../api/classes";
-
-// 设置moment为中文
-moment.locale("zh-cn");
 
 export function useClassManagement() {
   // 格式化日期的通用函数
   const formatDate = (date: string | Date, type = "full") => {
     if (!date) return "未设置";
 
-    const momentDate = moment(date);
+    const dateObj = new Date(date);
 
-    if (!momentDate.isValid()) return "无效日期";
+    if (!isValid(dateObj)) return "无效日期";
 
     switch (type) {
       case "short":
-        return momentDate.format("YYYY-MM-DD");
+        return format(dateObj, "yyyy-MM-dd", { locale: zhCN });
       case "time":
-        return momentDate.format("HH:mm:ss");
+        return format(dateObj, "HH:mm:ss", { locale: zhCN });
       case "datetime":
-        return momentDate.format("MM-DD HH:mm");
+        return format(dateObj, "MM-dd HH:mm", { locale: zhCN });
       case "relative":
-        return momentDate.fromNow();
+        return formatDistanceToNow(dateObj, { addSuffix: true, locale: zhCN });
       case "full":
       default:
-        return momentDate.format("YYYY-MM-DD HH:mm:ss");
+        return format(dateObj, "yyyy-MM-dd HH:mm:ss", { locale: zhCN });
     }
   };
 

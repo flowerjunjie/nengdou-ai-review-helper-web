@@ -194,7 +194,8 @@ import {
   Calendar,
   CopyDocument,
 } from "@element-plus/icons-vue";
-import moment from "moment";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import logger from "@/utils/logger";
 import type { Class } from "@/types/classes";
 
@@ -243,12 +244,12 @@ const getStatusText = (status: string) => {
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
-  return moment(dateStr).format("MM/DD");
+  return format(new Date(dateStr), "MM/dd", { locale: zhCN });
 };
 
 // 格式化列表日期
 const formatListDate = (dateStr: string) => {
-  return moment(dateStr).format("MM/DD");
+  return format(new Date(dateStr), "MM/dd", { locale: zhCN });
 };
 
 // 复制班级码

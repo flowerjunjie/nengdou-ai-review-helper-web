@@ -186,6 +186,7 @@
 import { ref, watch, nextTick, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
+import logger from "@/utils/logger";
 import { View, Edit } from "@element-plus/icons-vue";
 import GradingDrawer from "./GradingDrawer.vue";
 
@@ -228,7 +229,7 @@ const handleGradeSubmission = (row: any) => {
     return;
   }
 
-  console.log("批改作业 - submissionId:", row._id, "status:", row.status);
+  logger.log("批改作业 - submissionId:", row._id, "status:", row.status);
   currentSubmissionId.value = row._id;
   gradingDrawerVisible.value = true;
 };
@@ -349,7 +350,7 @@ watch(
         );
 
         if (firstPendingSubmission) {
-          console.log(
+          logger.log(
             "自动打开第一个待批改作业 - submissionId:",
             firstPendingSubmission._id
           );

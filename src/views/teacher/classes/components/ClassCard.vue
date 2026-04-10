@@ -113,7 +113,7 @@
             <span>创建时间:</span>
           </div>
           <span class="text-sm text-gray-900">
-            {{ formatDate(classData.createdAt) }}
+            {{ formatDateStr(classData.createdAt) }}
           </span>
         </div>
       </div>
@@ -185,7 +185,7 @@
           <span class="meta-divider">•</span>
           <span class="meta-item">
             <el-icon class="meta-icon"><Calendar /></el-icon>
-            {{ formatDate(classData.createdAt) }}
+            {{ formatDateStr(classData.createdAt) }}
           </span>
         </div>
       </div>
@@ -259,7 +259,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ElMessage } from "element-plus";
-import moment from "moment";
+import { formatDate } from "@/utils/date";
 import logger from "@/utils/logger";
 import {
   MoreFilled,
@@ -281,9 +281,9 @@ interface Class {
   code: string;
   teacherId: string;
   teacherName?: string;
-  status: "active" | "inactive" | "disbanded";
+  status: string;
   studentCount: number;
-  maxStudents: number;
+  maxStudents?: number;
   description?: string;
   createdAt: string;
   updatedAt: string;
@@ -335,8 +335,8 @@ const statusText = computed(() => {
 });
 
 // 格式化日期
-const formatDate = (dateStr: string) => {
-  return moment(dateStr).format("YYYY-MM-DD");
+const formatDateStr = (dateStr: string) => {
+  return formatDate(dateStr);
 };
 
 // 复制邀请码

@@ -163,6 +163,7 @@
 import { ref, computed, onMounted } from "vue";
 import { Setting } from "@element-plus/icons-vue";
 import { getAvailableAiRules } from "@/api/ai-rule";
+import logger from "@/utils/logger";
 
 // 从API获取的完整AI规则信息
 interface AiRuleItem {
@@ -213,7 +214,7 @@ const loadAiRuleList = async () => {
     // 这里后端API应该已经过滤了使用禁用模型的规则
     ruleList.value = response;
   } catch (error) {
-    console.error("获取AI规则列表失败:", error);
+    logger.error("获取AI规则列表失败:", error);
   } finally {
     loading.value = false;
   }

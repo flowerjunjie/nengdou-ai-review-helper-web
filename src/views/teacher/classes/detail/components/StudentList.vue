@@ -160,7 +160,7 @@
             <span class="text-sm text-gray-600">
               {{
                 row.lastSubmissionTime
-                  ? formatDate(row.lastSubmissionTime)
+                  ? formatDateStr(row.lastSubmissionTime)
                   : "暂无提交"
               }}
             </span>
@@ -178,7 +178,7 @@
         <el-table-column label="加入时间" width="140">
           <template #default="{ row }">
             <span class="text-sm text-gray-600">
-              {{ formatDate(row.joinedAt) }}
+              {{ formatDateStr(row.joinedAt) }}
             </span>
           </template>
         </el-table-column>
@@ -243,7 +243,8 @@
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { User, Refresh, Search } from "@element-plus/icons-vue";
-import moment from "moment";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import { getClassStudents, updateStudentStatus } from "@/api/classes";
 import type {
   ClassStudent,
@@ -321,8 +322,8 @@ const loadStudentList = async () => {
 };
 
 // 格式化日期
-const formatDate = (dateStr: string) => {
-  return moment(dateStr).format("YYYY-MM-DD HH:mm:ss");
+const formatDateStr = (dateStr: string) => {
+  return format(new Date(dateStr), "yyyy-MM-dd HH:mm:ss", { locale: zhCN });
 };
 
 // 处理选择变化

@@ -33,13 +33,17 @@ export default defineConfig({
           'vue-vendor': ['vue', 'vue-router'],
           // 将Element Plus相关库打包到一个chunk
           'element-vendor': ['element-plus', '@element-plus/icons-vue'],
+          // 将ECharts打包到一个独立的chunk
+          'echarts': ['echarts'],
+          // 将Excel处理库打包到一个独立的chunk
+          'xlsx': ['xlsx'],
           // 将其他第三方库打包到一个chunk
           'vendor': ['axios', 'nprogress']
         }
       }
     },
-    // 设置chunk大小警告阈值
-    chunkSizeWarningLimit: 1000
+    // 设置chunk大小警告阈值为500KB
+    chunkSizeWarningLimit: 500
   },
   server: {
     host: '0.0.0.0', // 监听所有网络接口，支持本地IP访问

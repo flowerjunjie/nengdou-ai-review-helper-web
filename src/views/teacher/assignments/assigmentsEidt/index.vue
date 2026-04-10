@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from "vue";
+import { ref, reactive, onMounted, computed, defineAsyncComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { ArrowLeft } from "@element-plus/icons-vue";
@@ -176,10 +176,14 @@ import {
   AssignmentStatus,
 } from "@/api/assignments";
 import type { CreateAssignmentDto, AiRuleSnapshot } from "@/types/assignments";
-import WangEditor from "@/components/WangEditor.vue";
+// 懒加载WangEditor组件
+const WangEditor = defineAsyncComponent(() =>
+  import("@/components/WangEditor.vue")
+);
 import ClassSelector from "../components/ClassSelector.vue";
 import AiRuleSelector from "../components/AiRuleSelector.vue";
-import moment from "moment";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import logger from "@/utils/logger";
 
 const route = useRoute();
@@ -335,8 +339,8 @@ const loadAssignmentData = async () => {
       description: assignment.description,
       classes: assignment.classes.map((cls) => cls.id),
       aiRule: assignment.aiRule,
-      startDate: moment(assignment.startDate).format("YYYY-MM-DD HH:mm:ss"),
-      endDate: moment(assignment.endDate).format("YYYY-MM-DD HH:mm:ss"),
+      startDate: format(new Date(assignment.startDate), "yyyy-MM-dd HH:mm:ss", { locale: zhCN }),
+      endDate: format(new Date(assignment.endDate), "yyyy-MM-dd HH:mm:ss", { locale: zhCN }),
       allowAttachments: assignment.allowAttachments,
     });
   } catch (error) {

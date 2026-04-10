@@ -129,6 +129,7 @@ import { ElMessage } from "element-plus";
 import { getAiRuleById } from "@/api/ai-rule";
 import { CopyDocument } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
+import logger from "@/utils/logger";
 
 const props = defineProps({
   isMobile: {
@@ -258,7 +259,7 @@ const loadRuleData = async (ruleId) => {
     ruleData.createdAt = response.createdAt;
     ruleData.updatedAt = response.updatedAt;
   } catch (error) {
-    console.error("加载规则数据失败", error);
+    logger.error("加载规则数据失败", error);
     ElMessage.error("加载规则数据失败");
   } finally {
     loading.value = false;
@@ -276,7 +277,7 @@ const copyPrompt = async () => {
     await navigator.clipboard.writeText(ruleData.prompt);
     ElMessage.success("提示词已复制到剪贴板");
   } catch (error) {
-    console.error("复制失败", error);
+    logger.error("复制失败", error);
     ElMessage.error("复制失败，请手动选择复制");
   }
 };

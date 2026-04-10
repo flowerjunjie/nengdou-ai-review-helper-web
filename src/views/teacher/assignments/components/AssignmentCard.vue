@@ -176,7 +176,8 @@ import {
 } from "@element-plus/icons-vue";
 import { AssignmentStatus } from "@/api/assignments";
 import type { AssignmentListItem } from "@/types/assignments";
-import moment from "moment";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 
 interface Props {
   assignment: AssignmentListItem;
@@ -240,15 +241,12 @@ const getProgressColor = (assignment: AssignmentListItem) => {
 
 // 格式化时间范围
 const formatDateRange = (startDate: string, endDate: string) => {
-  const start = moment(startDate);
-  const end = moment(endDate);
-
   // 格式化为：2024/05/25 14:42 ~ 2024/06/01 13:42
-  const formatDate = (date: any) => {
-    return date.format("YYYY/MM/DD HH:mm");
+  const formatDt = (date: string) => {
+    return format(new Date(date), "yyyy/MM/dd HH:mm", { locale: zhCN });
   };
 
-  return `${formatDate(start)} ~ ${formatDate(end)}`;
+  return `${formatDt(startDate)} ~ ${formatDt(endDate)}`;
 };
 
 // 处理卡片点击

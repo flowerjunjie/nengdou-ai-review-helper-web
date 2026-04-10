@@ -19,7 +19,7 @@
             </div>
             <div class="stat-info">
               <h3>用户总数</h3>
-              <p class="stat-number">1,234</p>
+              <p class="stat-number">{{ formatNumber(overviewData.totalUsers) }}</p>
             </div>
           </div>
         </el-card>
@@ -33,7 +33,7 @@
             </div>
             <div class="stat-info">
               <h3>作业总数</h3>
-              <p class="stat-number">5,678</p>
+              <p class="stat-number">{{ formatNumber(overviewData.totalAssignments) }}</p>
             </div>
           </div>
         </el-card>
@@ -47,7 +47,7 @@
             </div>
             <div class="stat-info">
               <h3>AI模型</h3>
-              <p class="stat-number">3</p>
+              <p class="stat-number">{{ overviewData.aiModelCount }}</p>
             </div>
           </div>
         </el-card>
@@ -61,7 +61,9 @@
             </div>
             <div class="stat-info">
               <h3>系统状态</h3>
-              <p class="stat-status">正常运行</p>
+              <p class="stat-status" :class="{ 'text-danger': !systemHealth }">
+                {{ systemHealth ? '正常运行' : '异常' }}
+              </p>
             </div>
           </div>
         </el-card>
@@ -120,23 +122,29 @@
           </template>
           <div class="monitoring-content">
             <el-alert
-              title="系统运行正常"
-              type="success"
+              :title="systemHealth ? '系统运行正常' : '系统异常'"
+              :type="systemHealth ? 'success' : 'danger' as any"
               :closable="false"
               show-icon
             />
-            <div class="monitoring-items">
+            <div class="monitoring-items" v-loading="loadingHealth">
               <div class="monitoring-item">
                 <span>服务器状态</span>
-                <el-tag type="success">在线</el-tag>
+                <el-tag :type="systemHealth ? 'success' : 'danger'">
+                  {{ systemHealth ? '在线' : '离线' }}
+                </el-tag>
               </div>
               <div class="monitoring-item">
                 <span>数据库连接</span>
-                <el-tag type="success">正常</el-tag>
+                <el-tag :type="systemHealth ? 'success' : 'danger'">
+                  {{ systemHealth ? '正常' : '异常' }}
+                </el-tag>
               </div>
               <div class="monitoring-item">
                 <span>AI服务</span>
-                <el-tag type="success">运行中</el-tag>
+                <el-tag :type="aiModelsOnline > 0 ? 'success' : 'warning'">
+                  {{ aiModelsOnline > 0 ? '运行中' : '未配置' }}
+                </el-tag>
               </div>
             </div>
           </div>
@@ -147,7 +155,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 import {
   Setting,
   User,
@@ -156,13 +166,88 @@ import {
   Connection,
   UserFilled,
 } from "@element-plus/icons-vue";
+import { getAdminOverview, getAiModelStats, getSystemHealth } from "@/api/dashboard";
+import type { AdminOverviewResponse, AiModelStatsResponse } from "@/api/dashboard";
+import logger from "@/utils/logger";
 
 const router = useRouter();
+
+// 数据状态
+const loading = ref(false);
+const loadingHealth = ref(false);
+const systemHealth = ref(true);
+const aiModelsOnline = ref(0);
+
+const overviewData = reactive({
+  totalUsers: 0,
+  totalClasses: 0,
+  totalAssignments: 0,
+  totalSubmissions: 0,
+  aiModelCount: 0,
+});
+
+// 格式化数字
+const formatNumber = (num: number) => {
+  if (num >= 10000) {
+    return (num / 10000).toFixed(1) + 'w';
+  }
+  return num.toLocaleString();
+};
+
+// 加载概览数据
+const loadOverview = async () => {
+  loading.value = true;
+  try {
+    const data = await getAdminOverview();
+    overviewData.totalUsers = data.totalUsers || 0;
+    overviewData.totalClasses = data.totalClasses || 0;
+    overviewData.totalAssignments = data.totalAssignments || 0;
+    overviewData.totalSubmissions = data.totalSubmissions || 0;
+    overviewData.aiModelCount = data.aiModelCount || 0;
+  } catch (error) {
+    logger.error("加载概览数据失败:", error);
+    // 使用默认值，不显示错误提示
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 加载AI模型状态
+const loadAiModels = async () => {
+  try {
+    const data = await getAiModelStats();
+    const models = [data.deepseek, data.doubao].filter(m => m);
+    aiModelsOnline.value = models.filter(m => m.isOnline).length;
+  } catch (error) {
+    logger.error("加载AI模型状态失败:", error);
+  }
+};
+
+// 加载系统健康状态
+const loadSystemHealth = async () => {
+  loadingHealth.value = true;
+  try {
+    await getSystemHealth();
+    systemHealth.value = true;
+  } catch (error) {
+    logger.error("系统健康检查失败:", error);
+    systemHealth.value = false;
+  } finally {
+    loadingHealth.value = false;
+  }
+};
 
 // 导航处理
 const handleNavigation = (path: string) => {
   router.push(path);
 };
+
+// 初始化
+onMounted(() => {
+  loadOverview();
+  loadAiModels();
+  loadSystemHealth();
+});
 </script>
 
 <style scoped>

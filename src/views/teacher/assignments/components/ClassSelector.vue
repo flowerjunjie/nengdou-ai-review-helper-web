@@ -44,6 +44,7 @@
 import { ref, onMounted } from "vue";
 import { getClassList as fetchClassList } from "@/api/classes";
 import type { Class } from "@/types/classes";
+import logger from "@/utils/logger";
 
 interface Props {
   modelValue: string[];
@@ -70,7 +71,7 @@ const loadClassList = async () => {
 
     classList.value = response.items;
   } catch (error) {
-    console.error("获取班级列表失败:", error);
+    logger.error("获取班级列表失败:", error);
   } finally {
     loading.value = false;
   }

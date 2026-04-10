@@ -18,7 +18,7 @@
             <el-icon class="meta-icon"><Calendar /></el-icon>
             <span class="meta-label">开始时间：</span>
             <span class="meta-value">{{
-              formatDateTime(assignmentDetail?.startDate)
+              formatDt(assignmentDetail?.startDate)
             }}</span>
           </div>
 
@@ -26,7 +26,7 @@
             <el-icon class="meta-icon"><Timer /></el-icon>
             <span class="meta-label">截止时间：</span>
             <span class="meta-value" :class="{ expired: isExpired }">
-              {{ formatDateTime(assignmentDetail?.endDate) }}
+              {{ formatDt(assignmentDetail?.endDate) }}
             </span>
             <el-tag
               v-if="isExpired"
@@ -101,7 +101,8 @@ import {
   Edit,
   Download,
 } from "@element-plus/icons-vue";
-import moment from "moment";
+import { format, isAfter, differenceInHours, isValid } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import type { AssignmentDetail, AssignmentStatus } from "@/api/assignments";
 
 interface Props {
@@ -120,9 +121,9 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 // 格式化日期时间
-const formatDateTime = (dateTime?: string) => {
+const formatDt = (dateTime?: string) => {
   if (!dateTime) return "-";
-  return moment(dateTime).format("YYYY年MM月DD日 HH:mm");
+  return format(new Date(dateTime), "yyyy年MM月dd日 HH:mm", { locale: zhCN });
 };
 
 // 获取状态类型
@@ -156,15 +157,17 @@ const getStatusText = (status?: string) => {
 // 是否过期
 const isExpired = computed(() => {
   if (!props.assignmentDetail?.endDate) return false;
-  return moment().isAfter(moment(props.assignmentDetail.endDate));
+  const endDate = new Date(props.assignmentDetail.endDate);
+  return isAfter(new Date(), endDate);
 });
 
 // 是否即将到期（24小时内）
 const isNearDeadline = computed(() => {
   if (!props.assignmentDetail?.endDate || isExpired.value) return false;
-  const now = moment();
-  const endTime = moment(props.assignmentDetail.endDate);
-  return endTime.diff(now, "hours") <= 24;
+  const now = new Date();
+  const endTime = new Date(props.assignmentDetail.endDate);
+  const hoursLeft = differenceInHours(endTime, now);
+  return hoursLeft <= 24;
 });
 
 // 是否可以操作

@@ -174,8 +174,8 @@
               <Clock />
             </el-icon>
             <span
-              >{{ formatDate(assignment.startDate) }} -
-              {{ formatDate(assignment.endDate) }}</span
+              >{{ formatDateStr(assignment.startDate) }} -
+              {{ formatDateStr(assignment.endDate) }}</span
             >
           </div>
 
@@ -245,7 +245,8 @@ import {
   AssignmentStatus,
 } from "@/api/assignments";
 import type { Assignment, AssignmentQueryParams } from "@/types/assignments";
-import moment from "moment";
+import { isAfter, format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import { sanitizeDescription } from "@/utils/sanitize";
 import logger from "@/utils/logger";
 
@@ -348,12 +349,12 @@ const getStatusText = (status: AssignmentStatus) => {
 
 // 判断作业是否过期
 const isAssignmentExpired = (assignment: any) => {
-  return moment().isAfter(moment(assignment.endDate));
+  return isAfter(new Date(), new Date(assignment.endDate));
 };
 
 // 格式化日期
-const formatDate = (dateStr: string) => {
-  return moment(dateStr).format("YYYY-MM-DD HH:mm");
+const formatDateStr = (dateStr: string) => {
+  return format(new Date(dateStr), "yyyy-MM-dd HH:mm", { locale: zhCN });
 };
 
 // 事件处理

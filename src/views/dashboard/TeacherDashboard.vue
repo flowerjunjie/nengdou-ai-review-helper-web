@@ -426,6 +426,7 @@ import DonutChart from "./components/charts/DonutChart.vue";
 import BarChart from "./components/charts/BarChart.vue";
 import { formatDateTime, formatRelativeTime, isUrgent } from "@/utils/date";
 import { getTeacherPendingTasks } from "@/api/dashboard";
+import logger from "@/utils/logger";
 
 const store = useStore();
 const router = useRouter();
@@ -541,7 +542,7 @@ const loadPendingTasks = async () => {
   try {
     pendingTasks.value = await getTeacherPendingTasks();
   } catch (error) {
-    console.error("加载待处理任务失败:", error);
+    logger.error("加载待处理任务失败:", error);
   }
 };
 
@@ -566,7 +567,7 @@ const viewAssignment = (assignmentId: string) => {
 };
 
 const reviewSubmission = (assignmentId: string) => {
-  console.log("批改作业 - assignmentId:", assignmentId);
+  logger.log("批改作业 - assignmentId:", assignmentId);
 
   if (assignmentId) {
     // 跳转到作业详情页面，自动打开第一个待批改的作业
@@ -574,7 +575,7 @@ const reviewSubmission = (assignmentId: string) => {
       `/teacher/assignments/detail?id=${assignmentId}&openFirstPending=true`
     );
   } else {
-    console.log("assignmentId 为空，跳转到作业管理页面");
+    logger.log("assignmentId 为空，跳转到作业管理页面");
     router.push(`/teacher/assignments`);
   }
 };

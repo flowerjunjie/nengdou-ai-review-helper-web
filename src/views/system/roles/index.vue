@@ -98,6 +98,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { getRoleList, deleteRole } from "@/api/role";
 import { Plus, Refresh, Search } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
+import logger from "@/utils/logger";
 
 // 导入组件
 import AdaptiveTableContainer from "@/components/AdaptiveTableContainer.vue";
@@ -196,7 +197,7 @@ const loadRoleData = async () => {
     // 触发表格高度重新计算
     recalculateTrigger.value++;
   } catch (error) {
-    console.error("加载角色数据失败", error);
+    logger.error("加载角色数据失败", error);
     ElMessage.error("加载角色列表失败");
   } finally {
     loading.value = false;
@@ -243,7 +244,7 @@ const handleDeleteRole = async (role) => {
     loadRoleData();
   } catch (error) {
     if (error === "cancel") return;
-    console.error("删除角色失败", error);
+    logger.error("删除角色失败", error);
     ElMessage.error("删除失败：" + (error.message || "未知错误"));
   }
 };

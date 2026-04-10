@@ -40,6 +40,7 @@ import {
 } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
 import { Loading } from "@element-plus/icons-vue";
+import logger from "@/utils/logger";
 
 // 注册必要的组件
 echarts.use([
@@ -169,7 +170,7 @@ function initChart() {
     // 使用 ResizeObserver 替代 window resize 事件
     setupResizeObserver();
   } catch (error) {
-    console.error("图表初始化失败:", error);
+    logger.error("图表初始化失败:", error);
   }
 }
 

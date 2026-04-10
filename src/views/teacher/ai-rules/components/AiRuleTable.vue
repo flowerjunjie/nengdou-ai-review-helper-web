@@ -220,6 +220,7 @@ import {
   View,
   CopyDocument,
 } from "@element-plus/icons-vue";
+import logger from "@/utils/logger";
 
 const props = defineProps({
   ruleData: {
@@ -300,7 +301,7 @@ const handleCopyRule = (row) => {
 // 删除规则
 const handleDeleteRule = (row) => {
   if (!canDeleteRule(row)) {
-    console.log("无权限删除规则:", {
+    logger.log("无权限删除规则:", {
       rule: row.name,
       visibility: row.visibility,
       createdBy: row.createdBy,

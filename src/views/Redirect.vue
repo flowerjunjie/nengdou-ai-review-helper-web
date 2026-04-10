@@ -11,6 +11,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { Loading } from "@element-plus/icons-vue";
+import logger from "@/utils/logger";
 
 const route = useRoute();
 const router = useRouter();
@@ -66,7 +67,7 @@ onMounted(() => {
         router.push({ path: redirectPath, query: otherQuery });
       }
     } catch (error) {
-      console.error("重定向失败:", error);
+      logger.error("重定向失败:", error);
       redirectText.value = "重定向失败，请返回首页";
     }
   }

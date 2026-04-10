@@ -105,6 +105,7 @@ import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import { Refresh } from "@element-plus/icons-vue";
 // 使用相对路径导入
 import { createClass, updateClass } from "../../../../api/classes";
+import logger from "@/utils/logger";
 
 // 本地定义类型，避免导入问题
 interface Class {
@@ -113,7 +114,7 @@ interface Class {
   code: string;
   teacherId: string;
   teacherName?: string;
-  status: "active" | "inactive" | "disbanded";
+  status: string;
   studentCount: number;
   maxStudents?: number;
   description?: string;
@@ -285,7 +286,7 @@ const handleSubmit = async () => {
       dialogVisible.value = false;
     }
   } catch (error: any) {
-    console.error("操作失败:", error);
+    logger.error("操作失败:", error);
   } finally {
     loading.value = false;
   }

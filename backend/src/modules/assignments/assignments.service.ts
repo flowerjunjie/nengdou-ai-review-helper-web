@@ -3,12 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Assignment, AssignmentDocument } from '../../schemas/assignment.schema';
 import { Class, ClassDocument } from '../../schemas/class.schema';
+import { ClassStudent, ClassStudentDocument } from '../../schemas/class-student.schema';
+import { Submission, SubmissionDocument } from '../../schemas/submission.schema';
 
 @Injectable()
 export class AssignmentsService {
   constructor(
     @InjectModel(Assignment.name) private assignmentModel: Model<AssignmentDocument>,
     @InjectModel(Class.name) private classModel: Model<ClassDocument>,
+    @InjectModel(ClassStudent.name) private classStudentModel: Model<ClassStudentDocument>,
+    @InjectModel(Submission.name) private submissionModel: Model<SubmissionDocument>,
   ) {}
 
   async findTeacherAssignments(teacherId: string, query: any) {
@@ -29,10 +33,22 @@ export class AssignmentsService {
   }
 
   async findStudentAssignments(studentId: string, query: any) {
-    const { page = 1, limit = 10, search, status } = query;
+    const { page = 1, limit = 10, search, businessStatus, classId } = query;
+    const now = new Date();
+    const studentObjectId = new Types.ObjectId(studentId);
 
-    const classes = await this.classModel.find().select('_id');
-    const classIds = classes.map(c => c._id);
+    // 获取学生加入的班级ID列表
+    const classStudentFilter: any = { studentId: studentObjectId, status: 'active' };
+    if (classId) {
+      classStudentFilter.classId = new Types.ObjectId(classId);
+    }
+    const studentClasses = await this.classStudentModel.find(classStudentFilter).select('classId');
+    const classIds = studentClasses.map(sc => sc.classId);
+
+    if (classIds.length === 0) {
+      return { items: [], total: 0, page, limit, totalPages: 0 };
+    }
+
     const filter: any = {
       classes: { $in: classIds },
       status: 'published',
@@ -48,7 +64,64 @@ export class AssignmentsService {
       .limit(limit)
       .sort({ endDate: 1 });
 
-    return { items, total, page, limit, totalPages: Math.ceil(total / limit) };
+    // 获取每个作业的提交状态
+    const enrichedItems = await Promise.all(
+      items.map(async (item) => {
+        const submission = await this.submissionModel.findOne({
+          assignmentId: item._id,
+          studentId: studentObjectId,
+        }).sort({ createdAt: -1 });
+
+        const hasDraft = submission?.status === 'draft';
+        const hasSubmitted = submission && submission.status !== 'draft';
+        const isExpired = new Date(item.endDate) < now;
+
+        let passFilter = true;
+        if (businessStatus === 'todo') {
+          passFilter = !hasSubmitted && !isExpired;
+        } else if (businessStatus === 'completed') {
+          passFilter = hasSubmitted;
+        } else if (businessStatus === 'draft') {
+          passFilter = hasDraft;
+        } else if (businessStatus === 'expired') {
+          passFilter = !hasSubmitted && isExpired;
+        }
+
+        // 获取班级名称和ID
+        const classObj = item.classes as any;
+        const assignmentClassId = classObj?._id ? classObj._id.toString() : (classIds[0] as any).toString();
+        const className = classObj?.name || '';
+
+        return {
+          _id: item._id,
+          title: item.title,
+          description: item.description,
+          teacherId: item.teacherId,
+          teacherName: item.teacherName,
+          endDate: item.endDate,
+          status: item.status,
+          hasDraft,
+          hasSubmitted,
+          isExpired,
+          submissionStatus: submission?.status,
+          submissionId: submission?._id,
+          classId: assignmentClassId,
+          className,
+          passFilter,
+        };
+      })
+    );
+
+    // 根据业务状态筛选
+    let filteredItems = enrichedItems;
+    if (businessStatus && businessStatus !== 'all') {
+      filteredItems = enrichedItems.filter(item => item.passFilter);
+    }
+
+    // 移除 passFilter 字段
+    const resultItems = filteredItems.map(({ passFilter, ...rest }) => rest);
+
+    return { items: resultItems, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findById(id: string) {
@@ -99,16 +172,78 @@ export class AssignmentsService {
   }
 
   async getStudentStatistics(studentId: string, classId?: string) {
-    const filter: any = { status: 'published', isDeleted: false };
+    const now = new Date();
+
+    // 获取学生加入的班级ID列表
+    const classStudentFilter: any = { studentId: new Types.ObjectId(studentId), status: 'active' };
     if (classId) {
-      filter.classes = { $in: [new Types.ObjectId(classId)] };
+      classStudentFilter.classId = new Types.ObjectId(classId);
+    }
+    const studentClasses = await this.classStudentModel.find(classStudentFilter).select('classId');
+    const classIds = studentClasses.map(sc => sc.classId);
+
+    if (classIds.length === 0) {
+      return {
+        totalAssignments: 0,
+        submittedCount: 0,
+        todoCount: 0,
+        draftCount: 0,
+        expiredCount: 0,
+        reviewedCount: 0,
+      };
     }
 
+    const filter: any = {
+      classes: { $in: classIds },
+      status: 'published',
+      isDeleted: false,
+    };
+
     const assignments = await this.assignmentModel.find(filter);
+
+    // 获取学生的所有提交记录
+    const submissions = await this.submissionModel.find({
+      studentId: new Types.ObjectId(studentId),
+      assignmentId: { $in: assignments.map(a => a._id) },
+    });
+
+    let todoCount = 0;
+    let expiredCount = 0;
+    let draftCount = 0;
+    let submittedCount = 0;
+    let reviewedCount = 0;
+
+    for (const assignment of assignments) {
+      const submission = submissions.find(
+        s => s.assignmentId.toString() === assignment._id.toString()
+      );
+
+      if (submission) {
+        if (submission.status === 'draft') {
+          draftCount++;
+        } else if (submission.status === 'teacher_reviewed') {
+          submittedCount++;
+          reviewedCount++;
+        } else {
+          submittedCount++;
+        }
+      } else {
+        // 没有提交记录，检查是否过期
+        if (new Date(assignment.endDate) < now) {
+          expiredCount++;
+        } else {
+          todoCount++;
+        }
+      }
+    }
+
     return {
       totalAssignments: assignments.length,
-      pendingAssignments: assignments.filter(a => new Date(a.endDate) > new Date()).length,
-      completedAssignments: assignments.filter(a => new Date(a.endDate) <= new Date()).length,
+      submittedCount,
+      todoCount,
+      draftCount,
+      expiredCount,
+      reviewedCount,
     };
   }
 }

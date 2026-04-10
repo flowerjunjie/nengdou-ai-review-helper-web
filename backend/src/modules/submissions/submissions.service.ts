@@ -133,11 +133,38 @@ export class SubmissionsService {
     const items = await this.submissionModel
       .find(filter)
       .populate('assignmentId', 'title')
+      .populate('studentId', 'name studentNumber')
+      .populate('classId', 'name')
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ submittedAt: -1 });
 
-    return { items, total, page, limit };
+    // 转换数据结构以匹配前端期望
+    const transformedItems = items.map(item => {
+      const obj = item.toObject() as any;
+      return {
+        _id: obj._id.toString(),
+        assignmentId: obj.assignmentId?._id?.toString() || obj.assignmentId?.toString() || '',
+        assignmentTitle: obj.assignmentId?.title || '',
+        studentId: obj.studentId?._id?.toString() || obj.studentId?.toString() || '',
+        studentName: obj.studentId?.name || obj.studentName || '',
+        studentNumber: obj.studentId?.studentNumber || '',
+        classId: obj.classId?._id?.toString() || obj.classId?.toString() || '',
+        className: obj.classId?.name || obj.className || '',
+        content: obj.content,
+        status: obj.status,
+        submittedAt: obj.submittedAt,
+        aiScore: obj.aiScore,
+        aiReviewContent: obj.aiReviewContent,
+        teacherScore: obj.teacherScore,
+        teacherReviewContent: obj.teacherReviewContent,
+        teacherReviewedAt: obj.teacherReviewedAt,
+        createdAt: obj.createdAt,
+        updatedAt: obj.updatedAt,
+      };
+    });
+
+    return { items: transformedItems, total, page, limit };
   }
 
   async findById(id: string) {

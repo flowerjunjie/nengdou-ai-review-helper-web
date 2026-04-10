@@ -234,7 +234,7 @@
               sortable="custom"
             >
               <template #default="{ row }">
-                {{ formatDate(row.startDate) }}
+                {{ formatDateStr(row.startDate) }}
               </template>
             </el-table-column>
 
@@ -246,7 +246,7 @@
             >
               <template #default="{ row }">
                 <div :class="{ 'text-danger': row.isExpired }">
-                  {{ formatDate(row.endDate) }}
+                  {{ formatDateStr(row.endDate) }}
                 </div>
               </template>
             </el-table-column>
@@ -372,7 +372,8 @@ import type {
 import AssignmentCard from "./components/AssignmentCard.vue";
 import AssignmentDetail from "./components/AssignmentDetail.vue";
 import PageHeader from "../../../components/PageHeader.vue";
-import moment from "moment";
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import logger from "@/utils/logger";
 
 const router = useRouter();
@@ -756,9 +757,9 @@ const getSubmissionPercentageForList = (assignment: AssignmentListItem) => {
   );
 };
 
-const formatDate = (dateString: string) => {
-  // 使用moment格式化为 YYYY/MM/DD HH:mm
-  return moment(dateString).format("YYYY/MM/DD HH:mm");
+const formatDateStr = (dateString: string) => {
+  // 使用date-fns格式化为 YYYY/MM/DD HH:mm
+  return format(new Date(dateString), "yyyy/MM/dd HH:mm", { locale: zhCN });
 };
 
 // 初始化
