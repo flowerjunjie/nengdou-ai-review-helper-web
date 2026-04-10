@@ -134,7 +134,7 @@ export class SubmissionsService {
     const items = await this.submissionModel
       .find(filter)
       .populate('assignmentId', 'title')
-      .populate('studentId', 'name studentNumber')
+      .populate('studentId', 'name studentId')
       .populate('classId', 'name')
       .skip((page - 1) * limit)
       .limit(limit)
@@ -149,7 +149,7 @@ export class SubmissionsService {
         assignmentTitle: obj.assignmentId?.title || '',
         studentId: obj.studentId?._id?.toString() || obj.studentId?.toString() || '',
         studentName: obj.studentId?.name || obj.studentName || '',
-        studentNumber: obj.studentId?.studentNumber || '',
+        studentNumber: obj.studentId?.studentId || '',
         classId: obj.classId?._id?.toString() || obj.classId?.toString() || '',
         className: obj.classId?.name || obj.className || '',
         content: obj.content,

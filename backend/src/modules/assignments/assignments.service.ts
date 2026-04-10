@@ -208,17 +208,27 @@ export class AssignmentsService {
       submissions.map(s => [s.studentId.toString(), s])
     );
 
+    // 获取学生详细信息
+    const users = await this.userModel.find({
+      _id: { $in: studentIds },
+    }).select('name studentId');
+
+    const userMap = new Map(
+      users.map(u => [u._id.toString(), u])
+    );
+
     // 获取学生信息
     const students = await Promise.all(
       classStudents.map(async (cs) => {
         const studentId = cs.studentId.toString();
         const submission = submissionMap.get(studentId);
+        const user = userMap.get(studentId);
         const isExpired = new Date(assignment.endDate) < new Date();
 
         return {
           studentId,
-          studentName: '', // 需要从user表获取
-          studentNumber: '', // 需要从user表获取
+          studentName: user?.name || '',
+          studentNumber: user?.studentId || '',
           classId: cs.classId.toString(),
           status: submission?.status || 'not_submitted',
           submittedAt: submission?.submittedAt,
