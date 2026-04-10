@@ -209,9 +209,15 @@
   "hotPaths": [
     {
       "path": "src",
-      "accessCount": 13,
-      "lastAccessed": 1775834009183,
+      "accessCount": 15,
+      "lastAccessed": 1775857032471,
       "type": "directory"
+    },
+    {
+      "path": "src/views/system/ai_model/index.vue",
+      "accessCount": 7,
+      "lastAccessed": 1775857115170,
+      "type": "file"
     },
     {
       "path": "backend/src/schemas/class-student.schema.ts",
@@ -493,12 +499,6 @@
       "path": "src/views/student/submissions/composables/useAiReviewPolling.ts",
       "accessCount": 1,
       "lastAccessed": 1775811046696,
-      "type": "file"
-    },
-    {
-      "path": "src/views/system/ai_model/index.vue",
-      "accessCount": 1,
-      "lastAccessed": 1775811046829,
       "type": "file"
     },
     {

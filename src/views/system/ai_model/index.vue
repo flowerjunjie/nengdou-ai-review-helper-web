@@ -308,7 +308,8 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { Refresh as RefreshIcon } from "@element-plus/icons-vue";
 import { aiModelApi, type AiModel, type ModelBalance } from "@/api/ai-models";
 import logger from "@/utils/logger";
-// 移除date-fns依赖，使用原生日期格式化
+import { format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 
 // 响应式数据
 const activeTab = ref("deepseek");
@@ -547,8 +548,8 @@ const formatDate = (date: Date | string | undefined) => {
     if (hours < 24) return `${hours}小时前`;
     if (days < 30) return `${days}天前`;
 
-    // 超过30天显示具体日期
-    return dateObj.toLocaleDateString("zh-CN");
+    // 超过30天显示具体日期 - 使用date-fns
+    return format(dateObj, "yyyy-MM-dd", { locale: zhCN });
   } catch {
     return "格式错误";
   }
