@@ -36,6 +36,7 @@ export interface CreateUserDto {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
   name: string;
   role?: UserRole;
   studentId?: string;
@@ -84,4 +85,5 @@ export interface UserListResponse {
 export interface ChangePasswordDto {
   currentPassword: string;
   newPassword: string;
+  confirmPassword: string;
 }

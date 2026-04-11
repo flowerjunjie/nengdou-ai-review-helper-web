@@ -71,6 +71,10 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto) {
+    if (registerDto.password !== registerDto.confirmPassword) {
+      throw new BadRequestException('两次输入的密码不一致');
+    }
+
     const existingUser = await this.userModel.findOne({
       $or: [
         { username: registerDto.username },

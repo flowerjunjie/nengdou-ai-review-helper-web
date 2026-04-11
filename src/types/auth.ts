@@ -74,7 +74,7 @@ export interface ForgotPasswordParams {
  */
 export interface ResetPasswordParams {
   token: string;
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 }
 
