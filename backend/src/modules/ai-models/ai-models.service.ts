@@ -29,7 +29,7 @@ export class AiModelsService {
   }
 
   async update(code: string, updateData: any) {
-    const model = await this.aiModelModel.findOneAndUpdate({ code }, updateData, { new: true });
+    const model = await this.aiModelModel.findOneAndUpdate({ code }, updateData, { new: true }).select('-apiKey -secretKey -accessKey');
     if (!model) throw new NotFoundException('AI模型不存在');
     return model;
   }

@@ -65,7 +65,7 @@ export class UsersService {
   }
 
   async update(id: string, updateData: any) {
-    const user = await this.userModel.findByIdAndUpdate(id, updateData, { new: true });
+    const user = await this.userModel.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
     if (!user) throw new NotFoundException('用户不存在');
     return user;
   }

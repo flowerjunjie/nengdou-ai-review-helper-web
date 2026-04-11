@@ -58,10 +58,40 @@
       "status": "completed",
       "completed_at": "2026-04-10T08:51:34.048Z",
       "duration_ms": 10592
+    },
+    {
+      "agent_id": "af894f54cbb6d7dfe",
+      "agent_type": "backend-reviewer",
+      "started_at": "2026-04-11T06:28:52.849Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a99735bd39efbfa3f",
+      "agent_type": "api-reviewer",
+      "started_at": "2026-04-11T06:28:53.242Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-11T06:34:03.460Z",
+      "duration_ms": 310218
+    },
+    {
+      "agent_id": "a906f7f10107e574c",
+      "agent_type": "frontend-reviewer",
+      "started_at": "2026-04-11T06:28:53.394Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a42f4225b448309d0",
+      "agent_type": "api-reviewer",
+      "started_at": "2026-04-11T06:34:04.098Z",
+      "parent_mode": "none",
+      "status": "running"
     }
   ],
-  "total_spawned": 5,
-  "total_completed": 5,
+  "total_spawned": 9,
+  "total_completed": 6,
   "total_failed": 0,
-  "last_updated": "2026-04-10T08:51:42.373Z"
+  "last_updated": "2026-04-11T06:34:04.203Z"
 }

@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onUnmounted } from "vue";
 
 const activeTab = ref<"js" | "flexbox">("flexbox");
 const containerHeight = ref(500);
@@ -167,8 +167,14 @@ function calculateTableHeight() {
 }
 
 // 需要监听各种事件
-window.addEventListener('resize', debounce(calculateTableHeight, 100))
+const debouncedCalculate = debounce(calculateTableHeight, 100)
+window.addEventListener('resize', debouncedCalculate)
 document.addEventListener('DOMContentLoaded', calculateTableHeight)
+
+onUnmounted(() => {
+  window.removeEventListener('resize', debouncedCalculate)
+  document.removeEventListener('DOMContentLoaded', calculateTableHeight)
+})
 // ... 更多监听器和错误处理`;
 
 const flexboxCode = `/* Flexbox 方式 - 简洁且高效 */

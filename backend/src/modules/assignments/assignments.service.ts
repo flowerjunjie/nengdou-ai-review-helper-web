@@ -66,59 +66,70 @@ export class AssignmentsService {
       .limit(limit)
       .sort({ endDate: 1 });
 
+    // 批量获取所有作业的提交状态，避免N+1查询
+    const assignmentIds = items.map(item => item._id);
+    const submissions = await this.submissionModel.find({
+      assignmentId: { $in: assignmentIds },
+      studentId: studentObjectId,
+    }).sort({ createdAt: -1 });
+
+    // 建立assignmentId到submission的映射
+    const submissionMap = new Map<string, any>();
+    for (const sub of submissions) {
+      const key = sub.assignmentId.toString();
+      if (!submissionMap.has(key)) {
+        submissionMap.set(key, sub);
+      }
+    }
+
     // 获取每个作业的提交状态
-    const enrichedItems = await Promise.all(
-      items.map(async (item) => {
-        const submission = await this.submissionModel.findOne({
-          assignmentId: item._id,
-          studentId: studentObjectId,
-        }).sort({ createdAt: -1 });
+    const enrichedItems = items.map((item) => {
+      const submission = submissionMap.get(item._id.toString());
 
-        const hasDraft = submission?.status === 'draft';
-        const hasSubmitted = submission && submission.status !== 'draft';
-        const isExpired = new Date(item.endDate) < now;
+      const hasDraft = submission?.status === 'draft';
+      const hasSubmitted = submission && submission.status !== 'draft';
+      const isExpired = new Date(item.endDate) < now;
 
-        let passFilter = true;
-        if (businessStatus === 'todo') {
-          passFilter = !hasSubmitted && !isExpired;
-        } else if (businessStatus === 'completed') {
-          passFilter = hasSubmitted;
-        } else if (businessStatus === 'draft') {
-          passFilter = hasDraft;
-        } else if (businessStatus === 'expired') {
-          passFilter = !hasSubmitted && isExpired;
-        }
+      let passFilter = true;
+      if (businessStatus === 'todo') {
+        passFilter = !hasSubmitted && !isExpired;
+      } else if (businessStatus === 'completed') {
+        passFilter = hasSubmitted;
+      } else if (businessStatus === 'draft') {
+        passFilter = hasDraft;
+      } else if (businessStatus === 'expired') {
+        passFilter = !hasSubmitted && isExpired;
+      }
 
-        // 获取班级名称和ID
-        const classObj = item.classes as any;
-        const assignmentClassId = classObj?._id ? classObj._id.toString() : (classIds[0] as any).toString();
-        const className = classObj?.name || '';
+      // 获取班级名称和ID
+      const classObj = item.classes as any;
+      const assignmentClassId = classObj?._id ? classObj._id.toString() : (classIds[0] as any).toString();
+      const className = classObj?.name || '';
 
-        const itemObj = item.toObject() as any;
-        return {
-          id: item._id.toString(),  // 添加 id 字段（前端期望）
-          _id: item._id,
-          title: item.title,
-          description: item.description,
-          teacherId: item.teacherId?.toString(),
-          teacherName: item.teacherName,
-          startDate: item.startDate,
-          endDate: item.endDate,
-          status: item.status,
-          allowAttachments: item.allowAttachments ?? true,
-          hasDraft,
-          hasSubmitted,
-          isExpired,
-          submissionStatus: submission?.status,
-          submissionId: submission?._id?.toString(),
-          canSubmit: !hasSubmitted && !isExpired,
-          createdAt: itemObj.createdAt,
-          classId: assignmentClassId,
-          className,
-          passFilter,
-        };
-      })
-    );
+      const itemObj = item.toObject() as any;
+      return {
+        id: item._id.toString(),  // 添加 id 字段（前端期望）
+        _id: item._id,
+        title: item.title,
+        description: item.description,
+        teacherId: item.teacherId?.toString(),
+        teacherName: item.teacherName,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        status: item.status,
+        allowAttachments: item.allowAttachments ?? true,
+        hasDraft,
+        hasSubmitted,
+        isExpired,
+        submissionStatus: submission?.status,
+        submissionId: submission?._id?.toString(),
+        canSubmit: !hasSubmitted && !isExpired,
+        createdAt: itemObj.createdAt,
+        classId: assignmentClassId,
+        className,
+        passFilter,
+      };
+    });
 
     // 根据业务状态筛选
     let filteredItems = enrichedItems;
